@@ -126,20 +126,19 @@
    <div id="mainMenu" class="sidebar-vertical sidebar-dark turn-c local-position">
       <div class="sidebar-nav turn-heightful">
          <div class="navbar navbar-default turn-heightful turn-bottom-zero" role="navigation">
-            
             <div class="turn-local first-list">
                <p>${local}</p>
                <div class="local-change" data-check="0"> 장소변경 ▼ </div>
             </div>
             <div class="local-changeBox">
-               <div class="local-check" data-check="0">서울특별시</div>
-               <div class="local-check" data-check="0">대전광역시</div>
-               <div class="local-check" data-check="0">대구광역시</div>
-               <div class="local-check" data-check="0">부산광역시</div>
-               <div class="local-check" data-check="0">인천광역시</div>
-               <div class="local-check" data-check="0">울산광역시</div>
-               <div class="local-check" data-check="0">광주광역시</div>
-               <div class="local-check" data-check="0">제주특별자치도</div>
+               <div class="local-check" data-check="0">서울</div>
+               <div class="local-check" data-check="0">대전</div>
+               <div class="local-check" data-check="0">대구</div>
+               <div class="local-check" data-check="0">부산</div>
+               <div class="local-check" data-check="0">인천</div>
+               <div class="local-check" data-check="0">울산</div>
+               <div class="local-check" data-check="0">광주</div>
+               <div class="local-check" data-check="0">제주</div>
                <div class="local-check" data-check="0">강원도</div>
                <div class="local-check" data-check="0">경기도</div>
                <div class="local-check" data-check="0">충청북도</div>

@@ -56,7 +56,6 @@
 						<td class="locals" data-local="울산">울산</td>
 						<td class="locals" data-local="광주">광주</td>
 						<td class="locals" data-local="세종">세종시</td>
-						<td></td>
 					</tr>
 					<tr class="text-center">
 						<td><b>도 지역</b></td>

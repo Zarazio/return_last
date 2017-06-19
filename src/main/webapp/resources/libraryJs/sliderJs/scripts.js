@@ -2703,7 +2703,7 @@
 		
 		if(_container_1.length > 0) {
 			
-			loadScript(plugin_path + 'editor.summernote/summernote.min.js', function() {
+			loadScript(plugin_path + 'libraryJs/editor.summernote/summernote.min.js', function() {
 		
 				if(jQuery().summernote) {
 

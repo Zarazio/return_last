@@ -16,15 +16,16 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		return "LogBoard/logInfo";
 	}
 	
-	@RequestMapping(value="writeLog", method = RequestMethod.GET)
+	@RequestMapping(value="logWrite", method = RequestMethod.GET)
 	public String writeLog(HttpSession session) {
 		String username = (String)session.getAttribute("mem");
 		String usergrant = (String) session.getAttribute("info");
 		
-		System.out.println(username);
-		System.out.println(usergrant);
+		if(username == null && usergrant == null) {
+			return "redirect:login";
+		}
 		
-		return "redirect:main";
+		return "LogBoard/logWrite";
 	}
 	
 }

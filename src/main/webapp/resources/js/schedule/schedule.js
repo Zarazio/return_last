@@ -683,7 +683,7 @@ $(document).ready(function(){
        }
     })
    
-  //장소변경할 때 함수.
+    //장소변경할 때 함수.
     function localChange(thisLocal){
        var currentLocal = $(".turn-local > p").text() ;
        

@@ -27,7 +27,7 @@ jQuery(document).ready(function() {
 				+ '	<div class="content-switcher">'
 				+ '		<h3>Write Quick Menu</h3>'
 				+ '		<div class="text-center">'
-				+ '			<a href="writeLog" class="btn btn-3d btn-amber btn-lg text-center margin-bottom-20">라이프로그 추가 +</a>'		
+				+ '			<a href="logWrite" class="btn btn-3d btn-amber btn-lg text-center margin-bottom-20">라이프로그 추가 +</a>'		
 				+ '			<a href="#" class="btn btn-3d btn-blue btn-lg text-center margin-bottom-20">여행기로그 추가 +</a>'
 				+ '			<hr>'			
 				+ '		</div>'
