@@ -1,0 +1,238 @@
+@CHARSET "UTF-8";
+
+/* 170614 */
+*{margin:0; padding:0;} /* 초기화 */
+html,body{width:100%; float:left;}
+
+html { overflow-x:hidden; }
+
+.turn-bgblue { color:#ccc; background-color:#179BD7; border-bottom-color:rgba(255,255,255,0.1); }
+.turn-hei-center { margin:8px 0px 8px 0px !important; }
+.turn-margin-top-28 { margin-top:28px; }
+
+.turn-heightful { height:100% !important; }
+.turn-bottom-zero { margin-bottom:0px !important; }
+
+.turn-border-bottom { border-bottom:1px solid rgba(255, 255, 255, 0.1); }
+.turn-font-set { font-family:-webkit-body; font-size:16px; font-weight:bold; }
+.turn-nav { border-top-color:rgb(51, 51, 51) !important; }
+.turn-center { text-align:center !important; }
+.turn-scroll-auto { overflow-y:auto; }
+.turn-scroll-go { overflow-y:scroll; }
+
+.turn-a { width:120px !important; }
+.turn-b { width:310px !important; }
+.turn-c { width:345px !important; }
+.turn-tb-16 { margin-top:15px; margin-bottom:15px;}
+.turn-border { border-bottom:1px solid rgba(255, 255, 255, 0.1) !important; }
+.turn-color { color:#60d8d8 !important; }
+
+
+
+/* ========================= 일정등록부분 CSS ============================ */
+
+#mainMenu { height:853px; float:left; }
+#heightfull { height:853px !important; }
+
+.selectPlace { height:802px; list-style-type:none; margin:0; padding:0; }
+.mxpnone { list-style-type:none; margin:0; padding:0; }
+
+.plan { width:260px; }
+.planPlaceDelete { position:absolute; right:0; bottom:0; }
+.first-list { height:50px; }
+.first-list > label { line-height:48px; }
+.plan { width:260px; }
+
+.place_search { width:100%; height:50px; }
+.place_search > div {padding:0; margin:0; }
+.search-input { width:280px; height:38px; background:#3a3c3f; border:1px solid #3a3c3f; }
+#searchButton { width:30px; height:38px; background:#3a3c3f; border:1px solid #3a3c3f; }
+.search_condition  { height:22px; padding:0; margin:0;  float:left; display:inline-block; margin-bottom:10px; }
+.search_condition  input[type="radio"] { color:white; width:20px; height:20px; border:1px solid black; margin-right:5px; }
+.search_condition label { display:inline-block; padding-bottom:10px; font-size:16px; }
+#wholeCheck { margin-left:10px; }
+
+#placeFilter { border:1px solid #3a3c3f; width:100%; height:90px !important; }
+.placeIcon { display:inline-block; float:left; margin:0 4px; line-height:90px; cursor:pointer; }
+
+.place { border-bottom:1px solid #3a3c3f; width:100%; padding:5px; height:160px; background:#333333; }
+.place >img {width:150px; height:150px; }
+
+.planList { border-bottom:1px solid #3a3c3f; width:100%; padding:5px; height:160px; background:#333333; position:relative; }
+.planList >img {width:150px; height:150px; }
+
+.turn-local { background-color:rgb(51, 51, 51); padding:4px 0px 3px 15px; border-bottom:1px solid rgba(255,255,255,0.1); font-size:18px; font-weight:bold; margin-top:1px; }
+.turn-local > p { font-size:18px; font-weight:bold; display:inline-block; margin:0; padding:0; line-height:45px; }
+.local-position { position:relative; }
+.local-change { 
+   text-align:center;
+   display:inline-block;  
+   border:1px solid black; 
+   float:right;
+   width:110px; 
+   height:35px; 
+   font-size:18px; 
+   padding:4px;
+   margin-top:3px;
+   margin-right:8px;
+   cursor:pointer;
+}
+
+.local-changeBox { 
+   display:none;  
+   width:345px; 
+   height:200px; 
+   position:absolute; 
+   z-index:999; 
+   background-color:white; 
+   overflow-y:auto;  
+}
+
+.local-check {
+   width:100%; 
+   height:50px; 
+   border:1px solid black; 
+   color:black; 
+   font-size:16px;
+   line-height:50px;
+   padding-left:20px;
+   cursor:pointer; 
+}
+
+/*------------------------- 일정만들기:smart-cost -------------------------*/
+
+.modal-dialog.smart-size { width:400px; height:500px; }
+.modal-content.smart-size { width:400px; height:500px; padding:15px; }
+.smart-small-title{ display:inline-block; font-size:15px; color:#333333; margin-left:10px; line-height:26px; }
+#smart-select { margin-top:15px; }
+#smart-select div { margin-top:15px; }
+#smart-select input[type="radio"] { width:20px; height:20px; }
+#smart-select label { display:inline-block; margin-left:15px;cursor:pointer; } 
+#smart-cost p { font-size:16px; margin:0; display:inline-block; }
+#smart-cost { display:none; } 
+#smart-cost input[type="text"] { width:200px;border:0; border-bottom:1px solid black; font-size:18px; font-weight:bold; text-align:center; }
+#smart-cost button { margin-left:10px; }
+
+/*------------------------- 일정만들기:준비물 -------------------------*/
+
+.modal-dialog.material-size { width:700px; height:500px; }
+.modal-content.material-size { width:700px; height:500px; padding:15px; }
+.material-title >h3 { margin:0;line-height:80px; display:inline-block; }
+.material-title >button { margin:0; line-height:80px; float:right; font-size:20px; font-weight:bold; margin-right:20px; }
+.material-title { text-align:center; height:80px; padding:0; }
+#bodyTitle { height:26px; }
+#bodyTitle img { vertical-align:middle; }
+.material-small-title{ display:inline-block; font-size:16px; color:#333333; margin-left:10px; line-height:26px; }
+
+#material-add { margin-top:15px; }
+#material-add > input { width:200px;height:40px; }
+#material-add > button { width:80px;height:40px; margin:0; }
+
+#material-list { width:670px; height:260px; margin-top:15px; overflow-y:auto; }
+#material-list input[type="checkbox"] { width:20px; height:20px; }
+.material-list-atom { display:inline-block; float:left; width:213px; }
+.material-list-atom p { margin-left:5px; display:inline-block; color:#333333; font-size:18px; }
+
+.materialDelete { cursor:pointer; }
+
+/*------------------------- map:data -------------------------*/
+.priority2 {
+   position:absolute;
+   top:0;
+   right:0;
+   -webkit-border-radius:100px;
+   text-align:center;
+   -moz-border-radius:100px;
+   width:20px;
+   height:20px; 
+   border:1px solid black;
+   color:white;
+   background:black;
+}
+   
+   
+
+/* =========================== 모달부분 CSS ============================ */
+
+.turn-modal { 
+	display:none;
+	float:left;
+	width:280px;
+    position:absolute !important;
+    /* right:-250px; */
+    left:600px !important;
+    top:0;
+    bottom:0;
+    background-color:#f2f4f7 !important; 
+    box-shadow:0 10px 25px rgba(0, 0, 0, 0.2) !important;
+    -webkit-animation-name:animatetop;
+    -webkit-animation-duration:0.4s;
+    animation-name:animatetop;
+    animation-duration:0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {bottom:-50x; opacity:0 } 
+    to {bottom:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {bottom:-50px; opacity:0 }
+    to {bottom:0; opacity:1}
+}
+
+
+
+/* =========================== 장소 부분 CSS ============================ */
+.turn-td-color td { background-color:#e6f3f3; }
+.turntive { background-color:#bbe6e6 !important; cursor:default !important; }
+.turntiveT { background-color:#bbe6e6 !important; cursor:default !important; }
+.locals { cursor:pointer; /* cursor 부분 */ }
+.thema { cursor:pointer; /* cursor 부분 */ }
+.turn-vertical { vertical-align:middle !important; }
+.sresult { 
+	padding:10px 0px 0px 11px; 
+	font-size:20px; 
+	font-family:-webkit-body; 
+	font-weight:bold;
+    color:#e0ad5e;
+}
+
+.t-close { color:#83bdbd !important; cursor:pointer; }
+.t-close i { border-color:#83bdbd !important; }
+
+/* 장소 content-box 부분 */
+.infoboard { padding:0 !important; border:1px solid #e0d1d1; cursor:pointer; }
+.infoboard:hover {border:1px solid #7e59b9; opacity:0.8; }
+.infoboard h4 { margin:0 0 10px 0 !important; }
+.infoboard p { margin-bottom:10px !important; }
+.infoboard ul { margin-bottom:0px !important; }
+.infoboard img { width:100%; height:170px; }
+.infoboard img:hover { width:100%; height:170px; }
+
+
+
+/* =========================== 로그 부분 CSS ============================ */
+.t-cellgrid { /* 세로형 그리드지정 */ vertical-align:top; display:inline-block; padding:10px; }
+
+/* Log content-box 부분 */
+.timeline { padding:0 !important; border:1px solid #e0d1d1; border-radius:5px; cursor:pointer; }
+.timeline h4 { margin:0 0 10px 0 !important; }
+.timeline p { margin-bottom:10px !important; word-break:break-word; }
+.timeline ul { margin-bottom:0px !important; }
+.timeline img { width:100%; height:250px; border-top-left-radius:3px; border-top-right-radius:3px; }
+
+
+
+/* ========================= 업로드 관리자전용 CSS ========================= */
+.design-level { border:1px solid gray !important; margin-bottom:25px !important; }
+.tresize { margin:0 0 0px 0 !important; padding:10px !important; background-color:rgba(200, 220, 220, 0.41) !important; } 
+.tboder { border:1px solid !important; }
+
+
+
+/* ========================= 퀵버튼 CSS ========================= */
+.t-glytop-3 { top:20px important;}
+
+
