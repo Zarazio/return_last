@@ -29,4 +29,7 @@ public interface PlaceService {
 	public List<PlaceVO> placeFilter(PlaceVO vo) throws Exception;
 	public List<PlaceVO> searchAllFilter(PlaceVO vo) throws Exception;
 	public List<PlaceVO> searchLocalFilter(PlaceVO vo) throws Exception;
+	
+	// 여행일정만들기에서 장소 상세정보
+	public PlaceVO placeDetail(int place_code) throws Exception ;
 }

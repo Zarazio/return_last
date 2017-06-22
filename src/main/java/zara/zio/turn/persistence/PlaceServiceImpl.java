@@ -114,4 +114,10 @@ public class PlaceServiceImpl implements PlaceService {
 		return dao.searchLocalFilter(vo);
 	}
 
+	@Override
+	public PlaceVO placeDetail(int place_code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.placeDetail(place_code);
+	}
+
 }

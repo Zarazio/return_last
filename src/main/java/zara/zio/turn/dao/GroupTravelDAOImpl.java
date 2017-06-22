@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.MaterialVO;
@@ -124,6 +125,24 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 	public List<MemberVO> friendList(String member) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".friendList" , member);
+	}
+
+	@Override
+	public void limit_cost_update(GroupVO group) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".limit_cost_update", group) ;
+	}
+
+	@Override
+	public List<ChattingVO> chattingList(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".chattingList",  group_Code);
+	}
+
+	@Override
+	public void chattingStore(ChattingVO chat) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(NAMESPACE + ".chattingStore", chat) ;
 	}
 
 }

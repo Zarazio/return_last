@@ -104,4 +104,16 @@
        	delete from material where user_id = #{user_id} and group_Code = #{group_Code} and material_code = #{material_code}
    </delete>
    
+   <update id="limit_cost_update">
+   		update travel_group set coin_Limit = #{coin_limit} , sc_Division = #{sc_Division} where group_Code = #{group_Code}
+   </update>
+   
+   <select id="chattingList" resultType="ChattingVO">
+   		select * from chatting where group_Code = #{group_Code} ;
+   </select>
+   
+   <insert id="chattingStore">
+   		insert into chatting (group_Code, chatting_content, user_id, chatting_date)
+   		values (#{group_Code} , #{chatting_content} , #{user_id}, #{chatting_date})
+   </insert>
 </mapper>

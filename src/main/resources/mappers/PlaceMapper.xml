@@ -166,5 +166,12 @@
       	where a.place_code = b.place_code and a.place_name like CONCAT('%', #{place_name} , '%') 
       	and place_address like CONCAT('%', #{place_address} ,'%') and b.img_code = 0;
    	</select>
+   	
+   	<select id="placeDetail" resultType="PlaceVO">
+   		select a.place_code, place_name, place_content, place_address, place_lat, place_lng, place_type , b.place_img 
+   		from place_tbl a, pimg_tbl b 
+   		where a.place_code = b.place_code and a.place_code = #{place_code} 
+   		and b.img_code = 0; 
+   	</select>
 	
 </mapper>
