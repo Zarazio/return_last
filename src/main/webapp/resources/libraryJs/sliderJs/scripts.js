@@ -41,7 +41,8 @@
 		jQuery.browserDetect();
 
 		// Load Bootstrap JS
-		loadScript(plugin_path + 'bootstrap/js/bootstrap.min.js', function() {
+		
+		loadScript(plugin_path + 'bootstrap/js/bootstrap.js', function() {
 
 			Init(false);
 
@@ -2703,22 +2704,13 @@
 		
 		if(_container_1.length > 0) {
 			
-			loadScript(plugin_path + 'libraryJs/editor.summernote/summernote.min.js', function() {
-		
 				if(jQuery().summernote) {
 
 					_container_1.each(function() {
 
-						var _lang = jQuery(this).attr('data-lang') || 'en-US';
-
-						if(_lang != 'en-US') { // Language!
-						alert(_lang);
-							loadScript(plugin_path + 'editor.summernote/lang/summernote-'+_lang+'.js');
-						}
-
-						jQuery(this).summernote({
+						var $summernote = jQuery(this).summernote({
 							height: jQuery(this).attr('data-height') || 200,
-							lang: 	jQuery(this).attr('data-lang') || 'en-US', // default: 'en-US'
+							lang: 	jQuery(this).attr('data-lang') || 'ko-KR', // default: 'en-US'
 							toolbar: [
 							/*	[groupname, 	[button list]]	*/
 								['style', 		['style']],
@@ -2729,12 +2721,17 @@
 								['table', 		['table']],
 								['media', 		['link', 'picture', 'video']],
 								['misc', 		['codeview', 'fullscreen', 'help']]
-							]
+							],
+							callbacks: { // 라이브러리 콜백업로드
+					            onImageUpload: function (files) {
+					                sendFile($summernote, files);
+					            }
+					        }
 						});
 					});
 
 				}
-			});
+				
 		}
 
 

@@ -5,8 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import zara.zio.turn.domain.PlaceInfoListVO;
@@ -23,6 +25,20 @@ public class PlaceBoardController {
 	public String placeInfo() {
 		
 		return "placeBorad/placeInfo";
+	}
+	
+	
+	// 게시글보기 
+	@RequestMapping(value="/placeRead", method = RequestMethod.GET)
+	public String placeInformation(@RequestParam(value="post", defaultValue="0") int post, Model model) throws Exception {
+		
+		PlaceVO place = service.read(post);
+		List<PlaceVO> list = service.readimg(post);
+		
+		model.addAttribute("place", place);
+		model.addAttribute("list", list);
+		
+		return "placeBorad/placeRead";
 	}
 	
 	

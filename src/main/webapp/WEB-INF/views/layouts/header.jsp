@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<script src="<c:url value="./resources/js/modal/modalView.js"/>" ></script>
 <!-- Modal menu Controll--> 
 <div id="myModal" class="modal fade" role="dialog">
   	<div class="modal-dialog">
@@ -101,8 +102,8 @@
 								placeholder="여행 제목을 작성해주세요" value="" autocomplete="off">
 							</p>
 							<p>
-								<input type="text" class="form-control text-center rangepicker" name="scheduleDate"
-								data-format="yyyy-mm-dd" placeholder="시작일자 - 종료일자 " value="" maxlength="0" autocomplete="off">
+								<input type="text" id="nonText" class="form-control text-center rangepicker" name="scheduleDate"
+								data-format="yyyy-mm-dd" placeholder="시작일자 - 종료일자 " maxlength="0" autocomplete="off">
 							</p>
 							<p>
 								<a id="addGroup" class="btn btn-primary btn-lg btn-block">그룹추가 +</a>

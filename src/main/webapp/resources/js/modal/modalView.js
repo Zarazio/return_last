@@ -1,5 +1,9 @@
 $(document).ready(function(){
 	
+	var num = /[0-9]/;
+	var spText = /[\[\]{}()<>?|`~!@#$%^&*+=,.;:\"\\\'\\\s]/g;
+	var en = /[A-Z]/;
+	var ko = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/;
 	var count = 0;
 	
 	// 일정등록버튼클릭했을때 
@@ -36,6 +40,11 @@ $(document).ready(function(){
 		  
 	});
 	
+	// 포커스막기
+	$("#nonText").focus(function() {
+		
+	});
+	
 	// =========== 페이지 이동 함수 =============== // 
 	
 	$(".nextSchedule").click(function(){
@@ -49,6 +58,7 @@ $(document).ready(function(){
 	
 	
 });
+
 
 //친구 리스트를 띄움
 function friend_list(){

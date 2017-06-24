@@ -19,7 +19,7 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 	@Inject
 	private SqlSession sqlSession;
 	
-	private String NAMESPACE = "zara.zio.groupTravelMapper" ;
+	private static final String NAMESPACE = "zara.zio.groupTravelMapper";
 	
 	@Override
 	public void create(GroupVO group) throws Exception {

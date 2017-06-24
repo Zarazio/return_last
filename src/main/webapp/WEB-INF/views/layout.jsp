@@ -51,7 +51,7 @@
 <!-- JQUERY, datepickers script -->
 <script src="<c:url value="./resources/js/modal/modalView.js"/>" ></script>
 
-<title>Travel Main</title>
+<title>Travel Log</title>
 </head>
 <body class="enable-animation menu-vertical">
 	<div id="wrap">
