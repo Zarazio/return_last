@@ -27,5 +27,6 @@ encoding//src/main/java/zara/zio/turn/persistence/PlaceServiceImpl.java=UTF-8
 encoding//src/main/java/zara/zio/turn/socket/EchoHandler.java=UTF-8
 encoding//src/main/java/zara/zio/turn/util/MediaUtils.java=UTF-8
 encoding//src/main/java/zara/zio/turn/util/UploadFileUtils.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/layouts/header.jsp=UTF-8
 encoding//src/main/webapp/resources/css/allnew.css=UTF-8
 encoding//src/main/webapp/resources/libraryCss/theme/layout.css=UTF-8

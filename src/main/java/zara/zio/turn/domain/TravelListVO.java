@@ -10,7 +10,7 @@ public class TravelListVO {
       private Date travel_Date; // 여행리스트 : 장소가 추가된날짜
       private int place_code; // 장소코드
       private int group_Code; // 그룹코드
-      private int count ;
+      private int count;
       private double place_lat; // 장소 위도 
       private double place_lng; // 장소 경도 
       private String place_img ; // 장소 이미지

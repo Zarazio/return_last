@@ -28,7 +28,7 @@
 	<select id="read" resultType="PlaceVO"> <!-- mybatis-config.xml에서 "web.spr.bbs.bean.BoardVO"를 "BoardVO"로 생략 -->
 		select * 
 		from place_tbl 
-		where place_code=#{no}
+		where place_code = #{no}
 	</select>
 	<select id="read_img" resultType="PlaceVO">
 		select * 
@@ -53,7 +53,7 @@
 		a.place_type AS place_type, a.add_date AS add_date, a.user_id AS user_id, a.view AS view, b.place_img AS place_img
 		from place_tbl a, pimg_tbl b
 		where a.place_code = b.place_code
-		and b.img_code = 0
+		and b.img_code = 0 and place_on = 1
 		<include refid="search"></include>
 		order by add_date desc
 		limit #{startRecord}, #{recordPage}
@@ -63,7 +63,7 @@
 	<select id="place_info_count" resultType="int" parameterType="PlaceInfoListVO">
 		select count(*)
 		from place_tbl
-		where place_code > 0 
+		where place_on = 1 <!-- 장소가 온일때 --> 
 		<include refid="search"></include>
 	</select>
 	

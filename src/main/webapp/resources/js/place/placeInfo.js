@@ -72,6 +72,12 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 장소정보 읽기 
+	$(".placeInfos").on("click",".infoboard",function(){
+		var postNum = $(this).attr("data-num");
+		var pageTarget = "./placeRead?post=" + postNum;
+		window.open(pageTarget,"_blank"); // 새창에서 열기
+	});
 	
 	
 	function dataLoad() {
@@ -96,7 +102,7 @@ $(document).ready(function(){
 			type : 'POST',
 			url : 'placeInfoList',
 			data : { 
-				startRecord : startRecord,
+				startRecord : startRecord, 
 				recordPage : recordPage,
 				local_value : local,
 				thema_value : thema,
@@ -108,7 +114,7 @@ $(document).ready(function(){
 				var elemen = ""; // 엘리먼트 생성&상태 데이터
 				for(var i=0; i<cnt; i++) {
 					elemen = "<div class='delelement col-md-3 col-sm-3 margin-bottom-30'>" + 
-						   	 	"<div class='infoboard'>" + 
+						   	 	"<div class='infoboard' data-num='" + data[i].place_code + "'>" + 
 						   	 		"<div class='images'>" +
 										"<img class='img-responsive' src='displayFile?fileName=" + thumb(data[i].place_img) + "' alt=''>" + 
 									"</div>" + 

@@ -19,7 +19,7 @@ import zara.zio.turn.domain.TravelListVO;
 public class GroupTravelServiceImpl implements GroupTravelService {
 	
 	@Inject 
-	private GroupTravelDAO dao ;
+	private GroupTravelDAO dao;
 	
 	@Override
 	public void create(GroupVO group) throws Exception {

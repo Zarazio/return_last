@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zara.zio.logBoardMapper">
+	<insert id="loginfo">
+		insert into board(board_code, board_title, board_content, share_type, board_type_code, viewCount, user_id, step_log_code) 
+		values (#{board_code}, #{board_title}, #{board_content}, #{share_type}, #{board_type_code}, #{viewCount}, #{user_id}, #{step_log_code})
+	</insert>
+	<insert id="loghash">
+		insert into hash_tag(hash_tag_content, board_code)
+		values (#{hash}, #{cnt})
+	</insert>
+	<insert id="logimgfile">
+		insert into attached_file(file_content, file_type, board_code)
+		values (#{image}, #{type}, #{cnt})
+	</insert>
+	<select id="maxcode" resultType="int">
+		SELECT max(board_code)
+		from board
+	</select>
+	
+	<select id="infoRead" resultType="LogBoardVO" parameterType="hashmap">
+		select a.*, b.user_profile
+		from board a, user_info b
+		where a.user_id = b.user_id
+		<include refid="logtype"></include>
+		order by board_date desc
+		limit #{startRecord}, #{timeLineNum}
+	</select>
+	<select id="hashRead" resultType="java.util.HashMap">
+		select hash_tag_content, board_code
+		from hash_tag
+		order by hash_tag_code
+	</select>
+	<select id="imgfileRead" resultType="java.util.HashMap">
+		select file_content, board_code
+		from attached_file
+		order by file_code
+	</select>
+	
+	<sql id="logtype">
+		<if test="type==0">
+		</if>
+		<if test="type==1">
+			and board_type_code = #{type}
+		</if>
+		<if test="type==2">
+			and board_type_code = #{type}
+		</if>
+		<if test="type==3">
+			and board_type_code = #{type}
+		</if>
+	</sql>
+	
+</mapper>

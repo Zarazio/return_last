@@ -15,7 +15,6 @@ public class PlaceVO {
 	private String place_type; // 장소 분류 
 	private int place_on; // 장소 온 오프 enable, disable
 	
-	
 	// 이미지정보 
 	private int img_code; // 이미지순차정보
 	private String place_img; // 파일경로
