@@ -117,22 +117,20 @@ $(document).ready(function(){
                data01[i][4] = data[i].place_name;
                
             }
-            
-            if(data){
                placeMarker() ; // 장소에 대한 마커 바로 불러주기위해!
                
                var count = data.length; 
                var elem = "";
                for(var i=0; i<count; i++) {
                   elem += "<div class='place placeCode' data-code='" + data[i].place_code +"' data-lat="+ data[i].place_lat 
-                     +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
-                      + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'></div>";
+	                     	+" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
+	                     	+"<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'>" 
+	                     	+"<span>"+data[i].place_name+"</span>"
+                     	+"</div>";
    
                }
-            
-               
+           
                $(".placeList").append(elem);
-            }
          }
       })
       
@@ -161,7 +159,7 @@ $(document).ready(function(){
                         $("<div data-code="+data[i].place_code+" data-pri="+ data[i].travel_Priority +" data-lat="+ data[i].place_lat +" data-lng="+ data[i].place_lng 
                           +" data-name="+ data[i].place_name+ " style='width:100%; padding:5px; height:160px; background : #333333; '></div>")
                            .addClass("planList")
-                           .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "' style='width:150px ; height:150px'>")
+                           .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'><span>"+data[i].place_name+"</span>")
                            .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><a href='#'>삭제</a></div>") 
                            .css("border-bottom","1px solid #3a3c3f")
                         .appendTo(selectThis) ;
@@ -444,7 +442,7 @@ $(document).ready(function(){
                        +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + " style='width:100%; padding:5px; height:160px; background : #333333; border-bottom : 1px solid #3a3c3f'></div>")
                        .addClass("planList")
                        .addClass("priority")
-                       .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "' style='width:150px ; height:150px'><span>"+i+"</span>")
+                       .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "' style='width:150px ; height:150px'><span>"+data[i].place_name+"</span>")
                        .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><a href='#'>삭제</a></div>") 
                        .css("border-bottom","1px solid #3a3c3f").appendTo(selectThis) ;
                     }
@@ -539,25 +537,14 @@ $(document).ready(function(){
                return ;
             }
             
+         }else if(smartCost = "누적"){
+        	 cost = 0;
          }
          
         if(success == true){
            alert("확인을 누르셨ㄴ요");
-           
-          if(cost == null){
-        	  cost = 0;
-          }
-           
-           console.log(materialCheck);
-           console.log(materialDeleteCheck);
-           console.log(materials);
-           console.log(managers);
-           console.log(groupCode);
-           console.log(smartCost);
-           console.log(cost);
-           
-           
-           $.ajax({
+             
+        $.ajax({
               url : "userPage/userScheduleList",
               type: "POST" ,
               traditional: true,
@@ -574,6 +561,7 @@ $(document).ready(function(){
               },
               contentType:"application/x-www-form-urlencoded;charset=utf-8"
            })
+           
         }else{
            alert("취소");
         }
@@ -649,6 +637,7 @@ $(document).ready(function(){
 /*-----------------------------------장소체인지------------------------------------------*/
     var thisLocal ;
     
+    
     $(".local-change").on("click", function(){
        
        if($(this).attr("data-check") == 0 ){
@@ -683,9 +672,11 @@ $(document).ready(function(){
        }
     })
    
-    //장소변경할 때 함수.
+  //장소변경할 때 함수.
     function localChange(thisLocal){
        var currentLocal = $(".turn-local > p").text() ;
+      
+       console.log("currentlocal : " + thisLocal);
        
        if(currentLocal != thisLocal){
           $.ajax({
@@ -701,7 +692,7 @@ $(document).ready(function(){
                     for(var i=0 ; i<data.length ; i++){
                        elem += "<div class='place placeCode' data-code='" + data[i].place_code +"' data-lat="+ data[i].place_lat 
                            +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
-                           + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/></div>";
+                           + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span></div>";
                        
                        data01[i] = new Array(5) ;
                        
@@ -716,6 +707,8 @@ $(document).ready(function(){
                     $(".turn-local > p").text(thisLocal);
                     placeMarker() ; // 장소에 대한 마커 바로 불러주기위해!
                  }
+                 
+                 
              }
           })   
        }
@@ -726,9 +719,13 @@ $(document).ready(function(){
 /*-----------------------------------place 장소 필터-------------------------------------*/ 
    $("#searchButton").on("click",function(){
       var input = $(".search-input").val() ;
-      var radio = $(":input:radio[name=localCheck]:checked").val()
-      console.log(typeof(input));
-      console.log(radio);
+      var radio = $("input:radio[name=localCheck]:checked") ;
+      
+      if( radio.val() != "local"){
+    	  radio.attr("value",thisLocal)
+      }
+
+      console.log("this: " + radio);
       
       if(input == ""){
          alert("장소명을 입력하세요") ;
@@ -742,7 +739,7 @@ $(document).ready(function(){
             type : "POST",
             data : {
                place_name : input ,
-               local : radio 
+               local : radio.val()
             },
             success : function(data){
                data01 = new Array() ;
@@ -753,7 +750,7 @@ $(document).ready(function(){
                    for(var i=0 ; i<data.length ; i++){
                       elem += "<div class='place placeCode' data-code='" + data[i].place_code +"' data-lat="+ data[i].place_lat 
                           +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
-                          + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/></div>";
+                          + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span></div>";
                       
                       data01[i] = new Array(5) ;
                       
@@ -827,14 +824,7 @@ $(document).ready(function(){
        
     })
     
-  //이미지 썸네일
-    function thumb(data){
-       console.log(data)
-       var idx = data.indexOf("/") + 1 ;
-       var idxA = "/s_" + data.substr(idx) ;
-       
-       return idxA ;
-    }
+/*-----------------------------------장소 자세히 보기 -----------------------------*/
     
     
 /*-----------------------------------지도-------------------------------------*/
@@ -887,13 +877,14 @@ $(document).ready(function(){
    
        $(".selectPlace > div").each(function(){
           //console.log("this " + $(this).children().eq(0));
-            planB[count] = new Array(4) ;
+            planB[count] = new Array(6) ;
             
             planB[count][0] = $(this).attr("data-pri") ;
             planB[count][1] = $(this).attr("data-lat") ;
             planB[count][2] = $(this).attr("data-lng") ;
             planB[count][3] = $(this).children().eq(0).attr("src") ;
             planB[count][4] = $(this).attr("data-name") ;
+            planB[count][5] = $(this).attr("data-code") ;
            
             
             count++ ;
@@ -969,7 +960,7 @@ $(document).ready(function(){
                       +      "</div>"
                       + "</div>"
                       + "<div style='padding-top:8px; border-top: 1px solid black; margin-top:10px' >"
-                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href='alert2('dddd');'>자세히보기</a></div>"
+                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href='\javascript:placeDetailWindow("+data01[i][0]+");\'>자세히보기</a></div>"
                       +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; text-align:center; line-height : 40px'><a href='#'>일정에 추가</a></div>"
                       + "</div>"
                       + "</div>"
@@ -1017,8 +1008,6 @@ $(document).ready(function(){
                 zIndex : 100 
              })
              
-              
-               console.log("info before : " + planB[i][3]);
               var infoWindow = new naver.maps.InfoWindow({
                 content : "<div style='width:350px; height:180px ; padding:10px ; position: relative'>"
                       +"<div>"
@@ -1033,7 +1022,7 @@ $(document).ready(function(){
                       +      "</div>"
                       + "</div>"
                       + "<div style='padding-top:8px; border-top: 1px solid black; margin-top:10px' >"
-                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href=\"javascript:alert2('dddd')\">자세히보기</a></div>"
+                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href='\javascript:placeDetailWindow("+planB[i][5]+");\'>자세히보기</a></div>"
                       +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; text-align:center; line-height : 40px'><a href='#'>일정에 추가</a></div>"
                       + "</div>"
                       + "</div>"
@@ -1294,3 +1283,49 @@ function material_list(groupCode){
       }
    })
 }
+
+//장소 상세정보 모달 창 띄우기
+function placeDetailWindow(place_code){
+
+	
+	$.ajax({
+		url : "placeDetail" ,
+		type : "POST",
+		data : {
+			place : place_code 
+		},
+		success : function(data){
+			console.log("name : " + data.place_name) ;
+			var detail = $("#detail_view") ;
+			detail.children().children().eq(0).text(data.place_name);
+			
+			$("#detail_body > img").attr("src","displayFile?fileName="+ thumb(data.place_img) +"");
+			$("#detail_content").text(data.place_content);
+			$("#detail_content_box div").children().eq(1).text(data.place_type) ;
+			$("#detail_content_box div").children().eq(3).text(data.place_address) ;
+			
+		}
+	})
+	
+	$("#placeDetail").animate({ width : "345px"})
+	$("#placeDetail").css("display","block");
+	$("#placeDetail div").css("display","inline-block");
+}
+
+//장소 상세정보 모달 창 없애기
+function placeDetailClose(){
+	$("#placeDetail").animate({ width : "0px" });
+	$("#placeDetail div").css("display" , "none") ;
+}
+
+
+//이미지 썸네일
+function thumb(data){
+   console.log(data)
+   var idx = data.indexOf("/") + 1 ;
+   var idxA = "/s_" + data.substr(idx) ;
+   
+   return idxA ;
+}
+
+

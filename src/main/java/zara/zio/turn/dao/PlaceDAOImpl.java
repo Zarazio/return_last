@@ -129,6 +129,12 @@ public class PlaceDAOImpl implements PlaceDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".searchLocalFilter", vo);
 	}
+
+	@Override
+	public PlaceVO placeDetail(int place_code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".placeDetail", place_code);
+	}
 	
 	
 }

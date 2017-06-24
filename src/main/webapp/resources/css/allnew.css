@@ -56,11 +56,13 @@ html { overflow-x:hidden; }
 #placeFilter { border:1px solid #3a3c3f; width:100%; height:90px !important; }
 .placeIcon { display:inline-block; float:left; margin:0 4px; line-height:90px; cursor:pointer; }
 
-.place { border-bottom:1px solid #3a3c3f; width:100%; padding:5px; height:160px; background:#333333; }
+.place { border-bottom:1px solid #3a3c3f; width:100%; padding:5px; height:160px; background:#333333; position:relative }
 .place >img {width:150px; height:150px; }
+.place >span {color : white ; position : absolute ; top : 0 ; padding : 10px ; font-size : 18px}
 
 .planList { border-bottom:1px solid #3a3c3f; width:100%; padding:5px; height:160px; background:#333333; position:relative; }
 .planList >img {width:150px; height:150px; }
+.planList >span {color : white ; position : absolute ; top : 0 ; padding : 10px ; font-size : 18px}
 
 .turn-local { background-color:rgb(51, 51, 51); padding:4px 0px 3px 15px; border-bottom:1px solid rgba(255,255,255,0.1); font-size:18px; font-weight:bold; margin-top:1px; }
 .turn-local > p { font-size:18px; font-weight:bold; display:inline-block; margin:0; padding:0; line-height:45px; }
@@ -265,6 +267,294 @@ html { overflow-x:hidden; }
 
 /* ========================= 퀵버튼 CSS ========================= */
 .t-glytop-3 { top:20px important;}
+
+/* ==========================chatting =========================== */
+
+html, body, p, ul,li {
+	font-family: sans-serif;
+	margin: 0px auto;
+}
+
+.wrapper { 
+	position : relative ;
+}
+	
+#chattingWrap {
+	display : none ;
+	position : absolute ;
+	right : 0 ;
+	top:0;
+	background : white ;
+	z-index : 99999 ;
+	width: 300px; 
+	height: 400px;
+}
+	
+.chat {
+	margin: 0;
+	width: 300px; height: 370px; overflow-y: scroll; border: 1px solid black;
+	position: relative;
+	display: block;
+    text-align: center;
+    color: #c0c0c0;
+	line-height: 38px;
+    cursor: default;
+}
+.self {
+	padding: 0.5rem;
+	overflow: hidden;
+	display: inline-block;
+	float : right;
+	justify-content: flex-end;
+	align-items: flex-end;
+	clear : both ;
+}
+	
+	
+.other {
+    padding: 0.5rem;
+	overflow: hidden;
+	display: inline-block;
+	float : left;
+	clear :both ;
+}
+	
+	
+	
+.user img {
+    width: 25px;
+	height: 25px;
+	border-radius: 100%;
+	-webkit-border-radius: 100%;
+	-moz-border-radius: 100%;
+	-ms-border-radius: 100%;
+    background-color: rgba(255,255,255,0.9);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	}
+	
+
+.other .msg {
+	order: 1;
+	border-top-left-radius: 0px;
+	box-shadow: -1px 2px 0px #D4D4D4;
+	    
+}
+.self .msg {
+	order: 1;
+	border-bottom-right-radius: 0px;
+	box-shadow: 1px 2px 0px #D4D4D4;
+}
+		
+.self .avatar {
+	order: 2;
+}
+	
+.msg {
+	background: white;
+	min-width: 50px;
+	max-width: 150px;
+	padding: 10px;
+	border-radius: 2px;
+	box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
+	margin-top : 30px;
+	border : 1px solid black ;
+}
+	
+.msg p {
+	font-size: 13px;
+	margin: 0 0 0.2rem 0;
+	color: #777;
+	word-break:normal;
+	word-break:break-all;    
+}
+.msg img {
+	position: relative;
+	display: inline-block;
+	float : left ;
+	width: 450px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 3px #eee;
+	transition: all .4s cubic-bezier(0.565, -0.260, 0.255, 1.410);
+	cursor: default;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+	
+.user {
+	display : inline-block;
+	float : left ;
+	margin : 0 ;
+	height : 28px ;
+}
+	
+.user span {
+	line-height : 28px ;
+}
+@media screen and (max-width: 800px) {
+	
+	.msg img {
+		width: 300px;
+	}
+}
+@media screen and (max-width: 550px) {
+	.msg img {
+	    width: 200px;
+	}
+}
+	
+.msg time {
+	font-size: 0.8rem;
+	color: #ccc;
+    margin-top: 3px;
+   	float: right;
+	cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.msg time:before{
+	content:"\f017";
+    color: #ddd;
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-right: 4px;
+}
+	
+#chattingWrap input[type="text"] {
+	width : 80% ;
+	height : 30px;
+}
+	
+#chattingWrap input[type="submit"] {
+	width : 18.5% ;
+	height : 30px;
+}
+
+/*===============================여행일정 장소 detail==================================*/
+
+#placeDetail {
+	display : none ;
+	position : absolute ;
+	top : 0;
+	left : 430px;
+	width:0px;
+	height : 853px;
+	background : white ;
+	overflow-y : auto ;
+	z-index : 9999;
+
+}
+
+#detail_main {
+	width: 100% ;
+	height : 50px;
+	border-bottom : 1px solid black ;
+	background :#333333
+}
+
+#detail_main p {
+	margin : 0 ;
+	display : inline-block ;
+	font-size : 33px ;
+	font-weight :bold;
+	color : #cccccc ;
+	line-height : 50px;
+	
+	
+}
+
+#detail_main span {
+	position : absolute;
+	top : 8px ;
+	right : 10px;
+	font-size : 23px;
+	font-weight : bold ;
+	color : white ;
+	
+}
+
+#detail_body {
+	width : 100% ;
+	
+}
+
+#detail_body img {
+	width : 100%;
+	height : 300px;
+}
+
+#detail_content {
+	margin : 12px;
+	padding : 10px ;
+	width : 310px;
+	font-size : 15px;
+	color : black
+	
+	
+}
+
+#detail_content_box {
+	margin : 12px ;
+	padding : 15px;
+	width :310px;
+	height : 180px ;
+	border : 1px solid black ;
+	
+	
+}
+
+.detail_title {
+	margin-right : 10px ;
+	font-size : 18px ;
+	font-weight : bold ;
+	
+}
+.detail_wrap{
+	margin-top : 10px;
+	height : 30px;
+
+}
+.detail_wrap:nth-child(2) div:nth-child(1){
+
+	line-height : 30px;
+	
+}
+
+.detail_wrap:nth-child(2) div:nth-child(2){
+	
+	left : 30px;
+	margin-top : 5px;
+	line-height : 30px ;
+	
+}
+
+/*===============================마이페이지======================*/
+
+#user-travel-log {
+	
+}
+#user-travel-log div:nth-child(2){
+	margin-left : 60px;
+}
+#user-travel-log div {
+	width : 400px;
+	height :400px ;
+	border : 1px solid black;
+	float : left ;
+	cursor : pointer ;
+	
+}
+
+#user-travel-log h2 {
+	line-height : 400px ;
+	text-align : center ;
+}
 
 
 

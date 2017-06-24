@@ -2,6 +2,7 @@ package zara.zio.turn.dao;
 
 import java.util.List;
 
+import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.MaterialVO;
@@ -24,6 +25,7 @@ public interface GroupTravelDAO {
 	public void planDelete(TravelListVO travel) throws Exception;
 	
 	public List<TravelListVO> planRealTimePriority(TravelListVO travel) throws Exception;
+	
 	public List<MaterialVO> material_list(MaterialVO material) throws Exception;
 	public void material_insert(MaterialVO material) throws Exception;
 	public int material_code(MaterialVO material) throws Exception;
@@ -32,4 +34,8 @@ public interface GroupTravelDAO {
 	public void deleteCheckMaterial(MaterialVO material) throws Exception;
 	public void materialDelete(MaterialVO material) throws Exception;
 	
+	public void limit_cost_update(GroupVO group) throws Exception;
+	
+	public List<ChattingVO> chattingList(int group_Code) throws Exception ;
+	public void chattingStore(ChattingVO chat) throws Exception ;
 }

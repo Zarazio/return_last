@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import zara.zio.turn.dao.GroupTravelDAO;
+import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.MaterialVO;
@@ -122,6 +123,24 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 	public List<MemberVO> friendList(String mem) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.friendList(mem);
+	}
+
+	@Override
+	public void limit_cost_update(GroupVO group) throws Exception {
+		// TODO Auto-generated method stub
+		dao.limit_cost_update(group); 
+	}
+
+	@Override
+	public List<ChattingVO> chattingList(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.chattingList(group_Code);
+	}
+
+	@Override
+	public void chattingStore(ChattingVO chat) throws Exception {
+		// TODO Auto-generated method stub
+		dao.chattingStore(chat) ;
 	}
 
 }

@@ -69,6 +69,12 @@
 					</ul>
 				</div>
 			</div>
+			<div id="user-travel-log">	
+				<c:if test="${info == 'user'}">
+					<div><h2>Log</h2></div>
+					<div><h2>Travel-Plan</h2></div>
+				</c:if>
+			</div>
 		</div>
 	</div>
 </section>

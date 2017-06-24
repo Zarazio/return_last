@@ -11,7 +11,8 @@
 		<typeAlias alias="TravelListVO" type="zara.zio.turn.domain.TravelListVO" /> 
 		<typeAlias alias="GroupVO" type="zara.zio.turn.domain.GroupVO" /> 
 		<typeAlias alias="MemberVO" type="zara.zio.turn.domain.MemberVO" />
-		<typeAlias alias="PlaceVO" type="zara.zio.turn.domain.PlaceVO" /> 
+		<typeAlias alias="PlaceVO" type="zara.zio.turn.domain.PlaceVO" />
+		<typeAlias alias="ChattingVO" type="zara.zio.turn.domain.ChattingVO"/> 
 		<typeAlias alias="String" type="java.lang.String" /> 
 		<!-- typeAliases를 취함으로써  "zara.zio.turn.domain.MemberVO"를 "MemberVO"로 생략가능 -->
 	</typeAliases>

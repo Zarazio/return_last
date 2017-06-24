@@ -1,8 +1,9 @@
  package zara.zio.turn;
 
 import java.sql.Date;
+import java.util.*;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-
+import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.MaterialVO;
@@ -95,19 +95,21 @@ public class SchduleContoller {
       rttr.addAttribute("local", local);
       rttr.addAttribute("groupCode", groupCode);
       
+      
       return "redirect:scheduleSet";
    }
    
    
    
    @RequestMapping (value="scheduleSet", method=RequestMethod.GET) // 스케쥴 페이지 이동 
-   public String schduleSetG(String scheduleDate, String local, int groupCode, Model model) {
+   public String schduleSetG(String scheduleDate, String local, int groupCode, Model model, HttpSession session) {
 
-      
+	  String mem = (String) session.getAttribute("mem") ;
       
       model.addAttribute("scheduleDate", scheduleDate);
       model.addAttribute("local", local);
       model.addAttribute("groupCode", groupCode);
+      model.addAttribute("mem",mem);
       
       return "schedulePage/schedulePageA";
       
@@ -355,21 +357,30 @@ public class SchduleContoller {
    
    
    @RequestMapping (value="userPage/userScheduleList", method=RequestMethod.POST)
-   public String userScheduleList(HttpServletRequest request, MaterialVO material, String groupCode, HttpSession session) throws Exception{
+   public String userScheduleList(HttpServletRequest request, MaterialVO material,GroupVO group ,String groupCode, HttpSession session) throws Exception{
       
-      String mem = (String) session.getAttribute("mem") ;
-      String[] materials = (String[])request.getParameterValues("materials");
-      String[] materialCheck = (String[])request.getParameterValues("materialCheck");
-      String[] managers = (String[])request.getParameterValues("managers");
-      String[] materialDeleteCheck = (String[])request.getParameterValues("materialDeleteCheck") ;
-      String smartCost = request.getParameter("smartCost"); 
-      String cost = request.getParameter("cost");
+      String mem = (String) session.getAttribute("mem") ; // session에 저장된 아이디값
+      String[] materials = (String[])request.getParameterValues("materials"); // 
+      String[] materialCheck = (String[])request.getParameterValues("materialCheck"); // 준비물에서 체크된 값
+      String[] managers = (String[])request.getParameterValues("managers");// manager 확인 여부
+      String[] materialDeleteCheck = (String[])request.getParameterValues("materialDeleteCheck") ; // 체크가 사라진 값 
+      String smartCost = request.getParameter("smartCost");  // 스마트 코스트 선택
+      String cost = request.getParameter("cost"); // 차감형일때, 비용 한도 
+      int limit_cost = Integer.parseInt(cost) ;
       int group_Code = Integer.parseInt(groupCode); 
       int manager_check ;
       material.setUser_id(mem) ;
       material.setGroup_Code(group_Code);
       
-      //System.out.println()
+      System.out.println("limit : " + limit_cost + "smartCSot : " + smartCost);
+      
+      group.setGroup_Code(group_Code) ;
+      group.setCoin_limit(limit_cost);
+      group.setSc_Division(smartCost);
+      
+      
+      
+      service1.limit_cost_update(group);
       
       
       if(materialDeleteCheck != null){
@@ -380,10 +391,7 @@ public class SchduleContoller {
             service1.deleteCheckMaterial(material);
          }
       }
-      
-   
 
-      
       if(materials != null){
          for(int i=0 ; i<materials.length ; i++){
             
@@ -391,13 +399,10 @@ public class SchduleContoller {
             
             if(managers[i].equals("0")){
             
-               System.out.println("mdmd : " + materials[i]);
                manager_check = Integer.parseInt(managers[i]) ;
                material.setManager_check(manager_check);
                material.setMaterial_name(materials[i]);
-               
-               
-               
+
                service1.material_insert(material) ;
                
             }
@@ -411,7 +416,6 @@ public class SchduleContoller {
             
             material.setGroup_Code(group_Code);
             material.setMaterial_name(materialCheck[i]);
-            System.out.println("ddddsfdsf : " + material.getGroup_Code() + "ddddsfdsf : " + material.getMaterial_name()  + "ddd sf : " +material.getUser_id() );   
             int material_code = service1.material_code(material) ;
             material.setMaterial_code(material_code);
             System.out.println(material_code);
@@ -439,6 +443,52 @@ public class SchduleContoller {
       
       
    }
-
    
+   @ResponseBody
+   @RequestMapping (value="chatting" , method=RequestMethod.POST)
+   public List<ChattingVO> chatting(String groupCode, HttpSession session, ChattingVO chat) throws Exception{
+      System.out.println("groupc :  " + groupCode);
+      int group_Code = Integer.parseInt(groupCode);
+      String mem = (String) session.getAttribute("mem") ;
+      
+      
+      List<ChattingVO> list = service1.chattingList(group_Code) ;
+      
+      //System.out.println("list : " + list.get(0).getUser_id());
+      
+      
+     
+      return list ; 
+   }
+   
+   @ResponseBody
+   @RequestMapping (value="chatStore", method=RequestMethod.POST)
+   public void chatStore(String groupCode, String content, ChattingVO chat, HttpSession session) throws Exception{
+	   
+	   String mem = (String) session.getAttribute("mem") ;
+	   int group_Code = Integer.parseInt(groupCode);
+	   
+	   SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss") ;
+	   String date = format.format(new java.util.Date());
+	   
+	   chat.setChatting_date(date);
+	   chat.setGroup_Code(group_Code) ;
+	   chat.setChatting_content(content) ;
+	   chat.setUser_id(mem);
+	   
+	   System.out.println(mem) ;
+	   
+	   service1.chattingStore(chat) ;
+   }
+   
+   @ResponseBody
+   @RequestMapping (value="placeDetail", method=RequestMethod.POST)
+   public PlaceVO placeDetail(String place) throws Exception{
+	   
+	   int place_code = Integer.parseInt(place) ;
+	   
+	   PlaceVO list = service.placeDetail(place_code) ;
+	   
+	   return list;
+   }
 }

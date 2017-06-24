@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Ao5To6qq05xL8fmhSOTK&callback=initMap"></script>
 <script src="./resources/js/schedule/schedule.js"/></script>
+<script type="text/javascript" src="resources/js/sockjs.js"></script>
+<script src="./resources/js/schedule/chat.js"></script>
 <script src="./resources/js/jquery-ui-1.10.4.custom.js" /></script>
 <div id="header" class="clearfix bg-dark">
    <!-- TOP NAV -->
@@ -24,7 +26,7 @@
                      <a href="#" data-toggle="modal" data-target="#materialShow">준비물</a>
                   </li>
                   <li><!-- 채팅 -->
-                     <a href="#">채팅</a>
+                     <a href="javascript:chattingWrap()">채팅</a>
                   </li>
                   <li><!-- 친구추가 -->
                      <a href="#">친구추가</a>
@@ -60,6 +62,7 @@
                         <label class="text-center turn-font-set dateName">${scheduleDate}</label>
                      </div>
                      <div id="groupCode" style="display:none">${groupCode}</div>
+                     <div id="user_id" style="display:none">${mem}</div>
                   </li>
                </ul>
                <!-- /MENU -->
@@ -126,6 +129,7 @@
    <div id="mainMenu" class="sidebar-vertical sidebar-dark turn-c local-position">
       <div class="sidebar-nav turn-heightful">
          <div class="navbar navbar-default turn-heightful turn-bottom-zero" role="navigation">
+            
             <div class="turn-local first-list">
                <p>${local}</p>
                <div class="local-change" data-check="0"> 장소변경 ▼ </div>
@@ -161,7 +165,7 @@
                            </button>
                         </div>
                         <div class="search_condition">
-                           <input type="radio" id="localCheck" name="localCheck" value="${local}" checked>
+                           <input type="radio" id="localCheck" name="localCheck"  checked>
                            <label for="localCheck">지역 내 검색</label>
                         </div>
                         <div class="search_condition">
@@ -256,7 +260,36 @@
          </div>
       </div>
    </div>
-
+   <!-------- 채팅-------->
+   <div id="chattingWrap" data-check="0">
+	   <div class="chat" id="chat">
+		</div>
+		<input type="text" id="message">
+		<input type="submit" id="sendBtn" value="전송">
+	</div>
+	
+   <!-- ------장소 자세히 보기 -------------->
+   <div id="placeDetail">
+   		<div id="detail_view">
+   			<div id="detail_main">
+   				<p>ddsdfsfsdf</p>
+   				<span><a href="javascript:placeDetailClose()">X</a></span>	
+   			</div>
+   			<div id="detail_body">
+   				<img src="">
+   				<div id="detail_content"></div>
+   				<div id="detail_content_box">
+   					<div class="detail_wrap">
+   						<div class="detail_title">카테고리</div><div></div>
+   					</div>
+   					<div class="detail_wrap">
+   						<div class="detail_title">주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</div><div style="width:190px"></div>
+   					</div>
+   				</div>
+   			</div>
+   		</div>
+   		
+   </div>
 
 
    
