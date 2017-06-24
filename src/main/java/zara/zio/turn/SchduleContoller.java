@@ -160,9 +160,9 @@ public class SchduleContoller {
       int group_Code = Integer.parseInt(group);
       Date travel_Date = Date.valueOf(plan);
        
-      System.out.println("priority : " + travel.getTravel_Priority());
+      System.out.println("priority : " + travel.getTravel_priority());
       
-      travel.setTravel_Priority(priority);
+      travel.setTravel_priority(priority);
       travel.setPlace_code(place_code);
       travel.setGroup_Code(group_Code);
       travel.setTravel_Date(travel_Date);
@@ -205,7 +205,7 @@ public class SchduleContoller {
       int group_Code = Integer.parseInt(group);
       Date travel_Date = Date.valueOf(plan);
        
-      travel.setTravel_Priority(count);
+      travel.setTravel_priority(count);
       travel.setGroup_Code(group_Code);
       travel.setTravel_Date(travel_Date);
       
@@ -221,7 +221,7 @@ public class SchduleContoller {
             
             travel.setCount(count_check);
             travel.setPlace_code(place_code);
-            travel.setTravel_Priority(travel_Priority);
+            travel.setTravel_priority(travel_Priority);
             
    
             service1.planPriority(travel);

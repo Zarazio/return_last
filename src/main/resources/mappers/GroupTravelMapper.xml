@@ -32,12 +32,12 @@
    </select>
     
    <insert id="planList_insert">
-      	insert into travel_list (travel_Date, place_code, group_Code, travel_Priority)
-      	values(#{travel_Date}, #{place_code} , #{group_Code} , #{travel_Priority})
+      	insert into travel_list (travel_Date, place_code, group_Code, travel_priority)
+      	values(#{travel_Date}, #{place_code} , #{group_Code} , #{travel_priority})
    </insert>
    
    <select id="planDayList" resultType="TravelListVO">
-     	select b.place_code, b.travel_Priority , a.place_lat AS place_lat, a.place_lng , c.place_img , a.place_name
+     	select b.place_code, b.travel_priority , a.place_lat AS place_lat, a.place_lng , c.place_img , a.place_name
     	from place_tbl a , travel_list b, pimg_tbl c
     	where a.place_code = b.place_code 
     	and a.place_code = c.place_code 
@@ -47,12 +47,12 @@
    </select>
    
    <update id="planPriority">
-     	update travel_list set travel_Priority=#{count} 
+     	update travel_list set travel_priority=#{count} 
      	where travel_Date = #{travel_Date} 
      	and group_Code = #{group_Code} 
      	and place_code = #{place_code}
-     	and travel_Priority = #{travel_Priority}
-     	order by travel_Priority
+     	and travel_priority = #{travel_priority}
+     	order by travel_priority
    </update>
    
    <delete id="planDelete">
@@ -62,7 +62,7 @@
    </delete>
    
    <select id="planRealTimePriority" resultType="TravelListVO">
-       	select place_code, travel_Priority from travel_list 
+       	select place_code, travel_priority from travel_list 
        	where travel_Date = #{travel_Date} 
        	and group_Code = #{group_Code} 
    </select>
@@ -116,4 +116,41 @@
    		insert into chatting (group_Code, chatting_content, user_id, chatting_date)
    		values (#{group_Code} , #{chatting_content} , #{user_id}, #{chatting_date})
    </insert>
+   
+   <select id="groupGoingList" resultType="GroupVO">
+   		select a.group_Code, travel_Title, start_Date, end_Date
+		from group_application a, travel_group b
+		where a.group_Code = b.group_Code and a.user_id = #{user_id} and group_apply = 1
+		and start_Date >= CURRENT_DATE( );
+   </select>
+   
+   <select id="groupFinishList" resultType="GroupVO">
+   <![CDATA[
+   		select a.group_Code, travel_Title, start_Date, end_Date
+		from group_application a, travel_group b
+		where a.group_Code = b.group_Code and a.user_id = #{user_id} and group_apply = 1
+		and start_Date < CURRENT_DATE( );
+	]]>
+   </select>
+   
+   <delete id="user_group_delete">
+   		delete from travel_group where group_Code = #{group_Code}
+   </delete>
+   
+   <select id="user_group_delete_check" resultType="int">
+   		select count(*) from group_application where group_Code = #{group_Code}
+   </select>
+   
+   
+   <delete id="user_groupApplication_delete">
+   		delete from group_application where group_Code = #{group_Code} and user_id = #{user_id}
+   </delete>
+   
+   <select id="user_plan_list" resultType="TravelListVO">
+   		select travel_priority, travel_Date,  group_Code, b.place_code, place_name, place_lat, place_lng , c.place_img
+   		from travel_list a, place_tbl b, pimg_tbl c
+   		where a.place_code = b.place_code and b.place_code = c.place_code and travel_Date in (select travel_Date from travel_list where group_Code = #{place_Code} group by travel_Date) 
+   		and group_Code = #{place_Code} and c.img_code =0
+   		order by travel_Date , travel_priority
+   </select>
 </mapper>

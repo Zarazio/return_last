@@ -2,6 +2,7 @@ package zara.zio.turn.dao;
 
 import java.util.List;
 
+
 import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
@@ -38,4 +39,17 @@ public interface GroupTravelDAO {
 	
 	public List<ChattingVO> chattingList(int group_Code) throws Exception ;
 	public void chattingStore(ChattingVO chat) throws Exception ;
+	
+	// 회원이 들어간 그룹 뽑아오기
+	public List<GroupVO> groupGoingList(String mem) throws Exception ;
+	public List<GroupVO> groupFinishList(String mem) throws Exception ;
+
+	// 지금 그룹에 몇명있는지 체크
+	public int user_group_delete_check(int group_Code) throws Exception ;
+	// plan 삭제
+	public void user_group_delete (int group_Code) throws Exception ;
+	public void user_groupApplication_delete(GroupApplicationVO groupA) throws Exception;
+
+	//여행 일정
+	public List<TravelListVO> user_plan_list(int group_Code) throws Exception ;
 }

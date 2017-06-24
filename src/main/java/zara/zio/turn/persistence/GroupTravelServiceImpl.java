@@ -2,6 +2,7 @@ package zara.zio.turn.persistence;
 
 import java.util.List;
 
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -141,6 +142,42 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 	public void chattingStore(ChattingVO chat) throws Exception {
 		// TODO Auto-generated method stub
 		dao.chattingStore(chat) ;
+	}
+
+	@Override
+	public List<GroupVO> groupGoingList(String mem) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.groupGoingList(mem);
+	}
+
+	@Override
+	public List<GroupVO> groupFinishList(String mem) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.groupFinishList(mem);
+	}
+
+	@Override
+	public int user_group_delete_check(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.user_group_delete_check(group_Code);
+	}
+
+	@Override
+	public void user_group_delete(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		dao.user_group_delete(group_Code);
+	}
+
+	@Override
+	public void user_groupApplication_delete(GroupApplicationVO groupA) throws Exception {
+		// TODO Auto-generated method stub
+		dao.user_groupApplication_delete(groupA);
+	}
+
+	@Override
+	public List<TravelListVO> user_plan_list(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.user_plan_list(group_Code);
 	}
 
 }

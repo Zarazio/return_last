@@ -799,7 +799,7 @@ $(document).ready(function(){
                 for(var i=0 ; i<data.length ; i++){
                    elem += "<div class='place placeCode' data-code='" + data[i].place_code +"' data-lat="+ data[i].place_lat 
                        +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
-                       + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/></div>";
+                       + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span></div>";
                    
                    data01[i] = new Array(5) ;
                    

@@ -5,7 +5,7 @@ import java.sql.Date;
 public class TravelListVO {
    
       private int travel_Code; // 여행리스트코드
-      private int travel_Priority; // 여행리스트우선순위
+      private int travel_priority; // 여행리스트우선순위
       private String travel_Memo; // 장소마다 메모
       private Date travel_Date; // 여행리스트 : 장소가 추가된날짜
       private int place_code; // 장소코드
@@ -22,11 +22,11 @@ public class TravelListVO {
       public void setTravel_Code(int travel_Code) {
          this.travel_Code = travel_Code;
       }
-      public int getTravel_Priority() {
-         return travel_Priority;
+      public int getTravel_priority() {
+         return travel_priority;
       }
-      public void setTravel_Priority(int travel_Priority) {
-         this.travel_Priority = travel_Priority;
+      public void setTravel_priority(int travel_Priority) {
+         this.travel_priority = travel_Priority;
       }
       public String getTravel_Memo() {
          return travel_Memo;

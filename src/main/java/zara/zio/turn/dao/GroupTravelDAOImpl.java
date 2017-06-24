@@ -145,4 +145,42 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 		sqlSession.insert(NAMESPACE + ".chattingStore", chat) ;
 	}
 
+	@Override
+	public List<GroupVO> groupGoingList(String mem) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".groupGoingList", mem);
+	}
+
+	@Override
+	public List<GroupVO> groupFinishList(String mem) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".groupFinishList", mem);
+	}
+
+	@Override
+	public int user_group_delete_check(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".user_group_delete_check", group_Code);
+	}
+
+	@Override
+	public void user_group_delete(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".user_group_delete",group_Code);
+	}
+
+	@Override
+	public void user_groupApplication_delete(GroupApplicationVO groupA) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".user_groupApplication_delete",groupA) ;
+	}
+
+	@Override
+	public List<TravelListVO> user_plan_list(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE +".user_plan_list", group_Code);
+	}
+
+
+
 }

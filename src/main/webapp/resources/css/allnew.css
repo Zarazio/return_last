@@ -525,4 +525,272 @@ html, body, p, ul,li {
 	text-align : center ;
 }
 
+/*=============================마이페이지 사용자가 계획한 일정======================*/
+
+#user_group_list_box{
+	width : 100% ;
+	height : 300px ;
+}
+
+#user_group_list_box .list-empty{
+	text-align : center ;
+	line-height : 300px;
+}
+.group_list_title {
+	margin-left : 10px ;
+	cursor : pointer;
+}
+
+.group_list_title:nth-of-type(1)  {
+	margin-right : 10px ;
+}
+
+.group_list_title h4 { 
+	display: inline-block
+}
+.user_group_list {
+	margin : 10px;
+	position : relative ;
+	width : 370px;
+	height : 300px;
+	border : 1px solid black ;
+	float : left ;
+	cursor : pointer ;
+	z-index : 1px
+}
+
+.plan-list-img {
+	width : 100% ;
+	height : 190px;
+	border-bottom : 1px solid black;
+}
+
+.plan-content {
+	position : relative ;
+	padding : 15px
+}
+
+.plan-list-title {
+	position : absolute;
+	font-size : 22px;
+	font-weight : bold ;
+}
+
+.plan-date {
+	position : absolute ;
+	top : 60px;
+	font-size : 18px ; 
+}
+
+.plan-list-delete {
+	position : absolute;
+	width : 25px ;
+	height : 25px;
+	top: 15px ;
+	right : 15px;
+	font-size : 23px;
+	font-weight : bold ;
+	text-align : center ;
+	line-height : 25px;
+	
+	
+
+}
+
+/*==================plan delete 모달 창 =====================*/
+
+#planlist-delete {
+	
+	background-color: rgba(255,255,255,0.5);
+}
+.modal-dialog.planlist-size {
+	top: 200px;
+	width : 250px;
+	height : 120px;
+}
+.modal-content.planlist-size {
+	
+	width : 250px;
+	height : 120px;
+	border: 0px;
+}
+
+.modal-header.planlist-title{
+	padding: 0;
+	width : 100% ;
+	height : 50px ;
+}
+
+.planlist-title h5 {
+	text-align : center ;
+	margin : 0 ;
+	line-height : 50px
+}
+#planlist-body {
+	text-align : center ;
+}
+
+#planlist-body button {
+	width : 100px ;
+	height : 40px;
+	border :1px solid black;
+	
+}
+#planlist-body button:hover {
+	background : grey ;
+	color : white ;
+}
+
+/*============================ 여행 상세 일정 ===========================*/
+
+.row.plan-row {
+	width: 100% ;
+	margin-left : 1px;
+}
+
+.plan_header {
+	width : 100% ;
+	height : 110px ;
+}
+
+.plan_header > div:nth-child(1) {
+	display: inline-block;
+	width:500px;
+	height : 110px ;
+	border : 1px solid black ;
+}
+.plan_header > div:nth-child(2) {
+	display: inline-block;
+	width:500px;
+	height : 110px ;
+	border : 1px solid black ;
+	position : absolute;
+	right : 15px ;
+}
+
+.plan-date button {
+	margin-left : 15px;
+	border : 1px solid #333333 ;
+	padding : 2px ;
+}
+
+#plan-title {
+	display : inline-block ;
+	font-size : 24px ;
+	font-weight : bold;
+}
+
+.plan_nav {
+	width: 100% ;
+	height : 60px;
+	background : #333333 ;
+	text-align : center ;
+}
+
+.plan_nav div {
+	width : 190px ;
+	display : inline-block;
+	color : white ;
+	text-align : center ;
+	line-height : 60px;
+	font-size : 16px;
+	cursor : pointer ;
+}
+
+.plan_nav div:hover {
+	color : #333333 ;
+	background : white ;
+}
+#plan_contain {
+	width : 100% ;
+}
+
+#plan_list_contain {
+	display: inline-block ;
+	float : left ;
+	width : 600px
+	
+}
+
+.plan_section {
+	width : 100% ;
+	margin-top : 40px ;
+
+}
+
+#plan_map{
+	width : 500px ;
+	height : 500px;
+	border : 1px solid black ;
+	float : right;
+	display: inline-block ;
+}
+
+
+.plan-day-content {
+	position : relative ;
+	width : 600px ;
+	height : 140px ;
+	border :1px solid black ;
+	margin-bottom : 50px;
+	padding : 10px ;
+		
+}
+
+.plan-day-select {
+	width:600px ;
+	height : 50px ;
+	border : 1px solid black;
+	font-size : 25px ;
+	font-weight : bold ;
+	color : white ;
+	background : #333333 ;
+	line-height : 50px ;
+	padding-left : 20px;
+	
+	
+}
+
+.plan-day-list div{
+	display : inline-block;
+	
+}
+
+.plan-place-priority {
+	position : absolute ;
+	top : 5px ;
+	width : 50px ;
+	height : 50px ;
+	border : 1px solid black ;
+	font-size : 25px ; 
+	font-weight :bold ;
+	color : #333333;
+	line-height : 50px ;
+	text-align : center ;
+}
+
+.plan-place-img {
+	position : absolute ;
+	top :5px ;
+	left : 80px;
+	width : 128px;
+	height : 128px ;
+	border : 1px solid black ;
+}
+
+.plan-place-img img {
+	width : 128px ;
+	height : 128px;
+}
+
+.plan-place-name {
+	position : absolute ;
+	top : 5px ;
+	left : 220px ;
+	font-size : 22px ;
+	font-weight : bold ;
+	color : #333333;
+	
+}
+
 

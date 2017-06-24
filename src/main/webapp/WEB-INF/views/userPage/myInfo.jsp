@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="<c:url value="./resources/js/member/mydel.js"/>" ></script>
+<script src="<c:url value="./resources/js/member/userInfo.js"/>" ></script>
+
 <!-- 
 	PAGE HEADER 
 	
@@ -72,7 +74,7 @@
 			<div id="user-travel-log">	
 				<c:if test="${info == 'user'}">
 					<div><h2>Log</h2></div>
-					<div><h2>Travel-Plan</h2></div>
+					<div onclick="travel_plan_list()"><h2>Travel-Plan</h2></div>
 				</c:if>
 			</div>
 		</div>

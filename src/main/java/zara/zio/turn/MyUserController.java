@@ -3,6 +3,14 @@ package zara.zio.turn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -22,7 +30,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+
+import zara.zio.turn.domain.GroupApplicationVO;
+import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.MemberVO;
+import zara.zio.turn.domain.TravelListVO;
+import zara.zio.turn.persistence.GroupTravelService;
 import zara.zio.turn.persistence.MemberService;
 import zara.zio.turn.util.MediaUtils;
 import zara.zio.turn.util.UploadFileUtils;
@@ -36,7 +50,10 @@ public class MyUserController {
 	@Inject
 	private MemberService service;
 	
-	// °æ·Î ÁöÁ¤ path
+	@Inject 
+	private GroupTravelService service1 ;
+	
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ path
 	@Resource(name="profilePath")
 	private String profilePath;
 	
@@ -50,7 +67,7 @@ public class MyUserController {
 	public String myModify(HttpSession session, Model model) throws Exception {
 		
 		String myName = (String)session.getAttribute("mem");
-		MemberVO userInfo = service.read(myName); // À¯Àú¿¡ ´ëÇÑ ¸ğµçÁ¤º¸
+		MemberVO userInfo = service.read(myName); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		model.addAttribute("my",userInfo);
 		
 		return "userPage/myModify";
@@ -59,7 +76,7 @@ public class MyUserController {
 	@RequestMapping(value="/myModify", method = RequestMethod.POST)
 	public String myModify(MemberVO vo, String nowid, HttpSession session) throws Exception {
 		
-		System.out.println(nowid); // ¿øº»¾ÆÀÌµğÄõ¸® ¼¿·ºÆÃ
+		System.out.println(nowid); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		System.out.println(vo);
 		
 		String yyyy = vo.getYyyy();
@@ -86,62 +103,62 @@ public class MyUserController {
 	}
 	
 	
-	// ÇÁ·ÎÇÊÀÌ¹ÌÁö ¾÷·Îµå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
 	@RequestMapping(value="/profile", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> profileAjax(MultipartFile file) throws Exception {
 		
-		logger.info("ProfileName : " + file.getOriginalFilename()); // ÆÄÀÏ¸í
+		logger.info("ProfileName : " + file.getOriginalFilename()); // ï¿½ï¿½ï¿½Ï¸ï¿½
 		
 		return new ResponseEntity<String>(UploadFileUtils.uploadFile(profilePath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
 	}
 	
-	// ÇÁ·ÎÇÊ ÀÌ¹ÌÁö Ç¥½Ã ¸ÊÇÎ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@ResponseBody
 	@RequestMapping("/displayProfile") 
 	public ResponseEntity<byte[]> displayProfile(String fileName) throws Exception {
-		// ¼­¹öÀÇ ÆÄÀÏÀ» ´Ù¿î·ÎµåÇÏ±â À§ÇÑ ½ºÆ®¸²
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½
 		InputStream in = null; // java.io
 		ResponseEntity<byte[]> entity = null;
 		
 		logger.info("DisplayProfile FILE NAME : " + fileName);
 		
 		try {
-			// È®ÀåÀÚ¸¦ ÃßÃâÇÏ¿© formatName¿¡ ÀúÀå
+			// È®ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ formatNameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 			
-			// ÃßÃâÇÑ È®ÀåÀÚ¸¦ MediaUtilsÅ¬·¡½º¿¡¼­  ÀÌ¹ÌÁöÆÄÀÏ¿©ºÎ¸¦ °Ë»çÇÏ°í ¸®ÅÏ¹Ş¾Æ mType¿¡ ÀúÀå
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ú¸ï¿½ MediaUtilsÅ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½Î¸ï¿½ ï¿½Ë»ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ï¹Ş¾ï¿½ mTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			MediaType mType = MediaUtils.getMediaType(formatName);
 			
-			// Çì´õ ±¸¼º °´Ã¼(¿ÜºÎ¿¡¼­ µ¥ÀÌÅÍ¸¦ ÁÖ°í¹ŞÀ» ¶§¿¡´Â header¿Í body¸¦ ±¸¼ºÇØ¾ßÇÏ±â ¶§¹®¿¡)
+			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼(ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ö°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ headerï¿½ï¿½ bodyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 			HttpHeaders headers = new HttpHeaders();
 			
-			 // InputStream »ı¼º
+			 // InputStream ï¿½ï¿½ï¿½ï¿½
 			in = new FileInputStream(profilePath+fileName);
 			
-			if(mType != null) { // ÀÌ¹ÌÁö ÆÄÀÏÀÏ¶§ 
+			if(mType != null) { // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ 
 				headers.setContentType(mType);
-			} else { // ÀÌ¹ÌÁöÆÄÀÏÀÌ ¾Æ´Ò¶§
+			} else { // ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ò¶ï¿½
 				fileName = fileName.substring(fileName.indexOf("_")+1);
 				
-				// ´Ù¿î·Îµå¿ë ÄÁÅÙÆ® Å¸ÀÔÁöÁ¤ application/octet-stream 
+				// ï¿½Ù¿ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ application/octet-stream 
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 				
-				// ¹ÙÀÌÆ®¹è¿­À» ½ºÆ®¸µÀ¸·Î : 
-				// new String(fileName.getBytes("utf-8"),"iso-8859-1") * iso-8859-1 ¼­À¯·´¾ğ¾î, Å« µû¿ÈÇ¥ ³»ºÎ¿¡  " \" ³»¿ë \" "
-                // ÆÄÀÏÀÇ ÇÑ±Û ±úÁü ¹æÁö
+				// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : 
+				// new String(fileName.getBytes("utf-8"),"iso-8859-1") * iso-8859-1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, Å« ï¿½ï¿½ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½Î¿ï¿½  " \" ï¿½ï¿½ï¿½ï¿½ \" "
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				headers.add("Content-Disposition", "attachment; filename=\"" + 
 					new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\""); 
 				//headers.add("Content-Disposition", "attachment; filename='"+fileName+"'");
 			}
 			
-			// ¹ÙÀÌÆ® ¹è¿­, Çì´õ, HTTP »óÅÂÄÚµå 
-			// ´ë»óÆÄÀÏ¿¡¼­ µ¥ÀÌÅÍ¸¦ ÀĞ¾î³»´Â IOUtilsÀÇ toByteArray()¸Ş¼Òµå 
+			// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½è¿­, ï¿½ï¿½ï¿½, HTTP ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ 
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ğ¾î³»ï¿½ï¿½ IOUtilsï¿½ï¿½ toByteArray()ï¿½Ş¼Òµï¿½ 
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED); 
 				
 		} catch(Exception e) {
 			e.printStackTrace();
 			
-			// HTTP»óÅÂ ÄÚµå()
+			// HTTPï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½()
 			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
 		} finally {
 			in.close();
@@ -156,26 +173,188 @@ public class MyUserController {
 		
 		logger.info("deleteProfile : " + fileName);
 		
-		// ÆÄÀÏÀÇ È®ÀåÀÚ ÃßÃâ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 		
-		// ÀÌ¹ÌÁö ÆÄÀÏ ¿©ºÎ °Ë»ç
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 		MediaType mType = MediaUtils.getMediaType(formatName);
 		
-		// ÀÌ¹ÌÁöÀÇ °æ¿ì(½æ³×ÀÏ + ¿øº»ÆÄÀÏ »èÁ¦), ÀÌ¹ÌÁö°¡ ¾Æ´Ï¸é ¿øº»ÆÄÀÏ¸¸ »èÁ¦
-        // ÀÌ¹ÌÁö ÆÄÀÏÀÌ¸é
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½), ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 		if(mType != null) {
 			String che = "/" + fileName.substring(3);
-			// ½æ³×ÀÏ ÀÌ¹ÌÁö »èÁ¦
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			new File(profilePath + (che).replace('/', File.separatorChar)).delete();
 		} 
-		// ¿øº» ÆÄÀÏ »èÁ¦
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		new File(profilePath + fileName.replace('/', File.separatorChar)).delete();
 		
-		// µ¥ÀÌÅÍ¿Í http »óÅÂ ÄÚµå Àü¼Û
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ http ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		
 	}
+	
+	// ì‚¬ìš©ìê°€ ê³„íší•œ ì—¬í–‰ì¼ì •ì„ ëª¨ë‘ ë½‘ì•„ì˜´
+	@RequestMapping(value="userScheduleList", method=RequestMethod.GET)
+	public String userScheduleList(HttpSession session, Model model , String state) throws Exception{
+		
+		String mem = (String) session.getAttribute("mem");
+		List<GroupVO> list ; ;
+		if(state == "finish"){
+			list = service1.groupFinishList(mem) ;
+			
+		}else{
+			list = service1.groupGoingList(mem) ;
+		}
+		System.out.println(state + " : state");
+		
+		model.addAttribute("group",list);
+		
+		return "userPage/userScheduleList";
+	}
+	
+	// ì‚¬ìš©ìê°€ ê³„íší•œ ì—¬í–‰ì¼ì •ì„ ëª¨ë‘ ë½‘ì•„ì˜´
+	@ResponseBody
+	@RequestMapping(value="userScheduleListCheck", method=RequestMethod.POST)
+	public List<GroupVO> userScheduleListCheck(HttpSession session, Model model , String state) throws Exception{
+		
+		String mem = (String) session.getAttribute("mem");
+		List<GroupVO> list ; ;
+		if(state.equals("finish")){
+			list = service1.groupFinishList(mem) ;
+			System.out.println(state + " : state");
+		}else{
+			list = service1.groupGoingList(mem) ;
+			System.out.println(state + " : state");
+		}
+
+		System.out.println(list.toString());
+
+		return list;
+	}
+	
+	// ì‚¬ìš©ìê°€ ê³„íší•œ ì—¬í–‰ì¼ì •ì„ ì‚­ì œ ì‹œí‚´.
+	@ResponseBody
+	@RequestMapping(value="plan_list_delete", method=RequestMethod.POST)
+	public void plan_list_delete(HttpSession session, Model model , String group) throws Exception{
+		
+		String mem = (String) session.getAttribute("mem");
+		int group_code = Integer.parseInt(group) ;
+		
+		GroupApplicationVO groupA = new GroupApplicationVO() ;
+		
+		groupA.setGroup_Code(group_code);
+		groupA.setUser_id(mem);
+		
+		// group_applicationì—ì„œ group_code ì‚­ì œ
+		service1.user_groupApplication_delete(groupA) ;
+		
+		// group_codeë¥¼ ê°€ì§€ëŠ” userë“¤ ì²´í¬
+		int check = service1.user_group_delete_check(group_code) ;
+		
+		if(check == 0){
+			// userë“¤ì´ ì—†ìœ¼ë©´ travel_group , travel_listì— group_codeë¥¼ ë‹¤ ì‚­ì œ
+			service1.user_group_delete(group_code);
+		}
+
+
+	}
+	
+	// ì‚¬ìš©ìê°€ ê³„íší•œ ì—¬í–‰ì¼ì •ì„ ëª¨ë‘ ë½‘ì•„ì˜´
+	@RequestMapping(value="userPlanDetail", method=RequestMethod.GET)
+	public String plandetail(HttpSession session, Model model , String group_Code, String travel_Title, String startDate, String endDate ) throws Exception{
+		
+		String mem = (String) session.getAttribute("mem");
+		int group_code = Integer.parseInt(group_Code);
+		System.out.println(group_Code);
+		System.out.println(travel_Title);
+		
+		model.addAttribute("title",travel_Title);
+		model.addAttribute("startDate",startDate);
+		model.addAttribute("endDate",endDate);
+		model.addAttribute("group_Code",group_code);
+		
+		List<TravelListVO> list = service1.user_plan_list(group_code);
+		List<Integer> days = new ArrayList<Integer>();
+		
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		// ì„œë¸ŒìŠ¤íŠ¸ë§ ë°ì´ ë½‘ì•„ë‚´ê¸° ìœ„í•œ ìˆœì„œ
+		int index = list.get(0).getTravel_Date().toString().lastIndexOf("-")+1;
+		
+		// ë°ì´ ë½‘ì•„ë‚´ê¸°
+		String dayStr = list.get(0).getTravel_Date().toString().substring(index);
+		
+		int day = Integer.parseInt(dayStr)-1;
+				
+		for(int i=0; i<list.size(); i++) {
+			String toDayStr = list.get(i).getTravel_Date().toString().substring(index);
+			System.out.println(list.get(i).getTravel_Date().toString());
+			int toDay = Integer.parseInt(toDayStr);
+			
+			days.add((toDay-day));
+			System.out.println("ì˜¤ëŠ˜ë‚ ì§œ = " + list.get(0).getTravel_Date().toString() + "  ë°ì´ = " + day + "   íˆ¬ë°ì´ = " + toDay + "  ê³„ì‚°ê°’ = " + (toDay-day));
+			
+			
+		}
+		
+		model.addAttribute("days",days) ;
+		model.addAttribute("list",list);
+		
+		System.out.println(list.toString());
+
+		
+		return "userPage/userPlanDetail";
+	}
+	
+	
+	// ì‚¬ìš©ìê°€ ê³„íší•œ ì—¬í–‰ì¼ì •ì„ ëª¨ë‘ ë½‘ì•„ì˜´ ë¹„ë™ê¸°ì‹ìœ¼ë¡œ ì²˜ë¦¬
+	@ResponseBody
+	@RequestMapping(value="plandetailAsnyc", method=RequestMethod.POST , produces = "application/text; charset=utf8")
+	public String plandetailAsnyc(HttpSession session , String group_code, String travel_Title, String startDate, String endDate ) throws Exception{
+		
+		String mem = (String) session.getAttribute("mem");
+		int group_Code = Integer.parseInt(group_code);
+
+		List<TravelListVO> list = service1.user_plan_list(group_Code);
+		List<Integer> days = new ArrayList<Integer>();
+		
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		// ì„œë¸ŒìŠ¤íŠ¸ë§ ë°ì´ ë½‘ì•„ë‚´ê¸° ìœ„í•œ ìˆœì„œ
+		int index = list.get(0).getTravel_Date().toString().lastIndexOf("-")+1;
+		
+		// ë°ì´ ë½‘ì•„ë‚´ê¸°
+		String dayStr = list.get(0).getTravel_Date().toString().substring(index);
+		
+		int day = Integer.parseInt(dayStr)-1;
+				
+		for(int i=0; i<list.size(); i++) {
+			String toDayStr = list.get(i).getTravel_Date().toString().substring(index);
+			System.out.println(list.get(i).getTravel_Date().toString());
+			int toDay = Integer.parseInt(toDayStr);
+			
+			days.add((toDay-day));
+			System.out.println("ì˜¤ëŠ˜ë‚ ì§œ = " + list.get(0).getTravel_Date().toString() + "  ë°ì´ = " + day + "   íˆ¬ë°ì´ = " + toDay + "  ê³„ì‚°ê°’ = " + (toDay-day));
+			
+			
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("days", days);
+		map.put("list", list);
+		
+		String str = new Gson().toJson(map);
+		
+		System.out.println(list.toString());
+
+		
+		return str;
+	}
+	
+	
+	
+	
 	
 }
