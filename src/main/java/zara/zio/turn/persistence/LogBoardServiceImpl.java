@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import zara.zio.turn.dao.LogBoardDAO;
+import zara.zio.turn.domain.ComunityVO;
 import zara.zio.turn.domain.LogBoardVO;
 
 @Service
@@ -20,8 +20,9 @@ public class LogBoardServiceImpl implements LogBoardService {
 	
 	@Transactional
 	@Override
-	public void logBoardCreate(LogBoardVO vo, int cnt) throws Exception {
+	public void logBoardCreate(LogBoardVO vo, int cnt, int type) throws Exception {
 		// TODO Auto-generated method stub
+		
 		dao.logInfoCreate(vo);
 		
 		boolean test1 = true;
@@ -39,7 +40,7 @@ public class LogBoardServiceImpl implements LogBoardService {
 		
 		if(test1) {
 			for(int i=0; i<imagefile.length; i++) {
-				dao.logImageFileCreate(imagefile[i], cnt);
+				dao.logImageFileCreate(imagefile[i], cnt, type);
 			}
 		} 
 		if(test2) {
@@ -73,6 +74,24 @@ public class LogBoardServiceImpl implements LogBoardService {
 	public List<Map<String, Object>> logImageFileRead() throws Exception {
 		// TODO Auto-generated method stub
 		return dao.logImageFileRead();
+	}
+	
+	@Override
+	public List<ComunityVO> comunityInfoList() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.comunityInfoList();
+	}
+
+	@Override
+	public ComunityVO comunityInfoRead(int page) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.comunityInfoRead(page);
+	}
+
+	@Override
+	public List<Map<String, Object>> comunityFileRead(int page) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.comunityFileRead(page);
 	}
 	
 

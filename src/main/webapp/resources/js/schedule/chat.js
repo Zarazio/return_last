@@ -8,7 +8,7 @@ var user_id ;
 $(document).ready(function(){
 	groupCode = $("#groupCode").text(); //schdulePageA groupCode
 	user_id = $("#user_id").text();
-	wsocket = new SockJS("http://localhost:8080/socket/chat.sockjs" );
+	wsocket = new SockJS("http://localhost:8082/turn/chat.sockjs" );
 		 wsocket.onopen = onOpen;
 		 wsocket.onmessage = onMessage ;
 		 wsocket.onclose = onClose; 

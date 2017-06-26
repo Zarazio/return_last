@@ -1,9 +1,5 @@
 $(document).ready(function(){
 	
-	var num = /[0-9]/;
-	var spText = /[\[\]{}()<>?|`~!@#$%^&*+=,.;:\"\\\'\\\s]/g;
-	var en = /[A-Z]/;
-	var ko = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힝]/;
 	var count = 0;
 	
 	// 일정등록버튼클릭했을때 
@@ -26,8 +22,8 @@ $(document).ready(function(){
 			$(".friend-list").empty();
 			
 			friend_list();
-			
 			count++;
+			
 		} else {
 			$(".turn-modal").css("display","none");
 			count = 0;
@@ -37,19 +33,13 @@ $(document).ready(function(){
 	// 모달버튼이 사라질때 이벤트 발생함수
 	$('#myModal').on('hidden.bs.modal', function (e) {
 		  count = 0;
-		  
-	});
-	
-	// 포커스막기
-	$("#nonText").focus(function() {
-		
 	});
 	
 	// =========== 페이지 이동 함수 =============== // 
 	
-	$(".nextSchedule").click(function(){
-		var nexton = confirm("다음으로 ");
-		if(nexton) {
+	$(".nextPage").on("click",function(){
+		
+		if(confirm("다음으로 넘어가시겠습니까?")) {
 			$('#submitData').attr('method','post');
 			$('#submitData').attr('action','scheduleSet');
 			$('#submitData')[0].submit();

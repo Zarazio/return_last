@@ -96,7 +96,7 @@
       <div class="modal-dialog planlist-size ">
          <div class="modal-content planlist-size">
             <div class="modal-header planlist-title">
-               <h5>여행계획을 지우시겠습니까?</h3>
+               <h5>여행계획을 지우시겠습니까?</h5>
             </div>
             <div class="modal-body">
                <div id="planlist-body">

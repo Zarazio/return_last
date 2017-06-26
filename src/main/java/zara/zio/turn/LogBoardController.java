@@ -111,32 +111,45 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		String userId = (String)session.getAttribute("mem"); // 작성자아이디 정보
 		vo.setUser_id(userId); // 작성자아이디 	
 		vo.setBoard_type_code(1); // 로그작성 log 1번
+
 		
 		// 문자열 앱 파싱 =====================================
 		String basic = vo.getBoard_content();		
-        int idx, idx1, tokencount = 0; // 토큰의 수
-		StringTokenizer s = new StringTokenizer(basic,"<>");
-        tokencount =  s.countTokens(); // 토큰사이즈 변수에 적용
-        String[] token_arr = new String[tokencount]; // 토큰의 값을 담을 배열
-        
-        for(int i = 0; i < tokencount; i++){
+	    int idx, idx1, tokencount = 0; // 토큰의 수
+	    StringTokenizer s = new StringTokenizer(basic,"<>");
+	    tokencount =  s.countTokens(); // 토큰사이즈 변수에 적용
+	    String[] token_arr = new String[tokencount]; // 토큰의 값을 담을 배열
+	    for(int i = 0; i < tokencount; i++) {
             token_arr[i] = s.nextToken();
 
-             if(token_arr[i].contains("img")){
-            	 idx = token_arr[i].indexOf("\"");
-                 token_arr[i] = token_arr[i].substring(idx+1);
-                 idx1 = token_arr[i].indexOf("\"");
-                 token_arr[i] = token_arr[i].substring(0,idx1);
-            	 basic = basic.replace(token_arr[i], "");
-             }
-        }
-        
+            if(token_arr[i].contains("src")){
+            	idx = token_arr[i].indexOf("src=\"") + 4;
+                token_arr[i] = token_arr[i].substring(idx+1);
+                idx1 = token_arr[i].indexOf("\"");
+                token_arr[i] = token_arr[i].substring(0,idx1);
+            	basic = basic.replace(token_arr[i], "");
+            }
+	    }     
+			
         vo.setBoard_content(basic);
         System.out.println(basic);
         // 문자열 앱 파싱 =====================================
 		
+        int type = 1;
+        
+        if(vo.getFile_content() == null) {
+        	System.out.println("널캐치");
+        } else {
+	          if(vo.getFile_content()[0].contains(".youtube")) {
+	        	type = 2;
+	        } else if(vo.getFile_content()[0].contains(".kml")) {
+	        	type = 3;
+	        } 
+        }
+        
+        
 		int boardMax = service.maxCode() + 1; // 등록할 최댓값
-		service.logBoardCreate(vo, boardMax); // 파일정보
+		service.logBoardCreate(vo, boardMax, type); // 파일정보
 
 		return "redirect:logInfo";
 	}
@@ -170,7 +183,7 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 			// 헤더 구성 객체(외부에서 데이터를 주고받을 때에는 header와 body를 구성해야하기 때문에)
 			HttpHeaders headers = new HttpHeaders();
 			
-			 // InputStream 생성
+			// InputStream 생성
 			in = new FileInputStream(logsPath+fileName);
 			
 			if(mType != null) { // 이미지 파일일때 
@@ -207,7 +220,7 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 	// log-image 삭제맵핑
 	@ResponseBody
 	@RequestMapping(value="/deleteLogs", method=RequestMethod.POST)
-	public ResponseEntity<String> deleteProfile(String fileName) {
+	public ResponseEntity<String> deleteLogs(String fileName) {
 		
 		logger.info("deleteLogs : " + fileName);
 		

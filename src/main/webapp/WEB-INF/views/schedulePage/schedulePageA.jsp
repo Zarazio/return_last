@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=Ao5To6qq05xL8fmhSOTK&callback=initMap"></script>
 <script src="./resources/js/schedule/schedule.js"/></script>
-<script type="text/javascript" src="resources/js/sockjs.js"></script>
+<script type="text/javascript" src="./resources/js/sockjs.js"></script>
 <script src="./resources/js/schedule/chat.js"></script>
 <script src="./resources/js/jquery-ui-1.10.4.custom.js" /></script>
 <div id="header" class="clearfix bg-dark">

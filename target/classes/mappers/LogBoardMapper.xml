@@ -2,16 +2,18 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="zara.zio.logBoardMapper">
-	<insert id="loginfo">
+<mapper namespace="zara.zio.LogBoardMapper">
+	
+	<!-- 로그, 커뮤, qna등록  -->
+	<insert id="Loginfo">
 		insert into board(board_code, board_title, board_content, share_type, board_type_code, viewCount, user_id, step_log_code) 
 		values (#{board_code}, #{board_title}, #{board_content}, #{share_type}, #{board_type_code}, #{viewCount}, #{user_id}, #{step_log_code})
 	</insert>
-	<insert id="loghash">
+	<insert id="Loghash">
 		insert into hash_tag(hash_tag_content, board_code)
 		values (#{hash}, #{cnt})
 	</insert>
-	<insert id="logimgfile">
+	<insert id="Logimgfile">
 		insert into attached_file(file_content, file_type, board_code)
 		values (#{image}, #{type}, #{cnt})
 	</insert>
@@ -20,10 +22,15 @@
 		from board
 	</select>
 	
+	
+	
+	<!-- 로그읽는맵퍼 -->
 	<select id="infoRead" resultType="LogBoardVO" parameterType="hashmap">
 		select a.*, b.user_profile
 		from board a, user_info b
 		where a.user_id = b.user_id
+		and a.board_type_code != 4 and a.board_type_code != 5
+		and share_type = 1
 		<include refid="logtype"></include>
 		order by board_date desc
 		limit #{startRecord}, #{timeLineNum}
@@ -52,5 +59,29 @@
 			and board_type_code = #{type}
 		</if>
 	</sql>
+	
+	
+	<!-- 커뮤니티 읽는 맵퍼  -->
+	<select id="comunityList" resultType="ComunityVO">
+		select board_code, board_title, board_date, viewCount, user_id 
+		from board
+		where board_type_code = 4
+	</select>
+	<select id="comunityRead" resultType="ComunityVO">
+		select a.board_code board_code, a.board_title board_title, a.board_content board_content, 
+		a.board_date board_date, a.viewCount viewCount, a.user_id user_id, b.user_profile user_profile
+		from board a, user_info b
+		where a.user_id = b.user_id
+		and a.board_type_code = 4
+		and a.board_code = #{page}
+	</select>
+	
+	<select id="comunityfileRead" resultType="java.util.HashMap">
+		select file_content, board_code
+		from attached_file
+		where board_code = #{page}
+		order by file_code
+	</select>
+	
 	
 </mapper>

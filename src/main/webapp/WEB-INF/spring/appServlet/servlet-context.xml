@@ -76,6 +76,12 @@
 		</beans:constructor-arg>
 	</beans:bean>
 	
+	<!-- 커뮤니티 이미지경로 // 경로재설정 이미지가 저장된 폴더 upload/logs -->
+	<beans:bean id="comunityPath" class="java.lang.String">
+		<beans:constructor-arg value="resources/upload/comunity">
+		</beans:constructor-arg>
+	</beans:bean>
+	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	
 	<context:component-scan base-package="zara.zio.turn" />
