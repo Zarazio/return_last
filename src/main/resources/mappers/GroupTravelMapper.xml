@@ -12,8 +12,8 @@
    </select>
    
    <insert id="group_insert">
-        insert into travel_group (travel_Title, start_Date, end_Date)
-      	values(#{travel_Title}, #{start_Date} , #{end_Date})
+        insert into travel_group (travel_Title, start_Date, end_Date,local)
+      	values(#{travel_Title}, #{start_Date} , #{end_Date}, #{local})
    </insert>
    
    <select id="groupCode" resultType="int">
@@ -43,7 +43,8 @@
     	and a.place_code = c.place_code 
     	and b.group_Code=#{group_Code} 
     	and travel_Date=#{travel_Date}
-    	and c.img_code = 0;
+    	and c.img_code = 0
+     	order by travel_priority;
    </select>
    
    <update id="planPriority">
@@ -152,5 +153,26 @@
    		where a.place_code = b.place_code and b.place_code = c.place_code and travel_Date in (select travel_Date from travel_list where group_Code = #{place_Code} group by travel_Date) 
    		and group_Code = #{place_Code} and c.img_code =0
    		order by travel_Date , travel_priority
+   </select>
+   <select id="travel_cost" resultType="String">
+   		select sc_Division from travel_group where group_Code = #{group_Code}
+   </select>
+   <select id="travel_cost_list" resultType="Income_disbursementVO">
+   		SELECT a.user_id , b.*, c.coin_Limit, c.sc_Division
+		from write_travel a, income_disbursement_tbl b, travel_group c
+		where a.expense_Code = b.expense_Code 
+        and a.group_Code = c.group_Code
+        and a.group_Code = #{group_Code}
+   </select>
+   
+   <select id="travel_supplies_list" resultType="MaterialVO">
+   		select a.material_code, a.material_name, a.material_type, b.user_id
+		from material a, material_check b
+		where a.material_code = b.material_code 
+		and b.group_Code = #{group_Code};
+   </select>
+   
+   <select id="travel_modify" resultType="GroupVO">
+   		select * from travel_group where group_Code = #{group_Code}
    </select>
 </mapper>

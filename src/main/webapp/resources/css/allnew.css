@@ -497,20 +497,104 @@ html { overflow-x:hidden; }
 
 /*============================ 여행 상세 일정 ===========================*/
 
-.row.plan-row { width:100%; margin-left:1px; }
-.plan_header { width:100%; height:110px; }
-.plan_header > div:nth-child(1) { display:inline-block; width:500px; height:110px; border:1px solid black; }
-.plan_header > div:nth-child(2) { display:inline-block; width:500px; height:110px; border:1px solid black; position:absolute; right:15px; }
-.plan-date button { margin-left:15px; border:1px solid #333333; padding:2px; }
-#plan-title { display:inline-block; font-size:24px; font-weight:bold; }
-.plan_nav { width:100%; height:60px; background:#333333; text-align:center; }
-.plan_nav div { width:190px; display:inline-block; color:white; text-align:center; line-height:60px; font-size:16px; cursor:pointer; }
-.plan_nav div:hover {color:#333333; background:white; }
-#plan_contain { width:100%; }
-#plan_list_contain { display:inline-block; float:left; width:600px }
-.plan_section { width:100%; margin-top:40px; }
-#plan_map{ width:500px; height:500px; border:1px solid black; float:right; display:inline-block; }
-.plan-day-content { position:relative; width:600px; height:140px; border:1px solid black; margin-bottom:50px; padding:10px; }
+<<<<<<< HEAD
+.row.plan-row {
+	width: 100% ;
+	margin-left : 1px;
+}
+
+.plan_header {
+	width : 100% ;
+	height : 110px ;
+}
+/*
+.plan_header > div:nth-child(1) {
+	display: inline-block;
+	width:500px;
+	height : 110px ;
+	border : 1px solid black ;
+}
+.plan_header > div:nth-child(2) {
+	display: inline-block;
+	width:500px;
+	height : 110px ;
+	border : 1px solid black ;
+	position : absolute;
+	right : 15px ;
+}
+
+.plan-date button {
+	margin-left : 15px;
+	border : 1px solid #333333 ;
+	padding : 2px ;
+}
+
+*/
+#plan-title {
+	display : inline-block ;
+	font-size : 24px ;
+	font-weight : bold;
+}
+
+.plan_nav {
+	width: 100% ;
+	height : 60px;
+	background : #333333 ;
+	text-align : center ;
+}
+
+.plan_nav div {
+	width : 190px ;
+	display : inline-block;
+	color : white ;
+	text-align : center ;
+	line-height : 60px;
+	font-size : 16px;
+	cursor : pointer ;
+}
+
+.plan_nav div:hover {
+	color : #333333 ;
+	background : white ;
+}
+#plan_contain {
+	width : 100% ;
+	height: 500px
+}
+
+#plan_list_contain {
+	display: inline-block ;
+	float : left ;
+	width : 600px
+	
+}
+
+.plan_section {
+	width : 100% ;
+	margin-top : 40px ;
+
+}
+
+#plan_map{
+	width : 500px ;
+	height : 500px;
+	border : 1px solid black ;
+	float : right;
+	display: inline-block ;
+}
+
+
+.plan-day-content {
+	position : relative ;
+	width : 600px ;
+	height : 140px ;
+	border :1px solid black ;
+	margin-bottom : 50px;
+	padding : 10px ;
+		
+}
+
+
 
 .plan-day-select {
  width:600px;
@@ -526,17 +610,84 @@ html { overflow-x:hidden; }
 
 .plan-day-list div{ display:inline-block; }
 .plan-place-priority {
- position:absolute;
- top:5px;
- width:50px;
- height:50px;
- border:1px solid black;
- font-size:25px; 
- font-weight:bold;
- color:#333333;
- line-height:50px;
- text-align:center;
+
+	position : absolute ;
+	top : 5px ;
+	width : 50px ;
+	height : 50px ;
+	border : 1px solid black ;
+	font-size : 25px ; 
+	font-weight :bold ;
+	color : #333333;
+	line-height : 50px ;
+	text-align : center ;
 }
+
+.plan-place-img {
+	position : absolute ;
+	top :5px ;
+	left : 80px;
+	width : 128px;
+	height : 128px ;
+	border : 1px solid black ;
+}
+
+.plan-place-img img {
+	width : 128px ;
+	height : 128px;
+}
+
+.plan-place-name {
+	position : absolute ;
+	top : 5px ;
+	left : 220px ;
+	font-size : 22px ;
+	font-weight : bold ;
+	color : #333333;
+	
+}
+
+.expense_table table {
+	width : 100% ;
+	border : 1px solid black
+}
+
+.expense_tr tr {
+	border : 1px solid black;
+	height : 50px ;
+}
+
+#plan_contain th {
+	text-align : center ;
+	font-size : 18px ;
+	font-weight : bold; 
+}
+
+#plan_contain td {
+	text-align : center ;
+	font-size : 18px; 
+	
+}
+
+#plan_contain .list-empty {
+	text-align : center;
+	line-height : 500px;
+	
+}
+.material_table {
+	margin-top : 40px;
+	width : 100% ;
+	border : 1px solid black;
+	
+
+}
+.material_td {
+	padding : 20px;
+	border:1px solid black
+}
+
+
+
 
 .plan-place-img { position:absolute; top:5px; left:80px; width:128px; height:128px; border:1px solid black; }
 .plan-place-img img { width:128px; height:128px; }
@@ -546,6 +697,46 @@ html { overflow-x:hidden; }
 
 .fontRead { font-size: 20px; font-weight:normal !important; color: cadetblue;	 }
 .fontMargin { margin-right:5px; }
+
+
+/*================================GIF=================================*/
+#Category_select {
+	width:100% ;
+	height : 600px ;
+}
+
+#form_div{
+	width : 100% ;
+	height : 50px ;
+}
+
+.gifButton{
+	float : left ;
+}
+
+#uploadList {
+	width :100%;
+	height : 100px ;
+}
+
+.uploadList img{
+	margin-top : 30px ;
+	clear :both ;
+	width : 100px ;
+	height : 100px ;
+
+}
+
+.uploadGif {
+	width : 100% ;
+	height : 300px ;
+	
+}
+
+.uploadGif img{
+
+	height : 200px;
+}
 
 
 

@@ -52,7 +52,7 @@ public class LogBoardServiceImpl implements LogBoardService {
 	}
 
 	@Override
-	public int maxCode() throws Exception {
+	public Map<String, Object> maxCode() throws Exception {
 		// TODO Auto-generated method stub
 		return dao.maxCode();
 	}
@@ -92,6 +92,21 @@ public class LogBoardServiceImpl implements LogBoardService {
 	public List<Map<String, Object>> comunityFileRead(int page) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.comunityFileRead(page);
+	}
+
+	
+	
+	
+	@Override
+	public void comunityFileDel(int target) throws Exception {
+		// TODO Auto-generated method stub
+		dao.comunityFileDel(target);
+	}
+	
+	@Override
+	public void comunityFileAdd(String file_name, int type, int page) throws Exception {
+		// TODO Auto-generated method stub
+		dao.comunityFileAdd(file_name, type, page);
 	}
 	
 

@@ -49,7 +49,7 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	}
 
 	@Override
-	public int maxCode() throws Exception {
+	public Map<String, Object> maxCode() throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE + ".maxcode");
 	}
@@ -96,6 +96,23 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	public List<Map<String, Object>> comunityFileRead(int page) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".comunityfileRead",page);
+	}
+
+	
+	
+	@Override
+	public void comunityFileDel(int target) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".comunityfileDel", target);
+	}
+	@Override
+	public void comunityFileAdd(String file_name, int type, int page) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> fileMap = new HashMap<String, Object>();
+		fileMap.put("file_name", file_name);
+		fileMap.put("type", type);
+		fileMap.put("page", page);
+		sqlSession.insert(NAMESPACE + ".comunityfileAdd", fileMap);
 	}
 
 

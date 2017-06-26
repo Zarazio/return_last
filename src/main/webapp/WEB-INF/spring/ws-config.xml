@@ -7,6 +7,7 @@
   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+
  <websocket:handlers>
   	<websocket:mapping handler="echoHandler" path="/echo-ws" />
   	<websocket:mapping handler="chatHandler" path="/chat-ws" />
@@ -16,9 +17,12 @@
  <bean id="chatHandler" class="zara.zio.turn.socket.ChatWebSocketHandler" />
 
  <websocket:handlers>
-  	<websocket:mapping handler="echoHandler" path="/echo.sockjs" />
-  	<websocket:mapping handler="chatHandler" path="/chat.sockjs" />
-  	<websocket:sockjs />
+
+  <websocket:mapping handler="echoHandler" path="/echo.sockjs" />
+  <websocket:mapping handler="chatHandler" path="/chat.sockjs" />
+  <websocket:sockjs />
+
+
  </websocket:handlers>
 
  <mvc:default-servlet-handler />

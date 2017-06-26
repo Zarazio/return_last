@@ -6,6 +6,7 @@ import java.util.List;
 import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
+import zara.zio.turn.domain.Income_disbursementVO;
 import zara.zio.turn.domain.MaterialVO;
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.TravelListVO;
@@ -52,4 +53,13 @@ public interface GroupTravelDAO {
 
 	//여행 일정
 	public List<TravelListVO> user_plan_list(int group_Code) throws Exception ;
+	//스마트 코스트 종류
+	public String travel_cost(int group_Code) throws Exception;
+	//여행 일정 스마트 코스트 비용
+	public List<Income_disbursementVO> travel_cost_list(int group_Code) throws Exception ;
+	//여행 일정 준비물 리스트
+	public List<MaterialVO> travel_supplies_list(int group_Code) throws Exception ; 
+	
+	// 여행 일정 수정하기
+	public GroupVO travel_modify(int group_Code) throws Exception ;
 }

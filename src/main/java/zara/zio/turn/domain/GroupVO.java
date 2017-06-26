@@ -9,7 +9,8 @@ public class GroupVO {
    private Date start_Date; // 여행출발날짜
    private Date end_Date; // 여행도착날짜
    private int coin_limit; // 여행한도비
-   private String sc_Division ;
+   private String sc_Division ; //여행구분
+   private String local ;
    
    
    public int getGroup_Code() {
@@ -49,6 +50,12 @@ public class GroupVO {
    public void setSc_Division(String sc_Division) {
 	   this.sc_Division = sc_Division;
    }
+public String getLocal() {
+	return local;
+}
+public void setLocal(String local) {
+	this.local = local;
+}
    
    
 }

@@ -53,7 +53,7 @@
 						<span>${startDate}</span>
 						<span>  ~ </span>
 						<span>${endDate}</span>
-						<button>변경</button>
+					
 					</div>
 				</div>
 				<div>
@@ -62,10 +62,10 @@
 			</div>
 			<div class="plan_nav">
 				<div onclick="travel_plan()">여행일정</div>
-				<div>여행경비</div>
-				<div>여행준비물</div>
+				<div onclick="travel_cost()">여행경비</div>
+				<div onclick="travel_supplies()">여행준비물</div>
 				<div>타임라인</div>
-				<div>수정하기</div>
+				<div onclick="travel_modify()">수정하기</div>
 			</div>
 			<div class="plan_section">
 				<div id="plan_contain">
@@ -77,6 +77,7 @@
 							</c:if>
 							<div class="plan-day-content">
 								<div class="plan-place-priority">${list.travel_priority }</div>
+								
 								<div class="plan-place-img"><img src="displayFile?fileName=${list.place_img}"></div>
 								<div class="plan-place-name">${list.place_name}</div>
 							</div>

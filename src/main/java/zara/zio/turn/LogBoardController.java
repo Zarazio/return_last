@@ -147,9 +147,16 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 	        } 
         }
         
-        
-		int boardMax = service.maxCode() + 1; // 등록할 최댓값
-		service.logBoardCreate(vo, boardMax, type); // 파일정보
+        Map<String,Object> map = service.maxCode(); // 등록할 최댓값
+        int max = 0;
+        int count = Integer.parseInt(map.get("count").toString());
+		if(count == 0) {
+			 max = 1;
+		} else {
+			 max = Integer.parseInt(map.get("max").toString());
+		}
+       
+		service.logBoardCreate(vo, max, type); // 파일정보
 
 		return "redirect:logInfo";
 	}

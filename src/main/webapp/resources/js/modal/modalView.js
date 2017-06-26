@@ -60,7 +60,7 @@ function friend_list(){
 			var content = "<div>" ;
 			for(var i=0 ; i<data.length ; i++) {
 				content += "<div class='friendList' data-userId='"+data[i].user_id +"' data-check='0' onClick='select(this)' style='width : 100% ;height : 62px; border:1px solid black; margin-bottom : 8px; padding : 5px; cursor: pointer;'>" 
-						+ "<div class='friendProfile' style='float:left; width:65px; height:50px; border:1px solid black; line-height : 50px'>" + data[i].user_profile + "</div>"
+						+ "<div class='friendProfile' style='float:left; width:65px; height:50px;  line-height : 50px'><img src='displayProfile?fileName=" + data[i].user_profile + "' style='width:65px ;height:50px'></div>"
 						+ "<p style='line-height : 50px'>"+ data[i].user_id +"</p>"
 						+"</div>";
             

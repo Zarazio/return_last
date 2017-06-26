@@ -82,11 +82,19 @@ public class ComunityBoardController {
 	        	type = 2; 
 	        }
 		}
-        
-        int boardMax = service.maxCode() + 1; // 등록할 최댓값
-        service.logBoardCreate(vo, boardMax, type); // 파일정보	
-		System.out.println(vo);
 		
+        Map<String,Object> map = service.maxCode(); // 등록할 최댓값
+        int max = 0;
+        int count = Integer.parseInt(map.get("count").toString());
+		if(count == 0) {
+			 max = 1;
+		} else {
+			 max = Integer.parseInt(map.get("max").toString());
+		}
+        
+        service.logBoardCreate(vo, max, type); // 파일정보	
+        System.out.println("comuWrite : " + max);
+        
 		return "redirect:comuList";
 		
 	}
@@ -103,7 +111,6 @@ public class ComunityBoardController {
 	@RequestMapping(value="/comuSet", method = RequestMethod.GET)
 	public String comuSet(@RequestParam(value="page", defaultValue="0") int page, Model model) throws Exception {
 		
-		System.out.println(page);
 		ComunityVO vo = service.comunityInfoRead(page);
 		model.addAttribute("vo", vo);
 		
@@ -113,44 +120,76 @@ public class ComunityBoardController {
 	@RequestMapping(value="/comuSet", method = RequestMethod.POST)
 	public String comuSet(@RequestParam(value="page", defaultValue="0") int page, 
 			LogBoardVO vo, RedirectAttributes rttr, HttpSession session) throws Exception {
-		
+		 
 		String userName = (String)session.getAttribute("mem");
 		vo.setShare_type(1); // 커뮤니티전체공개 
 		vo.setBoard_type_code(4); // 커뮤니티타입
 		vo.setUser_id(userName); // 유저아이디
 		
+		List<Map<String,Object>> list = service.comunityFileRead(page); // DB서버 
+		String [] now = vo.getFile_content(); // 클라이언트에서 가져오는거 
+		int type = 1; // 이미지 디폴트  1
 		
-		List<Map<String,Object>> list = service.comunityFileRead(page);
-		String [] now = vo.getFile_content();
+		if(now.length != 0 && list.size() != 0) {
 		
-		for(int i=0; i<list.size(); i++) {
-			
-			String arr = (String)list.get(i).get("file_content");
-			
-			for(int j=0; j<now.length; j++) {
-				if(now[i] == arr) {
-					
+			// 수정후 없어진거 삭제
+			for(int i=0; i<list.size(); i++) {
+				int count = 0;
+				String arr = (String)list.get(i).get("file_content");
+				int codeTarget = (int)list.get(i).get("file_code");
+				
+				for(int j=0; j<now.length; j++) {
+					if(!arr.equals(now[j])) {
+						count++;
+					} 
+					if(now.length == count){
+						deleteComunity(arr); // 만족하지못한경우  폴더명삭제
+						service.comunityFileDel(codeTarget); // 데이터베이스의 코드삭제
+					}
+	
 				}
+			}
+			
+			// 수정 후 추가된거 등록
+			for(int i=0; i<now.length; i++) {
+				int count = 0;
+				String arr = now[i];
+				for(int j=0; j<list.size(); j++) {
+					String err = (String) list.get(i).get("file_content");
+					if(!arr.equals(err)) {
+						count++;
+					} 
+					if(now.length == count){
+						if(arr.contains(".youtube")) {
+							type = 2;
+						}
+						service.comunityFileAdd(arr, type, page);
+					}
+	
+				}
+			}
+			
+		} else if(list.size() == 0 && now.length != 0){
+			// 서버에 없으며 새로추가하려할때.
+			for(int i=0; i<now.length; i++) {
+				if(now[i].contains(".youtube")) {
+					type = 2;
+				}
+				service.comunityFileAdd(now[i], type, page);
+			}
+	
+		} else if(list.size() != 0 && now.length == 0) {
+			// 서버에 있으며 모두삭제하려할때
+			for(int i=0; i<list.size(); i++) {
+				String arr = (String)list.get(i).get("file_content");
+				int codeTarget = (int)list.get(i).get("file_code");
+				
+				deleteComunity(arr); // 폴더데이터 삭제 
+				service.comunityFileDel(codeTarget); // 데이터 베이스 삭제
 			}
 		}
 		
 		
-		
-		
-//		
-//		int type = 1; // 이미지 디폴트  1
-//		
-//		if(vo.getFile_content() == null) {
-//			System.out.println("널캐치");
-//		} else {
-//			if(vo.getFile_content()[0].contains(".youtube")) {
-//	        	type = 2; 
-//	        }
-//		}
-//        
-//        int boardMax = service.maxCode() + 1; // 등록할 최댓값
-//        service.logBoardCreate(vo, boardMax, type); // 파일정보	
-//		System.out.println(vo);
 		rttr.addAttribute("page" , page);
 		
 		

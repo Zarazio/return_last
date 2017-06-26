@@ -17,8 +17,8 @@
 		insert into attached_file(file_content, file_type, board_code)
 		values (#{image}, #{type}, #{cnt})
 	</insert>
-	<select id="maxcode" resultType="int">
-		SELECT max(board_code)
+	<select id="maxcode" resultType="java.util.HashMap">
+		SELECT max(board_code) max, count(board_code) count
 		from board
 	</select>
 	
@@ -77,11 +77,19 @@
 	</select>
 	
 	<select id="comunityfileRead" resultType="java.util.HashMap">
-		select file_content, board_code
+		select file_code, file_content
 		from attached_file
 		where board_code = #{page}
 		order by file_code
 	</select>
+	
+	<delete id="comunityfileDel">
+		delete from attached_file where file_code = #{target}
+	</delete>
+	<insert id="comunityfileAdd">
+		insert into attached_file(file_content, file_type, board_code)
+		values (#{file_name}, #{type}, #{page})
+	</insert>
 	
 	
 </mapper>

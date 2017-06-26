@@ -30,6 +30,8 @@ import com.google.gson.Gson;
 
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
+import zara.zio.turn.domain.Income_disbursementVO;
+import zara.zio.turn.domain.MaterialVO;
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.TravelListVO;
 import zara.zio.turn.persistence.GroupTravelService;
@@ -196,7 +198,7 @@ public class MyUserController {
 	public String userScheduleList(HttpSession session, Model model , String state) throws Exception{
 		
 		String mem = (String) session.getAttribute("mem");
-		List<GroupVO> list ; ;
+		List<GroupVO> list ; 
 		if(state == "finish"){
 			list = service1.groupFinishList(mem) ;
 			
@@ -347,6 +349,51 @@ public class MyUserController {
 
 		
 		return str;
+	}
+	
+
+	@ResponseBody
+	@RequestMapping(value="travel_cost_list", method=RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String travel_cost_list(HttpSession session , String group ) throws Exception{
+		
+
+		int group_Code = Integer.parseInt(group);
+
+		String sc_Division = service1.travel_cost(group_Code);
+		
+		System.out.println(sc_Division);
+		List<Income_disbursementVO> list = service1.travel_cost_list(group_Code);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("sc_Division", sc_Division);
+		map.put("list", list);
+		
+		String str = new Gson().toJson(map);
+		
+		return str;
+	}
+
+	@ResponseBody
+	@RequestMapping(value="travel_supplies_list", method=RequestMethod.POST )
+	public List<MaterialVO> travel_supplies_list(HttpSession session , String group ) throws Exception{
+		
+		int group_Code = Integer.parseInt(group);
+
+		List<MaterialVO> list = service1.travel_supplies_list(group_Code);
+
+		System.out.println("list : " + list.toString());
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="travel_modify", method=RequestMethod.POST )
+	public GroupVO travel_modify(HttpSession session , String group ) throws Exception{
+		
+		int group_Code = Integer.parseInt(group);
+
+		GroupVO list = service1.travel_modify(group_Code);
+
+		return list;
 	}
 	
 	
