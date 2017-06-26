@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
+import zara.zio.turn.domain.Income_disbursementVO;
 import zara.zio.turn.domain.MaterialVO;
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.TravelListVO;
@@ -179,6 +180,24 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 	public List<TravelListVO> user_plan_list(int group_Code) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE +".user_plan_list", group_Code);
+	}
+
+	@Override
+	public List<Income_disbursementVO> travel_cost_list(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".travel_cost_list", group_Code);
+	}
+
+	@Override
+	public List<MaterialVO> travel_supplies_list(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".travel_supplies_list", group_Code);
+	}
+
+	@Override
+	public GroupVO travel_modify(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".travel_modify", group_Code);
 	}
 
 

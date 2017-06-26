@@ -734,6 +734,7 @@ html, body, p, ul,li {
 }
 #plan_contain {
 	width : 100% ;
+	height: 500px
 }
 
 #plan_list_contain {
@@ -823,6 +824,46 @@ html, body, p, ul,li {
 	color : #333333;
 	
 }
+
+.expense_table table {
+	width : 100% ;
+	border : 1px solid black
+}
+
+.expense_tr tr {
+	border : 1px solid black;
+	height : 50px ;
+}
+
+#plan_contain th {
+	text-align : center ;
+	font-size : 18px ;
+	font-weight : bold; 
+}
+
+#plan_contain td {
+	text-align : center ;
+	font-size : 18px; 
+	
+}
+
+#plan_contain .list-empty {
+	text-align : center;
+	line-height : 500px;
+	
+}
+.material_table {
+	margin-top : 40px;
+	width : 100% ;
+	border : 1px solid black;
+	
+
+}
+.material_td {
+	padding : 20px;
+	border:1px solid black
+}
+
 
 
 

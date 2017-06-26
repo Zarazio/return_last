@@ -156,7 +156,7 @@ $(document).ready(function(){
                   success : function(data){
                      for(var i=0 ; i<data.length ; i++){
                         console.log("place_img2  : " + data[i].place_img) ;
-                        $("<div data-code="+data[i].place_code+" data-pri="+ data[i].travel_Priority +" data-lat="+ data[i].place_lat +" data-lng="+ data[i].place_lng 
+                        $("<div data-code="+data[i].place_code+" data-pri="+ data[i].travel_priority +" data-lat="+ data[i].place_lat +" data-lng="+ data[i].place_lng 
                           +" data-name="+ data[i].place_name+ " style='width:100%; padding:5px; height:160px; background : #333333; '></div>")
                            .addClass("planList")
                            .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'><span>"+data[i].place_name+"</span>")
@@ -274,7 +274,7 @@ $(document).ready(function(){
          {
             priority = priority01 ;
          }
-         planListStore($(this));
+         planListStore();
          
         
          
@@ -371,7 +371,7 @@ $(document).ready(function(){
         var array = new Array();
         var array01 = new Array();
         $(".selectPlace > div").each(function(){
- 
+        	
            count = $(this).parent().children().index($(this)) + 1 ;
       
            place = $(this).attr("data-code") ;
@@ -403,7 +403,7 @@ $(document).ready(function(){
                    
                     for(var i=0 ; i<data.length ; i++){
                        planList[i] = new Array(3);
-                       planList[i][0] = data[i].travel_Priority ;
+                       planList[i][0] = data[i].travel_priority ;
                        planList[i][1] = data[i].place_lat ;
                        planList[i][2] = data[i].place_lng ; 
                     }
@@ -438,7 +438,7 @@ $(document).ready(function(){
                  success :function(data){    
                     
                     for(var i=0 ; i<data.length; i++){
-                       $("<div data-code="+data[i].place_code+" data-pri="+ data[i].travel_Priority +" data-lat="+ data[i].place_lat 
+                       $("<div data-code="+data[i].place_code+" data-pri="+ data[i].travel_priority +" data-lat="+ data[i].place_lat 
                        +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + " style='width:100%; padding:5px; height:160px; background : #333333; border-bottom : 1px solid #3a3c3f'></div>")
                        .addClass("planList")
                        .addClass("priority")
@@ -542,25 +542,26 @@ $(document).ready(function(){
          }
          
         if(success == true){
-           alert("확인을 누르셨ㄴ요");
              
-        $.ajax({
-              url : "userPage/userScheduleList",
-              type: "POST" ,
-              traditional: true,
-              data : {
-                 materialCheck : materialCheck,
-                 materialDeleteCheck : materialDeleteCheck,
-                 materials : materials,
-                 managers : managers,
-                 groupCode : groupCode,
-                 smartCost : smartCost,
-                 cost : cost 
-              }, error:function(){
-            	  alert("전송에러");
-              },
-              contentType:"application/x-www-form-urlencoded;charset=utf-8"
-           })
+	        $.ajax({
+	              url : "userPage/userScheduleList",
+	              type: "POST" ,
+	              traditional: true,
+	              data : {
+	                 materialCheck : materialCheck,
+	                 materialDeleteCheck : materialDeleteCheck,
+	                 materials : materials,
+	                 managers : managers,
+	                 groupCode : groupCode,
+	                 smartCost : smartCost,
+	                 cost : cost 
+	              },success:function(){
+	            	  window.location = "userScheduleList" ;
+	              }, error:function(){
+	            	  alert("전송에러");
+	              },
+	              contentType:"application/x-www-form-urlencoded;charset=utf-8"
+	           })
            
         }else{
            alert("취소");
@@ -706,11 +707,14 @@ $(document).ready(function(){
                     $(".placeList").append(elem) ;
                     $(".turn-local > p").text(thisLocal);
                     placeMarker() ; // 장소에 대한 마커 바로 불러주기위해!
+                    $("#localCheck").attr("value", thisLocal) ;
                  }
                  
                  
              }
-          })   
+          })  
+          
+          
        }
     }
     
@@ -719,11 +723,13 @@ $(document).ready(function(){
 /*-----------------------------------place 장소 필터-------------------------------------*/ 
    $("#searchButton").on("click",function(){
       var input = $(".search-input").val() ;
-      var radio = $("input:radio[name=localCheck]:checked") ;
+      var radio = $("input:radio[name=localCheck]").val() ;
       
-      if( radio.val() != "local"){
-    	  radio.attr("value",thisLocal)
+      console.log("radio : " + radio) ;
+      if($('#wholeCheck').prop("checked")){
+    	  radio='local';
       }
+      
 
       console.log("this: " + radio);
       
@@ -739,7 +745,7 @@ $(document).ready(function(){
             type : "POST",
             data : {
                place_name : input ,
-               local : radio.val()
+               local : radio
             },
             success : function(data){
                data01 = new Array() ;

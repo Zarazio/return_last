@@ -164,7 +164,7 @@ function planDetail(plan){
 
 // 여행일정부분 보여주기
 function travel_plan() {
-	$(".plan_section").empty() ;
+	$("#plan_contain").empty() ;
 	
 	var group_code = $("#plan-title").attr("data-code");
 	
@@ -176,8 +176,35 @@ function travel_plan() {
 		},
 		dataType: "json",
 		success : function(data){
+			if(data.days.length > 0){
+				var str ="<div id='plan_list_contain'>";
+				for(var i=0 ; i<data.list.length ; i++){
+					str +="<div class='plan-day-list' data-lat='"+ data.list[i].place_lat +"' data-lng='"+ data.list[i].place_lng +"' >";
+					if(data.list.length == 1 || data.days[i-1] != data.days[i]){
+						str+= "<div class='plan-day-select'>DAY"+ data.days[i]+"</div>"
+					}
+					str+="<div class='plan-day-content'>"
+						 	+ "<div class='plan-place-priority'>"+data.list[i].travel_priority+"</div>" 
+						 	+ "<div class='plan-place-img'><img src='displayFile?fileName="+data.list[i].place_img+"'></div>"
+						 	+ "<div class='plan-place-name'>"+data.list[i].place_name+"</div>"
+						 +"</div></div>";
+				}
+				str += "</div><div id='plan_map'>"
+				+"</div>";
+				console.log(str);
+				
+				$("#plan_contain").append(str) ;
+				
+				//지도 불러주기
+				mapId = document.getElementById("plan_map") ;
+				map = new naver.maps.Map(mapId) ;
+				
+				// 마커띄워주기
+				placeMarker();
+				
+			}
 			console.log(data.days[0]) ;
-			console.log(data.list[1].place_name);
+			console.log(data.list[0].place_name);
 		},
 		error : function(data){
 			alert("ddd");
@@ -188,8 +215,110 @@ function travel_plan() {
 	
 	
 }
+function travel_cost(){
+	$('#plan_contain').empty();
+	var group_code = $("#plan-title").attr("data-code");
+	
+	console.log('gro : ' + group_code);
+	$.ajax({
+		url : "travel_cost_list" ,
+		type : "POST",
+		data : {
+			group : group_code
+		},
+		success :function(data){
+			console.log(data) ;
+			if(data.length > 0){
+				var plan_contain = $("#plan_contain"); 
+				var str = "<div>" 
+						  	+"<h3>여행 경비 구분 : "+ data[0].sc_Division+"</h3>" 
+						  +"</div>" 
+						  +"<table class='expense_table'>"
+						  	+"<tr class='expense_tr'>" 
+						  		+"<th>사용자 아이디</th>"
+						  		+"<th>지출 내역</th>"
+						  		+"<th>지출 비용</th>"
+						  		+"<th>지출 날짜</th>"
+						  	+"</tr>"
+						  	
+				for(var i=0 ; i<data.length; i++){
+					str += "<tr class='expense_tr'>"
+								+"<td>"+ data[i].user_id  +"</td>"
+								+"<td>"+data[i].expense_Content+"</td>"
+								+"<td>"+data[i].expense_Cost+"</td>"
+								+"<td>"+data[i].expense_Date+"</td>"
+						  +"</tr>"
+				}
+					
+					str+="</table>"
+					plan_contain.append(str) ;
+			
+			}else{
+				$("<h4 class='list-empty'>완료된 계획이 없습니다</h4>").appendTo($("#plan_contain"));
+			}
+		},
+		error : function(){
+			console.log("Dd머야");
+		}
+	})
+}
 
-
+function travel_supplies(){
+	$('#plan_contain').empty();
+	
+	var group_code = $("#plan-title").attr("data-code");
+	
+	console.log('gro : ' + group_code);
+	$.ajax({
+		url : "travel_supplies_list" ,
+		type : "POST",
+		data : {
+			group : group_code
+		},
+		success :function(data){
+			var plan_contain = $("#plan_contain"); 
+			if(data.length > 0){
+				
+				var str = "<h4>개인</h4>"
+						  +"<table class='material_table'>" ;
+				var i=0;
+					for(; i<data.length ; i++){
+						if(i%4==0){
+							str+="<tr class='material_tr'>";
+						}
+						str+= "<td class='material_td'>"+data[i].material_name+"</td>";
+						if(i%4==3){
+							str += "</tr>";
+						}
+					}
+					
+					$(str).appendTo(plan_contain);
+						
+			}else{
+				$("<h4 class='list-empty'>완료된 계획이 없습니다</h4>").appendTo(plan_contain);
+			}
+			
+			console.log(data) ;
+		},
+		error : function(){
+			console.log("Dd머야");
+		}
+	})
+}
+function travel_modify(){
+	var group_code = $("#plan-title").attr("data-code");
+	
+	$.ajax({
+		url : "travel_modify",
+		type :"POST",
+		data : {
+			group : group_code 
+		},
+		success : function(data){
+			window.location = "scheduleSet?groupCode=" + data.group_Code +"&&scheduleDate="+data.start_Date+"+-+"+data.end_Date+"&&local="+data.local;
+		}
+	})
+}
 // 마커 찍어주기 
 function placeMarker(){
 	if(planPlace.length == 0){

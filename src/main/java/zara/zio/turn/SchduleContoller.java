@@ -62,6 +62,7 @@ public class SchduleContoller {
       
        group.setStart_Date(start_Date);
        group.setEnd_Date(end_Date);
+       group.setLocal(local);
           
        service1.create(group);
          
@@ -110,7 +111,7 @@ public class SchduleContoller {
       model.addAttribute("local", local);
       model.addAttribute("groupCode", groupCode);
       model.addAttribute("mem",mem);
-      
+
       return "schedulePage/schedulePageA";
       
    }
@@ -184,7 +185,10 @@ public class SchduleContoller {
       travel.setTravel_Date(travel_Date);
       
       List<TravelListVO> place = service1.planDayList(travel);
-   
+      for(int i =0; i<place.size();i++){
+    	  System.out.println("getPlace_code : "+place.get(i).getPlace_code());
+    	  System.out.println("pri : "+place.get(i).getTravel_priority());
+      }
 
       
       return place;
@@ -213,11 +217,14 @@ public class SchduleContoller {
       for(int i=0 ; i<array.length ; i++){
          
          count_check++ ;
+         
          if(count >= count_check){
-            //0000000000System.out.println(Integer.parseInt(array[i]));
             
             int place_code = Integer.parseInt(array[i]) ;
             int travel_Priority = Integer.parseInt(array01[i]) ;
+            
+            System.out.println("place_code : " + place_code );
+            System.out.println("travel_Priority : " + travel_Priority) ;
             
             travel.setCount(count_check);
             travel.setPlace_code(place_code);

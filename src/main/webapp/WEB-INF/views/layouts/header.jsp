@@ -194,7 +194,7 @@
 							<li><a href="logInfo">Log</a> <!-- 페이지 이동 -->
 							<li><a href="login">일정만들기</a>
 							<li><a href="placeInfo">장소</a>
-							<li><a href="#">Book</a>
+							<li><a href="layersUp">LayersUp</a>
 							<li><a href="comuList">커뮤니티</a>
 						</c:if>
 						<c:if test="${info == 'admin'}">
@@ -207,7 +207,7 @@
 							<li><a href="logInfo">Log</a></li>
 							<li><a id="modals" data-toggle="modal" data-target="#myModal">일정만들기</a></li>
 							<li><a href="placeInfo">장소</a></li>
-							<li><a href="#">Book</a></li>
+							<li><a href="layersUp">LayersUp</a></li>
 							<li><a href="comuList">커뮤니티</a></li>
 						</c:if>
 					</ul>

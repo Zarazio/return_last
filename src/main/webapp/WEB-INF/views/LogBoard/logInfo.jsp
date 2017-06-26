@@ -38,7 +38,7 @@
 	<div class="container">
 		<div class="logbar hidden-xs">
 			<div class="bars currentive" data-onlog="0">모든로그</div>
-			<div class="bars" data-onlog="1">여행로그</div>
+			<div class="bars" data-onlog="1">일상로그</div>
 			<div class="bars" data-onlog="3">발자국로그</div>
 			<div class="bars" data-onlog="2">여행기로그</div>
 		</div>

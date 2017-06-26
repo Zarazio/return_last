@@ -62,10 +62,10 @@
 			</div>
 			<div class="plan_nav">
 				<div onclick="travel_plan()">여행일정</div>
-				<div>여행경비</div>
-				<div>여행준비물</div>
+				<div onclick="travel_cost()">여행경비</div>
+				<div onclick="travel_supplies()">여행준비물</div>
 				<div>타임라인</div>
-				<div>수정하기</div>
+				<div onclick="travel_modify()">수정하기</div>
 			</div>
 			<div class="plan_section">
 				<div id="plan_contain">
