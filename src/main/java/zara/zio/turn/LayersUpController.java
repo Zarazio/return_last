@@ -82,8 +82,8 @@ public class LayersUpController {
 			}
 			System.out.println("filenNm :  " + fileNm);
 				
-			//해당 경로에 미지를 저장함.
-			ImageIO.write(bufferedImage, "jpg", new File("c:/git/"+ fileNm)) ;
+			//�빐�떦 寃쎈줈�뿉 誘몄�瑜� ���옣�븿.
+			ImageIO.write(bufferedImage, "jpg", new File(gifPath+"/"+ fileNm)) ;
 			
 			
 		

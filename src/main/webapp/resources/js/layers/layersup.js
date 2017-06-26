@@ -25,7 +25,7 @@ function gifMakeList(){
 				var str="" ; 
 				for(var i=0 ; i<data.length ; i++){
 					console.log(data[i]);
-					str += "<img src='http://211.211.213.218:8084/turn/resources/upload/logs"+data[i]+"'  onclick='input_image($(this))'>"
+					str += "<img src='http://211.211.213.218:8084/turn/resources/upload/logs/"+data[i]+"'  onclick='input_image($(this))'>"
 				}
 				
 				$(".uploadList").append(str);
@@ -148,7 +148,7 @@ $(document).on("click","#makeGif",function(){
 				}
 				alert(data);
 				str = "<div>"
-					+ "<img src = 'displayGifFile?fileName=" + data + "'/>" //+ getImageLink(data)
+					+ "<img src = 'resultgifFile?fileName=" + data + "'/>" //+ getImageLink(data)
 					+ "</div>";
 			}else{ }
 			$(".uploadGif").append(str);

@@ -36,8 +36,9 @@ public class UploadController {
 
 	@Resource(name = "gifPath")
 	private String gifPath;
+	@Resource(name = "resultgifPath")
+	private String resultgifPath;
 	
-
 
 	@RequestMapping(value = "layersupuploadForm", method = RequestMethod.GET)
 	public void uploadForm() {
@@ -66,49 +67,101 @@ public class UploadController {
 	@ResponseBody
 	@RequestMapping("/displayGifFile") 
 	public ResponseEntity<byte[]> displayGifFile(String fileName) throws Exception {
-		// 서버의 파일을 다운로드하기 위한 스트림
+		// �꽌踰꾩쓽 �뙆�씪�쓣 �떎�슫濡쒕뱶�븯湲� �쐞�븳 �뒪�듃由�
 		InputStream in = null; // java.io
 		ResponseEntity<byte[]> entity = null;
 		
 		logger.info("Display FILE NAME : " + fileName);
 		
 		try {
-			// 확장자를 추출하여 formatName에 저장
+			// �솗�옣�옄瑜� 異붿텧�븯�뿬 formatName�뿉 ���옣
 			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 			
-			// 추출한 확장자를 MediaUtils클래스에서  이미지파일여부를 검사하고 리턴받아 mType에 저장
+			// 異붿텧�븳 �솗�옣�옄瑜� MediaUtils�겢�옒�뒪�뿉�꽌  �씠誘몄��뙆�씪�뿬遺�瑜� 寃��궗�븯怨� 由ы꽩諛쏆븘 mType�뿉 ���옣
 			MediaType mType = MediaUtils.getMediaType(formatName);
 			
-			// 헤더 구성 객체(외부에서 데이터를 주고받을 때에는 header와 body를 구성해야하기 때문에)
+			// �뿤�뜑 援ъ꽦 媛앹껜(�쇅遺��뿉�꽌 �뜲�씠�꽣瑜� 二쇨퀬諛쏆쓣 �븣�뿉�뒗 header�� body瑜� 援ъ꽦�빐�빞�븯湲� �븣臾몄뿉)
 			HttpHeaders headers = new HttpHeaders();
 			
-			 // InputStream 생성
+			 // InputStream �깮�꽦
 			in = new FileInputStream(gifPath+fileName);
 			
-			if(mType != null) { // 이미지 파일일때 
+			if(mType != null) { // �씠誘몄� �뙆�씪�씪�븣 
 				headers.setContentType(mType);
-			} else { // 이미지파일이 아닐때
+			} else { // �씠誘몄��뙆�씪�씠 �븘�땺�븣
 				fileName = fileName.substring(fileName.indexOf("_")+1);
 				
-				// 다운로드용 컨텐트 타입지정 application/octet-stream 
+				// �떎�슫濡쒕뱶�슜 而⑦뀗�듃 ���엯吏��젙 application/octet-stream 
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 				
-				// 바이트배열을 스트링으로 : 
-				// new String(fileName.getBytes("utf-8"),"iso-8859-1") * iso-8859-1 서유럽언어, 큰 따옴표 내부에  " \" 내용 \" "
-                // 파일의 한글 깨짐 방지
+				// 諛붿씠�듃諛곗뿴�쓣 �뒪�듃留곸쑝濡� : 
+				// new String(fileName.getBytes("utf-8"),"iso-8859-1") * iso-8859-1 �꽌�쑀�읇�뼵�뼱, �겙 �뵲�샂�몴 �궡遺��뿉  " \" �궡�슜 \" "
+                // �뙆�씪�쓽 �븳湲� 源⑥쭚 諛⑹�
 				headers.add("Content-Disposition", "attachment; filename=\"" + 
 					new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\""); 
 				//headers.add("Content-Disposition", "attachment; filename='"+fileName+"'");
 			}
 			
-			// 바이트 배열, 헤더, HTTP 상태코드 
-			// 대상파일에서 데이터를 읽어내는 IOUtils의 toByteArray()메소드 
+			// 諛붿씠�듃 諛곗뿴, �뿤�뜑, HTTP �긽�깭肄붾뱶 
+			// ���긽�뙆�씪�뿉�꽌 �뜲�씠�꽣瑜� �씫�뼱�궡�뒗 IOUtils�쓽 toByteArray()硫붿냼�뱶 
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED); 
 				
 		} catch(Exception e) {
 			e.printStackTrace();
 			
-			// HTTP상태 코드()
+			// HTTP�긽�깭 肄붾뱶()
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		} finally {
+			in.close();
+		}
+		return entity;
+	}
+	@ResponseBody
+	@RequestMapping("/resultgifFile") 
+	public ResponseEntity<byte[]> resultgifFile(String fileName) throws Exception {
+		// �꽌踰꾩쓽 �뙆�씪�쓣 �떎�슫濡쒕뱶�븯湲� �쐞�븳 �뒪�듃由�
+		InputStream in = null; // java.io
+		ResponseEntity<byte[]> entity = null;
+		
+		logger.info("Display FILE NAME : " + fileName);
+		
+		try {
+			// �솗�옣�옄瑜� 異붿텧�븯�뿬 formatName�뿉 ���옣
+			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+			
+			// 異붿텧�븳 �솗�옣�옄瑜� MediaUtils�겢�옒�뒪�뿉�꽌  �씠誘몄��뙆�씪�뿬遺�瑜� 寃��궗�븯怨� 由ы꽩諛쏆븘 mType�뿉 ���옣
+			MediaType mType = MediaUtils.getMediaType(formatName);
+			
+			// �뿤�뜑 援ъ꽦 媛앹껜(�쇅遺��뿉�꽌 �뜲�씠�꽣瑜� 二쇨퀬諛쏆쓣 �븣�뿉�뒗 header�� body瑜� 援ъ꽦�빐�빞�븯湲� �븣臾몄뿉)
+			HttpHeaders headers = new HttpHeaders();
+			
+			 // InputStream �깮�꽦
+			in = new FileInputStream(resultgifPath+"/"+fileName);
+			
+			if(mType != null) { // �씠誘몄� �뙆�씪�씪�븣 
+				headers.setContentType(mType);
+			} else { // �씠誘몄��뙆�씪�씠 �븘�땺�븣
+				fileName = fileName.substring(fileName.indexOf("_")+1);
+				
+				// �떎�슫濡쒕뱶�슜 而⑦뀗�듃 ���엯吏��젙 application/octet-stream 
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				
+				// 諛붿씠�듃諛곗뿴�쓣 �뒪�듃留곸쑝濡� : 
+				// new String(fileName.getBytes("utf-8"),"iso-8859-1") * iso-8859-1 �꽌�쑀�읇�뼵�뼱, �겙 �뵲�샂�몴 �궡遺��뿉  " \" �궡�슜 \" "
+                // �뙆�씪�쓽 �븳湲� 源⑥쭚 諛⑹�
+				headers.add("Content-Disposition", "attachment; filename=\"" + 
+					new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\""); 
+				//headers.add("Content-Disposition", "attachment; filename='"+fileName+"'");
+			}
+			
+			// 諛붿씠�듃 諛곗뿴, �뿤�뜑, HTTP �긽�깭肄붾뱶 
+			// ���긽�뙆�씪�뿉�꽌 �뜲�씠�꽣瑜� �씫�뼱�궡�뒗 IOUtils�쓽 toByteArray()硫붿냼�뱶 
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED); 
+				
+		} catch(Exception e) {
+			e.printStackTrace();
+			
+			// HTTP�긽�깭 肄붾뱶()
 			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
 		} finally {
 			in.close();
@@ -133,8 +186,8 @@ public class UploadController {
 		return new ResponseEntity<String>(savedName, HttpStatus.CREATED);
 	}
 
-	@ResponseBody // ������ ��ü�� ��ȯ @ResponseBody = @RestController( ������ �� ������ ������
-					// �νĵȴ�. )
+	@ResponseBody // 占쏙옙占쏙옙占쏙옙 占쏙옙체占쏙옙 占쏙옙환 @ResponseBody = @RestController( 占쏙옙占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
+					// 占싸식된댐옙. )
 	@RequestMapping("layersupdisplayFile")
 	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception {
 
@@ -155,7 +208,7 @@ public class UploadController {
 			String filePath = gifPath.substring(0, 6);
 			filePath = filePath + "/gif";
 			System.out.println(filePath);
-			System.out.println("����� �� ��!!!");
+			System.out.println("占쏙옙占쏙옙占� 占쏙옙 占쏙옙!!!");
 			
 			try {
 				on = new FileInputStream(filePath + fileName);
@@ -178,7 +231,7 @@ public class UploadController {
 			}
 		} else{
 			try {
-				System.out.println("����Դ�?");
+				System.out.println("占쏙옙占쏙옙都占�?");
 				in = new FileInputStream(gifPath + fileName);
 				if (mediaType != null) {
 					headers.setContentType(mediaType);
@@ -197,26 +250,26 @@ public class UploadController {
 				in.close();
 			}
 		}
-		System.out.println("������� ����?");
+		System.out.println("占쏙옙占쏙옙占쏙옙占� 占쏙옙占쏙옙?");
 		return entity;
 	}
 	
-	// gif ����
+	// gif 占쏙옙占쏙옙
 	@ResponseBody
 	@RequestMapping(value = "layersupmakeGif", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	public ResponseEntity<String> makeGif() throws Exception {
 		
-		// gif �����
-		File Gfolder = new File(gifPath);
+		// gif 占쏙옙占쏙옙占�
+		File Gfolder = new File(resultgifPath);
 		if (Gfolder.exists() == false) {
 			Gfolder.mkdirs();
 		}
-		
-		FileOutputStream fout = new FileOutputStream(gifPath + "/success.gif");
+		String savedName =System.currentTimeMillis() +"Make.gif";
+		FileOutputStream fout = new FileOutputStream(resultgifPath+"/" + savedName);
 
-		File[] files = FileUtils.listFilesMatching(new File(gifPath), "s_.*.png");
-		// ModifiedDateŬ������ ���ǵ� ������ ���� �����Ѵ�.
-		// ��¥������ ���� ����
+		File[] files = FileUtils.listFilesMatching(new File(gifPath), "s_.*.jpg");
+		// ModifiedDate클占쏙옙占쏙옙占쏙옙 占쏙옙占실듸옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
+		// 占쏙옙짜占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 		Arrays.sort(files, new ModifiedDate());
 		BufferedImage[] images = new BufferedImage[files.length];
 		int[] delays = new int[images.length];
@@ -225,15 +278,14 @@ public class UploadController {
 			FileInputStream fin = new FileInputStream(files[i]);
 			BufferedImage image = javax.imageio.ImageIO.read(fin);
 			images[i] = image;
-			delays[i] = 80;
+			delays[i] = 200;
 			fin.close();
 		}
 
 		GIFTweaker.writeAnimatedGIF(images, delays, fout);
 		fout.close();
 		
-		// gif �����ֱ�
-		String savedName = "/success.gif";
+		// gif 占쏙옙占쏙옙占쌍깍옙
 		System.out.println("gif: " + savedName);
 		return new ResponseEntity<String>(savedName, HttpStatus.CREATED);
 	}
@@ -244,14 +296,14 @@ public class UploadController {
 		logger.info("delete file name: " + fileName);
 		String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
 		
-		MediaType mType = MediaUtils.getMediaType(ext); // MediaType�� null�� �ƴ϶��
-														// �̹��� �����̶�� �ǹ�
-														// �̹��� �����̸� �������ϰ� ����� ����
-														// �ΰ����� �����������
-//		String folderPath = fileName.substring(9, 29); // /��/��/��/ ����
+		MediaType mType = MediaUtils.getMediaType(ext); // MediaType占쏙옙 null占쏙옙 占싣니띰옙占�
+														// 占싱뱄옙占쏙옙 占쏙옙占쏙옙占싱띰옙占� 占실뱄옙
+														// 占싱뱄옙占쏙옙 占쏙옙占쏙옙占싱몌옙 占쏙옙占쏙옙占쏙옙占싹곤옙 占쏙옙占쏙옙占� 占쏙옙占쏙옙
+														// 占싸곤옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙占�
+//		String folderPath = fileName.substring(9, 29); // /占쏙옙/占쏙옙/占쏙옙/ 占쏙옙占쏙옙
 
-		if (mType != null) { // image file �̶�� �ǹ�
-			// ���� �̹��� ����
+		if (mType != null) { // image file 占싱띰옙占� 占실뱄옙
+			// 占쏙옙占쏙옙 占싱뱄옙占쏙옙 占쏙옙占쏙옙
 //			folderPath = folderPath.replaceAll("%2F", "/");
 			String orgName = fileName.substring(22);
 //			orgName = orgName.replaceAll("thumbNail_", "");
@@ -262,7 +314,7 @@ public class UploadController {
 			orgImgFile.delete();
 		}
 
-		// ����� �̹��� ���� �Ǵ� �̹����� �ƴ� ���� ����
+		// 占쏙옙占쏙옙占� 占싱뱄옙占쏙옙 占쏙옙占쏙옙 占실댐옙 占싱뱄옙占쏙옙占쏙옙 占싣댐옙 占쏙옙占쏙옙 占쏙옙占쏙옙
 //		folderPath = folderPath.replaceAll("%2F", "/");
 		String orgName = fileName.substring(12);
 		System.out.println(orgName);
@@ -270,20 +322,20 @@ public class UploadController {
 		System.out.println(orgFile);
 		orgFile.delete();
 		ResponseEntity<String> entity = new ResponseEntity<String>("deleted", HttpStatus.OK);
-		System.out.println("��");
+		System.out.println("占쏙옙");
 		return entity;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "layersupAlldelete", method = RequestMethod.POST)
 	public String Alldelete() throws Exception {
-		File file = new File(gifPath); // ������ ������ �迭�� �����´�.
+		File file = new File(gifPath); // 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占썼열占쏙옙 占쏙옙占쏙옙占승댐옙.
 		File[] tempFile = file.listFiles();
 		if (tempFile.length > 0) {
 			for (int i = 0; i < tempFile.length; i++) {
 				if (tempFile[i].isFile()) {
 					tempFile[i].delete();
-				} else { // ����Լ�
+				} else { // 占쏙옙占쏙옙獨占�
 					Alldelete();
 				}
 				tempFile[i].delete();
@@ -293,28 +345,28 @@ public class UploadController {
 		return "fin";
 	}
 
-	// Arrays.sort()�޼ҵ忡 ����ϱ� ���� Comparator�������̽� ����, ���ϴ� ��ü�� File��ü
+	// Arrays.sort()占쌨소드에 占쏙옙占쏙옙歐占� 占쏙옙占쏙옙 Comparator占쏙옙占쏙옙占쏙옙占싱쏙옙 占쏙옙占쏙옙, 占쏙옙占싹댐옙 占쏙옙체占쏙옙 File占쏙옙체
 
 	class ModifiedDate implements Comparator<File> {
 
 		public int compare(File f1, File f2) {
 
-			// ������¥�� ���� ��ũ�� -1����, -1�� �����ϸ� ù��°���� ������ ����.
+			// 占쏙옙占쏙옙占쏙옙짜占쏙옙 占쏙옙占쏙옙 占쏙옙크占쏙옙 -1占쏙옙占쏙옙, -1占쏙옙 占쏙옙占쏙옙占싹몌옙 첫占쏙옙째占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙.
 			if (f1.lastModified() > f2.lastModified())
 				return 1;
 
-			// ������ 0
+			// 占쏙옙占쏙옙占쏙옙 0
 			if (f1.lastModified() == f2.lastModified())
 				return 0;
 
-			// ������ 1
+			// 占쏙옙占쏙옙占쏙옙 1
 			return -1;
 		}
 	}
 	
-	// ������ �湮 �� �ش������� �����ϴ��� Ȯ��
-	// ���������ʴ´ٸ� ��������
-	// �����Ѵٸ� ���������� �����
+	// 占쏙옙占쏙옙占쏙옙 占썸문 占쏙옙 占쌔댐옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹댐옙占쏙옙 확占쏙옙
+	// 占쏙옙占쏙옙占쏙옙占쏙옙占십는다몌옙 占쏙옙占쏙옙占쏙옙占쏙옙
+	// 占쏙옙占쏙옙占싼다몌옙 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占�
 	@ResponseBody
 	@RequestMapping(value = "layersupfCheck", method = RequestMethod.POST)
 	public void Check() throws Exception{
