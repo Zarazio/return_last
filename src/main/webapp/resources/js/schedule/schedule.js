@@ -339,8 +339,6 @@ $(document).ready(function(){
     
     // draggable 한거 db에 저장
     function planListStore(){
-          
-       alert("typeof : " + typeof(priority));
         
        $.ajax({
           type : 'POST',
@@ -510,7 +508,7 @@ $(document).ready(function(){
             }
             
             if($(this).parent().attr("data-name") != '1'){ // 조건 : data-name != 1이 아니면 기존에 없던 준비물이 추가 된 것.
-               alert("ddd0");
+            
                managers.push(manager) ; 
                materials.push($(this).parent().children().eq(1).text()) ;
             }
@@ -520,7 +518,7 @@ $(document).ready(function(){
         
          $("#material-list input[name='materialCheck']:checked").each(function(){
             if($(this).parent().attr("data-check") != "1"){ // 조건 : data-check != 1이 아니면 check안했던 것.
-               alert("dddd");
+           
                //console.log("ceheeir : " + $(this).parent().attr("data-code") + " ");
                materialCheck.push($(this).parent().children().eq(1).text()) ;
             }
