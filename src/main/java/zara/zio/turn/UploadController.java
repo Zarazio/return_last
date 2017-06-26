@@ -36,6 +36,8 @@ public class UploadController {
 
 	@Resource(name = "gifPath")
 	private String gifPath;
+	
+
 
 	@RequestMapping(value = "layersupuploadForm", method = RequestMethod.GET)
 	public void uploadForm() {
@@ -120,7 +122,9 @@ public class UploadController {
 	}
 
 	@RequestMapping(value = "layersupuploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception {
+	public ResponseEntity<String> uploadAjax(MultipartFile file, MultipartFile aa) throws Exception {
+		System.out.println(aa);
+		
 		logger.info("originalName:" + file.getOriginalFilename());
 		logger.info("size:" + file.getSize());
 		logger.info("contentType:" + file.getContentType());

@@ -12,13 +12,57 @@ function gifMakeList(){
 	var str = '<div id="form_div"><form id="form1" enctype="multipart/form-data">'
 			+ '<input id="file" type="file" name="file" class="gifButton">'
 			+ '<input id="makeGif" class="btn btn-default gifButton"  type="button" value="gif생성"> </form>'
-			+ '<input type="button"  id="gifDown" class="btn btn-default gifButton" value="gif다운"></div>'
 			+ '<div class="uploadList"></div>'
 			+ '<div class="uploadGif"></div></div>';
 	
 	$('#Category_select').append(str);
 	
+	$.ajax({
+		type: "post" ,
+		url : "gif_image_list",
+		success : function(data){
+			if(data.length > 0){
+				var str="" ; 
+				for(var i=0 ; i<data.length ; i++){
+					console.log(data[i]);
+					str += "<img src='http://211.211.213.218:8084/turn/resources/upload/logs"+data[i]+"'  onclick='input_image($(this))'>"
+				}
+				
+				$(".uploadList").append(str);
+			}
+		},
+		error : function(data){
+			
+		}
+		
+	})
+	
 }
+
+function input_image(ddd){
+	alert("ok?");
+	
+	console.log(ddd.attr("src"));
+	
+	$.ajax({
+		url : "gif_list" ,
+		type : "POST",
+		data : {
+			imagesA : ddd.attr("src")
+		},
+		success : function(){
+			
+		}
+	})
+	
+	
+	
+	
+
+
+	
+}
+
 
 
 $(document).on("change","#file",function(){

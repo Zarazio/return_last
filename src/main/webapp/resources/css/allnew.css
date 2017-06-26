@@ -722,8 +722,10 @@ html { overflow-x:hidden; }
 .uploadList img{
 	margin-top : 30px ;
 	clear :both ;
-	width : 100px ;
-	height : 100px ;
+	width : 150px ;
+	height : 150px ;
+	cursor : pointer ;
+	margin-right : 15px;
 
 }
 
@@ -736,6 +738,7 @@ html { overflow-x:hidden; }
 .uploadGif img{
 
 	height : 200px;
+	
 }
 
 
