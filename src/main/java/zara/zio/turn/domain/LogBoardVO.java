@@ -13,9 +13,10 @@ public class LogBoardVO {
 	private int viewCount; // 조회수 
 	private String user_id; // 유저정보 
 	private int step_log_code; // 스텝로그정보
-
-	private String user_profile; // 유저프로필이미지;	
 	
+	private String user_profile; // 유저프로필이미지;	
+	private int write_type; // 작성타입 웹 or 모바일 
+
 	// 해시태그 부분
 	private String [] hash_tag_content; // 해시태그정보
 	
@@ -23,14 +24,17 @@ public class LogBoardVO {
 	private String [] file_content; // 업로드 파일정보
 	
 	
-	
-	
-	
 	public String getUser_profile() {
 		return user_profile;
 	}
 	public void setUser_profile(String user_profile) {
 		this.user_profile = user_profile;
+	}
+	public int getWrite_type() {
+		return write_type;
+	}
+	public void setWrite_type(int write_type) {
+		this.write_type = write_type;
 	}
 	public String[] getHash_tag_content() {
 		return hash_tag_content;

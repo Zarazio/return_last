@@ -1,14 +1,12 @@
 package zara.zio.turn.domain;
 
-import java.sql.Timestamp;
-
 public class ChattingVO {
 
-	private int chatting_code ;
-	private int group_Code ;
-	private String chatting_content ;
-	private String chatting_date ;
-	private String user_id ;
+	private int chatting_code;
+	private int group_Code;
+	private String chatting_content;
+	private String chatting_date;
+	private String user_id;
 	
 	public int getChatting_code() {
 		return chatting_code;

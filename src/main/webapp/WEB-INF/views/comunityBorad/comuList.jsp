@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<script src="./resources/js/comunity/comunityList.js"/></script>
 <!-- 
 	PAGE HEADER 
 	
@@ -262,24 +263,27 @@
 							<th class="text-center" width="10%">조회수</th>
 							<th class="text-center" width="14%">날짜</th>
 						</tr>
-						<c:forEach items="${list}" var="place">
+						<c:forEach items="${list}" var="comu">
 						<tr>
-							<td class="text-center"></td>
+							<td class="text-center">${comu.board_code}</td>
 							<td class="text-center">
-								<a href="${place.place_code}" class="place_info">
-								${place.place_name}
+								<a href="${comu.board_code}" class="comu_info">
+									${comu.board_title}
 								</a>
 							</td>
-							<td class="text-center"></td>
-							<td class="text-center"></td>
+							<td class="text-center">${comu.user_id}</td>
+							<td class="text-center">${comu.viewCount}</td>
 							<td class="text-center">
-								<fmt:formatDate pattern="yyyy-MM-dd" value="${place.add_date}" />
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${comu.board_date}" />
 							</td>
 						</tr>
 						</c:forEach>	
 					</table>
 				</div>
 				<!-- /POST ITEM -->
+				<div class="row margin-left-10">
+					<a href="comuWrite" class="btn btn-blue">글쓰기</a>
+				</div>	
 				
 				<!-- PAGINATION -->
 				<div class="text-center">

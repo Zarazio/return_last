@@ -3,13 +3,9 @@ package zara.zio.turn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -55,7 +51,7 @@ public class MyUserController {
 	@Inject 
 	private GroupTravelService service1 ;
 	
-	// ��� ���� path
+	// 경로 지정 path
 	@Resource(name="profilePath")
 	private String profilePath;
 	
@@ -69,7 +65,7 @@ public class MyUserController {
 	public String myModify(HttpSession session, Model model) throws Exception {
 		
 		String myName = (String)session.getAttribute("mem");
-		MemberVO userInfo = service.read(myName); // ������ ���� �������
+		MemberVO userInfo = service.read(myName); // 현재아이디
 		model.addAttribute("my",userInfo);
 		
 		return "userPage/myModify";
@@ -78,7 +74,7 @@ public class MyUserController {
 	@RequestMapping(value="/myModify", method = RequestMethod.POST)
 	public String myModify(MemberVO vo, String nowid, HttpSession session) throws Exception {
 		
-		System.out.println(nowid); // �������̵����� ������
+		System.out.println(nowid); // 현재아이디
 		System.out.println(vo);
 		
 		String yyyy = vo.getYyyy();
@@ -105,62 +101,62 @@ public class MyUserController {
 	}
 	
 	
-	// �������̹��� ���ε�
+	// 프로필사진
 	@RequestMapping(value="/profile", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> profileAjax(MultipartFile file) throws Exception {
 		
-		logger.info("ProfileName : " + file.getOriginalFilename()); // ���ϸ�
+		logger.info("ProfileName : " + file.getOriginalFilename()); // 프로필 사진정보
 		
 		return new ResponseEntity<String>(UploadFileUtils.uploadFile(profilePath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
 	}
 	
-	// ������ �̹��� ǥ�� ����
+	// 프로필사진 표시맵핑
 	@ResponseBody
 	@RequestMapping("/displayProfile") 
 	public ResponseEntity<byte[]> displayProfile(String fileName) throws Exception {
-		// ������ ������ �ٿ�ε��ϱ� ���� ��Ʈ��
+		// 서버의 파일을 다운로드하기 위한 스트림
 		InputStream in = null; // java.io
 		ResponseEntity<byte[]> entity = null;
 		
 		logger.info("DisplayProfile FILE NAME : " + fileName);
 		
 		try {
-			// Ȯ���ڸ� �����Ͽ� formatName�� ����
+			// 확장자를 추출하여 formatName에 저장
 			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 			
-			// ������ Ȯ���ڸ� MediaUtilsŬ��������  �̹������Ͽ��θ� �˻��ϰ� ���Ϲ޾� mType�� ����
+			// 추출한 확장자를 MediaUtils클래스에서  이미지파일여부를 검사하고 리턴받아 mType에 저장
 			MediaType mType = MediaUtils.getMediaType(formatName);
 			
-			// ��� ���� ��ü(�ܺο��� �����͸� �ְ���� ������ header�� body�� �����ؾ��ϱ� ������)
+			// 헤더 구성 객체(외부에서 데이터를 주고받을 때에는 header와 body를 구성해야하기 때문에)
 			HttpHeaders headers = new HttpHeaders();
 			
-			 // InputStream ����
+			// InputStream 생성
 			in = new FileInputStream(profilePath+fileName);
 			
-			if(mType != null) { // �̹��� �����϶� 
+			if(mType != null) { // 이미지파일일때
 				headers.setContentType(mType);
-			} else { // �̹��������� �ƴҶ�
+			} else { // 이미지파일아닐때
 				fileName = fileName.substring(fileName.indexOf("_")+1);
 				
-				// �ٿ�ε�� ����Ʈ Ÿ������ application/octet-stream 
+				// 다운로드용 컨텐트 타입지정 application/octet-stream
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 				
-				// ����Ʈ�迭�� ��Ʈ������ : 
-				// new String(fileName.getBytes("utf-8"),"iso-8859-1") * iso-8859-1 ���������, ū ����ǥ ���ο�  " \" ���� \" "
-                // ������ �ѱ� ���� ����
+				// 바이트배열을 스트링으로 : 
+				// new String(fileName.getBytes("utf-8"),"iso-8859-1") * iso-8859-1 서유럽언어, 큰 따옴표 내부에  " \" 내용 \" "
+                // 파일의 한글 깨짐 방지
 				headers.add("Content-Disposition", "attachment; filename=\"" + 
 					new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\""); 
 				//headers.add("Content-Disposition", "attachment; filename='"+fileName+"'");
 			}
 			
-			// ����Ʈ �迭, ���, HTTP �����ڵ� 
-			// ������Ͽ��� �����͸� �о�� IOUtils�� toByteArray()�޼ҵ� 
+			// 바이트 배열, 헤더, HTTP 상태코드 
+			// 대상파일에서 데이터를 읽어내는 IOUtils의 toByteArray()메소드 
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED); 
 				
 		} catch(Exception e) {
 			e.printStackTrace();
 			
-			// HTTP���� �ڵ�()
+			// HTTP상태 코드()
 			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
 		} finally {
 			in.close();
@@ -175,24 +171,24 @@ public class MyUserController {
 		
 		logger.info("deleteProfile : " + fileName);
 		
-		// ������ Ȯ���� ����
+		// 파일의 확장자 추출
 		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 		
-		// �̹��� ���� ���� �˻�
+		// 이미지 파일 여부 검사
 		MediaType mType = MediaUtils.getMediaType(formatName);
 		
-		// �̹����� ���(����� + �������� ����), �̹����� �ƴϸ� �������ϸ� ����
-        // �̹��� �����̸�
+		// 이미지의 경우(썸네일 + 원본파일 삭제), 이미지가 아니면 원본파일만 삭제
+        // 이미지 파일이면
 		if(mType != null) {
 			String che = "/" + fileName.substring(3);
-			// ����� �̹��� ����
+			// 썸네일 이미지 삭제
 			new File(profilePath + (che).replace('/', File.separatorChar)).delete();
 		} 
-		// ���� ���� ����
+		// 원본 파일 삭제
 
 		new File(profilePath + fileName.replace('/', File.separatorChar)).delete();
 		
-		// �����Ϳ� http ���� �ڵ� ����
+		// 데이터와 http 상태 코드 전송
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		
 	}
@@ -280,7 +276,7 @@ public class MyUserController {
 		List<TravelListVO> list = service1.user_plan_list(group_code);
 		List<Integer> days = new ArrayList<Integer>();
 		
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		// SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		// 서브스트링 데이 뽑아내기 위한 순서
 		int index = list.get(0).getTravel_Date().toString().lastIndexOf("-")+1;
@@ -322,7 +318,7 @@ public class MyUserController {
 		List<TravelListVO> list = service1.user_plan_list(group_Code);
 		List<Integer> days = new ArrayList<Integer>();
 		
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		// SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		// 서브스트링 데이 뽑아내기 위한 순서
 		int index = list.get(0).getTravel_Date().toString().lastIndexOf("-")+1;

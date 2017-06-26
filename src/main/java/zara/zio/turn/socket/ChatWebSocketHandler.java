@@ -11,40 +11,36 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class ChatWebSocketHandler extends TextWebSocketHandler {
 
- private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>();
+	private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>();
 
- @Override
- public void afterConnectionEstablished(
-   WebSocketSession session) throws Exception {
-  log(session.getId() + " ì—°ê²° ë¨!!");
-  users.put(session.getId(), session);
- }
+	@Override
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		log(session.getId() + " ¿¬°áµÊ!!");
+		users.put(session.getId(), session);
+	}
 
- @Override
- public void afterConnectionClosed(
-   WebSocketSession session, CloseStatus status) throws Exception {
-  log(session.getId() + " ì—°ê²° ì¢…ë£Œë¨");
-  users.remove(session.getId());
- }
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		log(session.getId() + " ¿¬°áÁ¾·áµÊ");
+		users.remove(session.getId());
+	}	
 
- @Override
- protected void handleTextMessage(
-   WebSocketSession session, TextMessage message) throws Exception {
-  log(session.getId() + "ë¡œë¶€í„° ë©”ì‹œì§€ ìˆ˜ì‹ : " + message.getPayload());
-  for (WebSocketSession s : users.values()) {
-   s.sendMessage(message);
-   log(s.getId() + "ì— ë©”ì‹œì§€ ë°œì†¡: " + message.getPayload());
-  }
- }
+	@Override
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		log(session.getId() + " ~·ÎºÎÅÍ ¸Ş¼¼Áö¼ö½Å : " + message.getPayload());
+		for (WebSocketSession s : users.values()) {
+			s.sendMessage(message);
+			log(s.getId() + " ~¿¡ ¸Ş¼¼Áö¹ß¼Û  : " + message.getPayload());
+		}
+	}
 
- @Override
- public void handleTransportError(
-   WebSocketSession session, Throwable exception) throws Exception {
-  log(session.getId() + " ìµì…‰ì…˜ ë°œìƒ: " + exception.getMessage());
- }
+	@Override
+	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+		log(session.getId() + " ¿¹¿ÜÃ³¸®¹ß»ı : " + exception.getMessage());
+	}
 
- private void log(String logmsg) {
-  System.out.println(new Date() + " : " + logmsg);
- }
+	private void log(String logmsg) {
+		System.out.println(new Date() + " : " + logmsg);
+	}
 
 }

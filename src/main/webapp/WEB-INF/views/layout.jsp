@@ -48,8 +48,6 @@
 <!-- STYLESWITCHER - REMOVE -->
 <script type="text/javascript" src="./resources/libraryJs/sliderPlugin/styleswitcher.js"></script>
 
-<!-- JQUERY, datepickers script -->
-<script src="<c:url value="./resources/js/modal/modalView.js"/>" ></script>
 
 <title>Travel Log</title>
 </head>

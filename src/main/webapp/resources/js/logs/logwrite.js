@@ -7,6 +7,13 @@ $(document).ready(function(){
 		if(e.keyCode == 32 || e.keyCode == 13) {
 			var hashPound = "#"
 			var tagName = $(this).val();
+			
+			if(tagName.match(" ")) {
+				tagName = tagName.replace(" ","");
+	        } else if(tagName.match("\n")) {
+	        	tagName = tagName.replace("\n","");
+	        }
+			
 			var text = $("<li><b>" + hashPound + tagName + "<a class='onetarget'><i class='isize fa fa-close pull-right'></i></a></b>")
 						.css("color","blueviolet")
 						.css("background-color","#c8eaea")
@@ -14,11 +21,9 @@ $(document).ready(function(){
 						.css("border-radius","5px")
 						.css("margin","8px 0px 0px 10px");
 			
-			if(!(tagName == " ")) {
-				$(".hashTagCopy").append(text);
-			}
-			
+			$(".hashTagCopy").append(text);
 			$(this).val("");
+			
 		}
 	});
 	
@@ -26,11 +31,16 @@ $(document).ready(function(){
 	$(".hashDel").click(function(e){
 		e.preventDefault();
 		$(".hashTagCopy").empty();
+		$(".addHash").empty();
 	});
 	
 	// 해시태그선택삭제 
 	$(".hashTagCopy").on("click",".onetarget", function(){
 		$(this).parent().parent().remove();
+		
+		alert($(s));
+		
+		
 	});
 	
 	// 취소 
@@ -42,21 +52,15 @@ $(document).ready(function(){
 	// 등록
 	$("#boardSubmit").click(function(e){
 		e.preventDefault();
-		unloadCount = 1;
+		unloadCount = 1;		
 		
 		// 해쉬태그전송
 		$(".hashTagCopy b").each(function(){
-			var text = $(this).text();
 			
-			if(text.match(" ")) {
-				text = text.replace(" ","");
-			} else if(text.match("\n")) {
-				text = text.replace("\n","");
-			}
-		
-			var input = "<input type='hidden' name='hash_tag_content' value='" + text + "'>";
-			$(".addHash").append(input);
-		});
+			var text = $(this).text();
+	        var input = "<input type='hidden' name='hash_tag_content' value='" + text + "'>";
+	        $(".addHash").append(input);
+	    });
 		
 		
 		// 이미지 전송
@@ -75,15 +79,22 @@ $(document).ready(function(){
 			
 		});
 		
+		// iframe 전송
 		$(".note-editable iframe").each(function(){
 			var iframe = $(this).attr("src");
 			
 			var input = "<input type='hidden' name='file_content' value='" + iframe + "'>";
 			$(".addImage").append(input);
 		});
-	
-		$("#formobj").attr("method","POST");
-		$('#formobj')[0].submit();
+		
+		if(confirm("등록하시겠습니까?")) {
+			
+			$("#formobj").attr("method","POST");
+			$('#formobj')[0].submit();
+			
+		} else {
+			return false;
+		}
 		
 	});
 	

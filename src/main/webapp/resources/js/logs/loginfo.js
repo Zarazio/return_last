@@ -10,15 +10,19 @@ $(document).ready(function(){
 	// 해당엘리먼트 핸들링
 	$(".bars").on("click",function(){
 		
-		$(".currentive").each(function(){
-			$(this).removeClass('currentive');
-		});
-		$(this).addClass("currentive");
-		$(window).scrollTop(0); // 스크롤을 초기화해준다.
-		currentPage = 1; // 현재페이지로 초기화
-		value = 1500 // 다시초기화해준다.
-		$(".divful").remove();
-		Timeline();
+		if($(this).hasClass("currentive")) {
+			return false;
+		} else {
+			
+			$(".bars").removeClass('currentive');
+			$(this).addClass("currentive");
+			$(window).scrollTop(0); // 스크롤을 초기화해준다.
+			currentPage = 1; // 현재페이지로 초기화
+			value = 1500 // 다시초기화해준다.
+			$(".divful").remove();
+			Timeline();
+			
+		}
 		
 	});
 	
@@ -67,7 +71,7 @@ $(document).ready(function(){
 							onImage = "<div class='img-hover margin-bottom-30 divful'>" +
 											"<div class='timeline'>" +
 												"<div class='images'>" +
-						 							"<img class='img-responsive' src='displayLogs?fileName=" + data[i].file_content[0] + "' alt=''>" +
+						 							"<img class='img-responsive' src='" + webappType(data[i].write_type, data[i].file_content[0]) + "' alt=''>" +
 												"</div>" + 
 												"<div class='padding-10'>" + 
 													"<div>" + 
@@ -197,7 +201,6 @@ $(document).ready(function(){
 						
 					}
 					
-					
 				}
 	
 				
@@ -214,7 +217,17 @@ $(document).ready(function(){
 	
 });
 
-
+// 웹 앱 업로드타입 
+function webappType(dataA, dataB) {
+	if(dataA == '1') {
+		dataB = "http://211.211.213.218:8084/turn/resources/upload/logs/" + dataB;
+	} else if (dataB.match("http")){
+		dataB = dataB;
+	} else {
+		dataB = "displayLogs?fileName=" + dataB;
+	}
+	return dataB;
+}
 
 // 타임라인 페이지정보
 function getStartRecord(current,timeLineNum) {

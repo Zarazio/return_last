@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias alias="ComunityVO" type="zara.zio.turn.domain.ComunityVO" />
 		<typeAlias alias="LogBoardVO" type="zara.zio.turn.domain.LogBoardVO" />
 		<typeAlias alias="MaterialVO" type="zara.zio.turn.domain.MaterialVO" />
 		<typeAlias alias="FriendListVO" type="zara.zio.turn.domain.FriendListVO" /> 
