@@ -353,16 +353,24 @@ public class MyUserController {
 	
 
 	@ResponseBody
-	@RequestMapping(value="travel_cost_list", method=RequestMethod.POST )
-	public List<Income_disbursementVO> travel_cost_list(HttpSession session , String group ) throws Exception{
+	@RequestMapping(value="travel_cost_list", method=RequestMethod.POST, produces = "application/text; charset=utf8" )
+	public String travel_cost_list(HttpSession session , String group ) throws Exception{
 		
 
 		int group_Code = Integer.parseInt(group);
 
+		String sc_Division = service1.travel_cost(group_Code);
 		
+		System.out.println(sc_Division);
 		List<Income_disbursementVO> list = service1.travel_cost_list(group_Code);
 
-		return list;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("sc_Division", sc_Division);
+		map.put("list", list);
+		
+		String str = new Gson().toJson(map);
+		
+		return str;
 	}
 
 	@ResponseBody

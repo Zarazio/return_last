@@ -199,4 +199,10 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 		return dao.travel_modify(group_Code);
 	}
 
+	@Override
+	public String travel_cost(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.travel_cost(group_Code);
+	}
+
 }

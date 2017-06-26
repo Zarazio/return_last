@@ -123,7 +123,7 @@ $(document).ready(function() {
 		count++ ;
 		
 	})
-	
+
 	placeMarker();
 
 });
@@ -185,7 +185,7 @@ function travel_plan() {
 					}
 					str+="<div class='plan-day-content'>"
 						 	+ "<div class='plan-place-priority'>"+data.list[i].travel_priority+"</div>" 
-						 	+ "<div class='plan-place-img'><img src='displayFile?fileName="+data.list[i].place_img+"'></div>"
+						 	+ "<div class='plan-place-img'><img src='displayFile?fileName="+thumb(data.list[i].place_img)+"'></div>"
 						 	+ "<div class='plan-place-name'>"+data.list[i].place_name+"</div>"
 						 +"</div></div>";
 				}
@@ -226,14 +226,20 @@ function travel_cost(){
 		data : {
 			group : group_code
 		},
+		dataType: "json",
 		success :function(data){
 			console.log(data) ;
-			if(data.length > 0){
-				var plan_contain = $("#plan_contain"); 
-				var str = "<div>" 
-						  	+"<h3>여행 경비 구분 : "+ data[0].sc_Division+"</h3>" 
-						  +"</div>" 
-						  +"<table class='expense_table'>"
+			console.log(data.sc_Division);
+			var plan_contain = $("#plan_contain"); 
+			var division="<div>" 
+						+"<h3>여행 경비 구분 : "+ data.sc_Division+"</h3>" 
+					+"</div>" 
+					
+			plan_contain.append(division) ;		
+					
+			if(data.list.length > 0){
+			
+				var	str ="<table class='expense_table'>"
 						  	+"<tr class='expense_tr'>" 
 						  		+"<th>사용자 아이디</th>"
 						  		+"<th>지출 내역</th>"
@@ -243,19 +249,22 @@ function travel_cost(){
 						  	
 				for(var i=0 ; i<data.length; i++){
 					str += "<tr class='expense_tr'>"
-								+"<td>"+ data[i].user_id  +"</td>"
-								+"<td>"+data[i].expense_Content+"</td>"
-								+"<td>"+data[i].expense_Cost+"</td>"
-								+"<td>"+data[i].expense_Date+"</td>"
+								+"<td>"+ data.list[i].user_id  +"</td>"
+								+"<td>"+data.list[i].expense_Content+"</td>"
+								+"<td>"+data.list[i].expense_Cost+"</td>"
+								+"<td>"+data.list[i].expense_Date+"</td>"
 						  +"</tr>"
 				}
 					
 					str+="</table>"
-					plan_contain.append(str) ;
+				
 			
 			}else{
-				$("<h4 class='list-empty'>완료된 계획이 없습니다</h4>").appendTo($("#plan_contain"));
+				
+				$("<h4 class='list-empty'>완료된 계획이 없습니다</h4>").appendTo(plan_contain);
 			}
+			
+			
 		},
 		error : function(){
 			console.log("Dd머야");
@@ -413,6 +422,7 @@ function hideMarker(map, marker) {
 
 //이미지 썸네일
 function thumb(data){
+
  console.log(data)
  var idx = data.indexOf("/") + 1 ;
  var idxA = "/s_" + data.substr(idx) ;

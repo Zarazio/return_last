@@ -53,7 +53,7 @@
 						<span>${startDate}</span>
 						<span>  ~ </span>
 						<span>${endDate}</span>
-						<button>변경</button>
+					
 					</div>
 				</div>
 				<div>
@@ -77,6 +77,7 @@
 							</c:if>
 							<div class="plan-day-content">
 								<div class="plan-place-priority">${list.travel_priority }</div>
+								
 								<div class="plan-place-img"><img src="displayFile?fileName=${list.place_img}"></div>
 								<div class="plan-place-name">${list.place_name}</div>
 							</div>

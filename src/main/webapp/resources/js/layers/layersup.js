@@ -1,7 +1,7 @@
 
 
 function bookMakeList(){
-	alert("미녀는 잠꾸러기");
+	
 	$('#Category_select').empty();
 	
 }
@@ -9,10 +9,10 @@ function bookMakeList(){
 function gifMakeList(){
 	$('#Category_select').empty();
 	
-	var str = '<form id="form1" enctype="multipart/form-data">'
-			+ '<input id="file" type="file" name="file">'
-			+ '<input id="makeGif" type="button" value="gif생성"> </form>'
-			+ '<input type="button" id="gifDown" value="gif다운"> </div> <div>'
+	var str = '<div id="form_div"><form id="form1" enctype="multipart/form-data">'
+			+ '<input id="file" type="file" name="file" class="gifButton">'
+			+ '<input id="makeGif" class="btn btn-default gifButton"  type="button" value="gif생성"> </form>'
+			+ '<input type="button"  id="gifDown" class="btn btn-default gifButton" value="gif다운"></div>'
 			+ '<div class="uploadList"></div>'
 			+ '<div class="uploadGif"></div></div>';
 	
@@ -42,10 +42,10 @@ $(document).on("change","#file",function(){
 				
 			if(checkImageType(data)){
 				alert(data);
-		        str = "<div>" 
-			     + "<a href='displayGifFile?fileName="+getImageLink(data)+"' target='_blank'>"
+		        str = 
+			     "<a href='displayGifFile?fileName="+getImageLink(data)+"' target='_blank'>"
 			     + "<img src = 'displayGifFile?fileName=" + data + "'/>" //+ getImageLink(data)
-			     + "</a><small data-src='" + data + "'>X</small></div>";
+			     + "</a><small data-src='" + data + "'>X</small>"
 			}else {
 				alert("이미지 파일만 가능합니다.");
 			}

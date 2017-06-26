@@ -53,6 +53,8 @@ public interface GroupTravelDAO {
 
 	//여행 일정
 	public List<TravelListVO> user_plan_list(int group_Code) throws Exception ;
+	//스마트 코스트 종류
+	public String travel_cost(int group_Code) throws Exception;
 	//여행 일정 스마트 코스트 비용
 	public List<Income_disbursementVO> travel_cost_list(int group_Code) throws Exception ;
 	//여행 일정 준비물 리스트

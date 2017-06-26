@@ -53,6 +53,8 @@ public interface GroupTravelService {
 	public List<TravelListVO> user_plan_list(int group_Code) throws Exception ;
 	//여행일정 스마트 코스트 리스트
 	public List<Income_disbursementVO> travel_cost_list(int group_Code) throws Exception;
+	//스마트 코스트 종류
+	public String travel_cost(int group_Code) throws Exception;
 	//여행 일정 준비물 리스트
 	public List<MaterialVO> travel_supplies_list(int group_Code) throws Exception ; 
 	// 여행 일정 수정하기

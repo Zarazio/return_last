@@ -200,6 +200,12 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 		return sqlSession.selectOne(NAMESPACE + ".travel_modify", group_Code);
 	}
 
+	@Override
+	public String travel_cost(int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".travel_cost",group_Code);
+	}
+
 
 
 }

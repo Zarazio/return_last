@@ -154,7 +154,9 @@
    		and group_Code = #{place_Code} and c.img_code =0
    		order by travel_Date , travel_priority
    </select>
-   
+   <select id="travel_cost" resultType="String">
+   		select sc_Division from travel_group where group_Code = #{group_Code}
+   </select>
    <select id="travel_cost_list" resultType="Income_disbursementVO">
    		SELECT a.user_id , b.*, c.coin_Limit, c.sc_Division
 		from write_travel a, income_disbursement_tbl b, travel_group c
