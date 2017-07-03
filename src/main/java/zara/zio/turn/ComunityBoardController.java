@@ -62,6 +62,7 @@ public class ComunityBoardController {
 	public String comuWrite() {
 		
 		return "comunityBorad/comuWrite";
+		
 	}
 	
 	@RequestMapping(value="/comuWrite", method = RequestMethod.POST)
@@ -86,10 +87,11 @@ public class ComunityBoardController {
         Map<String,Object> map = service.maxCode(); // 등록할 최댓값
         int max = 0;
         int count = Integer.parseInt(map.get("count").toString());
+        
 		if(count == 0) {
 			 max = 1;
 		} else {
-			 max = Integer.parseInt(map.get("max").toString());
+			 max = Integer.parseInt(map.get("max").toString()) + 1;
 		}
         
         service.logBoardCreate(vo, max, type); // 파일정보	
@@ -130,46 +132,11 @@ public class ComunityBoardController {
 		String [] now = vo.getFile_content(); // 클라이언트에서 가져오는거 
 		int type = 1; // 이미지 디폴트  1
 		
-		if(now.length != 0 && list.size() != 0) {
+		System.out.println(list.isEmpty());
 		
-			// 수정후 없어진거 삭제
-			for(int i=0; i<list.size(); i++) {
-				int count = 0;
-				String arr = (String)list.get(i).get("file_content");
-				int codeTarget = (int)list.get(i).get("file_code");
-				
-				for(int j=0; j<now.length; j++) {
-					if(!arr.equals(now[j])) {
-						count++;
-					} 
-					if(now.length == count){
-						deleteComunity(arr); // 만족하지못한경우  폴더명삭제
-						service.comunityFileDel(codeTarget); // 데이터베이스의 코드삭제
-					}
-	
-				}
-			}
+		if(list.isEmpty() && now != null){
 			
-			// 수정 후 추가된거 등록
-			for(int i=0; i<now.length; i++) {
-				int count = 0;
-				String arr = now[i];
-				for(int j=0; j<list.size(); j++) {
-					String err = (String) list.get(i).get("file_content");
-					if(!arr.equals(err)) {
-						count++;
-					} 
-					if(now.length == count){
-						if(arr.contains(".youtube")) {
-							type = 2;
-						}
-						service.comunityFileAdd(arr, type, page);
-					}
-	
-				}
-			}
-			
-		} else if(list.size() == 0 && now.length != 0){
+			System.out.println("어디로들어간2");
 			// 서버에 없으며 새로추가하려할때.
 			for(int i=0; i<now.length; i++) {
 				if(now[i].contains(".youtube")) {
@@ -178,7 +145,8 @@ public class ComunityBoardController {
 				service.comunityFileAdd(now[i], type, page);
 			}
 	
-		} else if(list.size() != 0 && now.length == 0) {
+		} else if(now == null && !(list.isEmpty())) {
+			System.out.println("어디로들어간3");
 			// 서버에 있으며 모두삭제하려할때
 			for(int i=0; i<list.size(); i++) {
 				String arr = (String)list.get(i).get("file_content");
@@ -187,15 +155,64 @@ public class ComunityBoardController {
 				deleteComunity(arr); // 폴더데이터 삭제 
 				service.comunityFileDel(codeTarget); // 데이터 베이스 삭제
 			}
+		} else if(now != null && !(list.isEmpty())) {
+			
+			System.out.println("어디로들어간1");
+			System.out.println(now.length + " now값");
+			System.out.println(list.size() + " list값");
+			
+			if(now.length > list.size()) {
+				// 수정 후 추가된거 등록
+				System.out.println("수정후 추가된것");
+//				for(int i=0; i<now.length; i++) {
+//					int count = 0;
+//					String arr = now[i];
+//					for(int j=0; j<list.size(); j++) {
+//						String err = (String) list.get(i).get("file_content");
+//						if(!arr.equals(err)) {
+//							count++;
+//						} 
+//						if(now.length == count){
+//							if(arr.contains(".youtube")) {
+//								type = 2;
+//							}
+//							service.comunityFileAdd(arr, type, page);
+//						}
+//		
+//					}
+//				}
+				
+			} else {
+				// 수정후 없어진거 삭제
+				System.out.println("수정후 없어진것");
+				for(int i=0; i<list.size(); i++) {
+					int count = 0;
+					String arr = (String)list.get(i).get("file_content");
+					int codeTarget = (int)list.get(i).get("file_code");
+					
+					for(int j=0; j<now.length; j++) {
+						if(!arr.equals(now[j])) {
+							count++;
+						} 
+						if(now.length == count){
+							deleteComunity(arr); // 만족하지못한경우  폴더명삭제
+							service.comunityFileDel(codeTarget); // 데이터베이스의 코드삭제
+						}
+		
+					}
+				}
+			}
+			
 		}
 		
 		
+		
+		service.comunityUpdate(vo, page);
 		rttr.addAttribute("page" , page);
 		
 		
 		return "redirect:comuRead";
 	}
-	
 	
 	// comu-image 업로드  
 	@RequestMapping(value="/comunity", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")

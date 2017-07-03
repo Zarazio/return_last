@@ -22,8 +22,6 @@
 		from board
 	</select>
 	
-	
-	
 	<!-- 로그읽는맵퍼 -->
 	<select id="infoRead" resultType="LogBoardVO" parameterType="hashmap">
 		select a.*, b.user_profile
@@ -90,6 +88,10 @@
 		insert into attached_file(file_content, file_type, board_code)
 		values (#{file_name}, #{type}, #{page})
 	</insert>
+	<update id="conmunityUpdate">
+		update board set board_title=#{vo.board_title}, board_content=#{vo.board_content} 
+		where board_code = #{page}
+	</update>
 	
 	
 </mapper>

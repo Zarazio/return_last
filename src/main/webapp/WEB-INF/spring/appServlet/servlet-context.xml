@@ -60,36 +60,36 @@
 	
 	<!-- 장소이미지경로설정 // 경로재설정 이미지가 저장된 폴더 upload -->
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="C:/Return/src/main/webapp/resources/upload/">
+		<beans:constructor-arg value="C:/Return//Return/src/main/webapp/resources/upload/">
 		</beans:constructor-arg>
 	</beans:bean>
 	
 	<!-- 프로필이미지경로 // 경로재설정 이미지가 저장된 폴더 upload/profile -->
 	<beans:bean id="profilePath" class="java.lang.String">
-		<beans:constructor-arg value="C:/Return/src/main/webapp/resources/upload/profile">
+		<beans:constructor-arg value="C:/Return/Return/src/main/webapp/resources/upload/profile">
 		</beans:constructor-arg>
 	</beans:bean>
 	
 	<!-- 로그 이미지경로 // 경로재설정 이미지가 저장된 폴더 upload/logs -->
 	<beans:bean id="logsPath" class="java.lang.String">
-		<beans:constructor-arg value="C:/Return/src/main/webapp/resources/upload/logs">
+		<beans:constructor-arg value="C:/Return/Return/src/main/webapp/resources/upload/logs">
 		</beans:constructor-arg>
 	</beans:bean>
 
 	<!-- gif이미지경로설정 // 경로재설정 이미지가 저장된 폴더 upload -->
 	<beans:bean id="gifPath" class="java.lang.String">
-		<beans:constructor-arg value="C:/Return/src/main/webapp/resources/upload/gif">
+		<beans:constructor-arg value="C:/Return/Return/src/main/webapp/resources/upload/gif">
 		</beans:constructor-arg>
 	</beans:bean>
 	
 	<beans:bean id="resultgifPath" class="java.lang.String">
-		<beans:constructor-arg value="C:/Return/src/main/webapp/resources/upload/gif/resultgif">
+		<beans:constructor-arg value="C:/Return/Return/src/main/webapp/resources/upload/gif/resultgif">
 		</beans:constructor-arg>
 	</beans:bean>
 	
 	<!-- 커뮤니티 이미지경로 // 경로재설정 이미지가 저장된 폴더 upload/logs -->
 	<beans:bean id="comunityPath" class="java.lang.String">
-		<beans:constructor-arg value="C:/Return/src/main/webapp/resources/upload/comunity">
+		<beans:constructor-arg value="C:/Return/Return/src/main/webapp/resources/upload/comunity">
 		</beans:constructor-arg>
 	</beans:bean>
 

@@ -72,5 +72,54 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(namespace + ".totalAll");
 	}
+	
+	
+	
+	
+	
+	@Override
+	public List<Map<String, Object>> friends(String search) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".friendSearch", search);
+	}
+
+	@Override
+	public List<Map<String, Object>> friendAll(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".friendAll", id);
+	}
+
+	@Override
+	public List<Map<String, Object>> friendList(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + ".friendList", id);
+	}
+
+	@Override
+	public void friendReq(String my_id, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("my_id", my_id);
+		infoMap.put("user_id", user_id);
+		sqlSession.insert(namespace + ".friendReq");
+	}
+
+	@Override
+	public void friendDelCancel(String my_id, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("my_id", my_id);
+		infoMap.put("user_id", user_id);
+		sqlSession.delete(namespace + ".friendDelCancel");
+	}
+
+	@Override
+	public void friendAccept(String my_id, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("my_id", my_id);
+		infoMap.put("user_id", user_id);
+		sqlSession.update(namespace + ".friendAccept");
+	}
 
 }

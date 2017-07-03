@@ -12,7 +12,7 @@
 
          <!-- Logo -->
          <a class="logo pull-left" href="main">
-            <img src="http://placehold.it/200x80" alt="" />
+            <img src="displayLogs?fileName=/logo.png" alt="" />
          </a>
          
          <div class="navbar-collapse pull-right nav-main-collapse collapse">

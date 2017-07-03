@@ -59,7 +59,7 @@
 					</li>
 				</ul>
 
-				<p class="content">${vo.board_content}</p>
+				<div><p class="content">${vo.board_content}</p></div>
 
 				<div class="divider"><!-- divider --></div>
 

@@ -21,5 +21,6 @@ public interface LogBoardService {
 	
 	public void comunityFileDel (int target) throws Exception;
 	public void comunityFileAdd (String file_name, int type, int page) throws Exception;
+	public void comunityUpdate (LogBoardVO vo, int page) throws Exception;
 	
 }

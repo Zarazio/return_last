@@ -1,6 +1,7 @@
 package zara.zio.turn.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -64,6 +65,26 @@ public class MemberServiceImpl implements MemberService {
 	public int getTotalAll() throws Exception {
 		// TODO Auto-generated method stub
 		return dao.getTotalAll();
+	}
+
+	
+	
+	@Override
+	public List<Map<String, Object>> friends(String search) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.friends(search);
+	}
+
+	@Override
+	public List<Map<String, Object>> friendAll(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.friendAll(id);
+	}
+
+	@Override
+	public List<Map<String, Object>> friendList(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.friendList(id);
 	}
 
 

@@ -116,7 +116,7 @@ $(document).ready(function(){
 							onVideo = "<div class='img-hover margin-bottom-30 divful'>" +
 											"<div class='timeline'>" +
 												"<div class='videoTag'>" +
-												"<iframe width='100%' height='250' src='" + data[i].file_content[0] + "' style='border-top-left-radius:3px; border-top-right-radius:3px;' frameborder='0' allowfullscreen></iframe>" + 
+												"<img width='100%' height='250' src='displayLogs?fileName=/video.png' style='border-top-left-radius:3px; border-top-right-radius:3px;'>" + 
 												"</div>" + 
 												"<div class='padding-10'>" + 
 													"<div>" + 

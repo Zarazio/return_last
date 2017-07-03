@@ -186,7 +186,7 @@
 				</li>
 			</ul>
 			<a class="logo pull-left" href="main">
-				<img src="http://placehold.it/200x80" />
+				<img src="displayLogs?fileName=/logo.png" />
 			</a>
 			<div class="navbar-collapse pull-right nav-main-collapse collapse in">
 				<div class="nav-main">

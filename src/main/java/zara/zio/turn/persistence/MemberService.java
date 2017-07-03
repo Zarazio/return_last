@@ -1,6 +1,7 @@
 package zara.zio.turn.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.Pagination;
@@ -16,4 +17,8 @@ public interface MemberService {
 	public int confirm(String id) throws Exception;
 	public String userin(String id) throws Exception;
 	public int getTotalAll() throws Exception;
+	
+	public List<Map<String, Object>> friends(String search) throws Exception;
+	public List<Map<String, Object>> friendAll(String id) throws Exception;
+	public List<Map<String, Object>> friendList(String id) throws Exception;
 }

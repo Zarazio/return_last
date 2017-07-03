@@ -11,8 +11,7 @@ public class ComunityVO {
 	private int viewCount; // 조회수 
 	private String user_id; // 유저정보 
 	private String user_profile; // 유저 프로필이미지
-	
-	
+
 	
 	public int getBoard_code() {
 		return board_code;

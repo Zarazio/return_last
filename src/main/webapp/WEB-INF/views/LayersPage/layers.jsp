@@ -57,7 +57,7 @@
 					<ul class="list-group list-group-bordered list-group-noicon uppercase">
 						<c:if test="${info == 'user'}">
 							<li class="list-group-item">
-								<a href="javascript:bookMakeList();"><span class="size-11 text-muted pull-right"></span>Book</a>
+								<!-- <a href="javascript:bookMakeList();"><span class="size-11 text-muted pull-right"></span>Book</a>-->
 							</li>
 							<li class="list-group-item">
 								<a href="javascript:gifMakeList();"><span class="size-11 text-muted pull-right"></span>Gif</a>

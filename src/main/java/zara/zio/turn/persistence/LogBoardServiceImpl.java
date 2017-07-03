@@ -108,6 +108,12 @@ public class LogBoardServiceImpl implements LogBoardService {
 		// TODO Auto-generated method stub
 		dao.comunityFileAdd(file_name, type, page);
 	}
+
+	@Override
+	public void comunityUpdate(LogBoardVO vo, int page) throws Exception {
+		// TODO Auto-generated method stub
+		dao.comunityUpdate(vo, page);
+	}
 	
 
 }

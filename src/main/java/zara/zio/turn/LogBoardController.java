@@ -153,7 +153,7 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		if(count == 0) {
 			 max = 1;
 		} else {
-			 max = Integer.parseInt(map.get("max").toString());
+			 max = Integer.parseInt(map.get("max").toString()) + 1;
 		}
        
 		service.logBoardCreate(vo, max, type); // 파일정보

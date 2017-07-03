@@ -57,6 +57,9 @@
 					<ul class="list-group list-group-bordered list-group-noicon uppercase">
 						<c:if test="${info == 'user'}">
 							<li class="list-group-item">
+								<a href="myFriend"><span class="size-11 text-muted pull-right"></span>친구관리</a>
+							</li>
+							<li class="list-group-item">
 								<a href="myModify"><span class="size-11 text-muted pull-right"></span>회원정보수정</a>
 							</li>
 							<li class="list-group-item">

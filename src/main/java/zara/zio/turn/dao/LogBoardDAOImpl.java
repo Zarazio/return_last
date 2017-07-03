@@ -115,5 +115,14 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 		sqlSession.insert(NAMESPACE + ".comunityfileAdd", fileMap);
 	}
 
+	@Override
+	public void comunityUpdate(LogBoardVO vo, int page) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> Updateinfo = new HashMap<String, Object>();
+		Updateinfo.put("vo", vo);
+		Updateinfo.put("page", page);
+		sqlSession.update(NAMESPACE + ".conmunityUpdate", Updateinfo); 
+	}
+
 
 }

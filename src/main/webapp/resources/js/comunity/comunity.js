@@ -35,38 +35,38 @@ $(document).ready(function(){
 	
 	
 	// 언로드 함수
-	$(window).on('unload', function(){
-		if(unloadCount == 0) {
-			
-			$(".note-editable img").each(function(){
-				
-				var imageUrlDel = $(this).attr("src");
-				
-				// 업로드 이미지이면 
-				if(imageUrlDel.match("displayComunity")) {
-					idx = imageUrlDel.indexOf("/") + 1;
-					imageUrlDel = "/s_" + imageUrlDel.substr(idx);
-					
-					$.ajax({
-    					 url: "./deleteComunity",
-    					 type: "POST",
-    					 data: {fileName:imageUrlDel},
-    					 dataType: "text",
-    					 success: function(result){
-    						 if(result == 'deleted') {
-			   						
-    						 }
-    					 }	
-    				}); 
-					
-				} 
-				
-				// 링크파일이면
-				
-			}).delay(800);
-			
-		} 
-	});
+//	$(window).on('unload', function(){
+//		if(unloadCount == 0) {
+//			
+//			$(".note-editable img").each(function(){
+//				
+//				var imageUrlDel = $(this).attr("src");
+//				
+//				// 업로드 이미지이면 
+//				if(imageUrlDel.match("displayComunity")) {
+//					idx = imageUrlDel.indexOf("/") + 1;
+//					imageUrlDel = "/s_" + imageUrlDel.substr(idx);
+//					
+//					$.ajax({
+//    					 url: "./deleteComunity",
+//    					 type: "POST",
+//    					 data: {fileName:imageUrlDel},
+//    					 dataType: "text",
+//    					 success: function(result){
+//    						 if(result == 'deleted') {
+//			   						
+//    						 }
+//    					 }	
+//    				}); 
+//					
+//				} 
+//				
+//				// 링크파일이면
+//				
+//			}).delay(800);
+//			
+//		} 
+//	});
 	
 //	// 썸네일 삭제 클릭펑션
 //	$(".addImage").on("click","a", function(){
