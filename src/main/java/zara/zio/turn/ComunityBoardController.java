@@ -118,102 +118,104 @@ public class ComunityBoardController {
 		
 		return "comunityBorad/comuSet";
 	}
-	
-	@RequestMapping(value="/comuSet", method = RequestMethod.POST)
-	public String comuSet(@RequestParam(value="page", defaultValue="0") int page, 
-			LogBoardVO vo, RedirectAttributes rttr, HttpSession session) throws Exception {
-		 
-		String userName = (String)session.getAttribute("mem");
-		vo.setShare_type(1); // 커뮤니티전체공개 
+
+	@RequestMapping(value = "/comuSet", method = RequestMethod.POST)
+	public String comuSet(@RequestParam(value = "page", defaultValue = "0") int page, LogBoardVO vo,
+			RedirectAttributes rttr, HttpSession session) throws Exception {
+
+		String userName = (String) session.getAttribute("mem");
+		vo.setShare_type(1); // 커뮤니티전체공개
 		vo.setBoard_type_code(4); // 커뮤니티타입
 		vo.setUser_id(userName); // 유저아이디
-		
-		List<Map<String,Object>> list = service.comunityFileRead(page); // DB서버 
-		String [] now = vo.getFile_content(); // 클라이언트에서 가져오는거 
-		int type = 1; // 이미지 디폴트  1
-		
+
+		List<Map<String, Object>> list = service.comunityFileRead(page); // DB서버
+		String[] now = vo.getFile_content(); // 클라이언트에서 가져오는거
+		int type = 1; // 이미지 디폴트 1
+
 		System.out.println(list.isEmpty());
-		
-		if(list.isEmpty() && now != null){
-			
-			System.out.println("어디로들어간2");
+
+		if (list.isEmpty() && now != null) {
+
+			System.out.println("target_function_1");
 			// 서버에 없으며 새로추가하려할때.
-			for(int i=0; i<now.length; i++) {
-				if(now[i].contains(".youtube")) {
+			for (int i = 0; i < now.length; i++) {
+				if (now[i].contains(".youtube")) {
 					type = 2;
 				}
 				service.comunityFileAdd(now[i], type, page);
 			}
-	
-		} else if(now == null && !(list.isEmpty())) {
-			System.out.println("어디로들어간3");
+
+		} else if (now == null && !(list.isEmpty())) {
+			System.out.println("target_function_2");
 			// 서버에 있으며 모두삭제하려할때
-			for(int i=0; i<list.size(); i++) {
-				String arr = (String)list.get(i).get("file_content");
-				int codeTarget = (int)list.get(i).get("file_code");
-				
-				deleteComunity(arr); // 폴더데이터 삭제 
+			for (int i = 0; i < list.size(); i++) {
+				String arr = (String) list.get(i).get("file_content");
+				int codeTarget = (int) list.get(i).get("file_code");
+
+				deleteComunity(arr); // 폴더데이터 삭제
 				service.comunityFileDel(codeTarget); // 데이터 베이스 삭제
 			}
-		} else if(now != null && !(list.isEmpty())) {
-			
-			System.out.println("어디로들어간1");
+		} else if (now != null && !(list.isEmpty())) {
+
+			System.out.println("target_function_3");
 			System.out.println(now.length + " now값");
 			System.out.println(list.size() + " list값");
-			
-			if(now.length > list.size()) {
+
+			if (now.length > list.size()) {
 				// 수정 후 추가된거 등록
 				System.out.println("수정후 추가된것");
-//				for(int i=0; i<now.length; i++) {
-//					int count = 0;
-//					String arr = now[i];
-//					for(int j=0; j<list.size(); j++) {
-//						String err = (String) list.get(i).get("file_content");
-//						if(!arr.equals(err)) {
-//							count++;
-//						} 
-//						if(now.length == count){
-//							if(arr.contains(".youtube")) {
-//								type = 2;
-//							}
-//							service.comunityFileAdd(arr, type, page);
-//						}
-//		
-//					}
-//				}
-				
-			} else {
+				for (int i = 0; i < now.length; i++) {
+					int count = 0;
+					String arr = now[i];
+					// System.out.println(arr + " tA");
+					for (int j = 0; j < list.size(); j++) {
+						String err = (String) list.get(j).get("file_content");
+
+						// System.out.println(err + " tB");
+
+						if (!arr.equals(err)) {
+							System.out.println(count + " countCheck");
+							count++;
+							if (count == list.size()) {
+								if (arr.contains(".youtube")) {
+									type = 2;
+								}
+								service.comunityFileAdd(arr, type, page);
+							}
+						}
+
+					}
+				}
+
+			} else if (now.length < list.size()) {
 				// 수정후 없어진거 삭제
 				System.out.println("수정후 없어진것");
-				for(int i=0; i<list.size(); i++) {
+				for (int i = 0; i < list.size(); i++) {
 					int count = 0;
-					String arr = (String)list.get(i).get("file_content");
-					int codeTarget = (int)list.get(i).get("file_code");
-					
-					for(int j=0; j<now.length; j++) {
-						if(!arr.equals(now[j])) {
+					String arr = (String) list.get(i).get("file_content");
+					int codeTarget = (int) list.get(i).get("file_code");
+
+					for (int j = 0; j < now.length; j++) {
+						if (!arr.equals(now[j])) {
 							count++;
-						} 
-						if(now.length == count){
-							deleteComunity(arr); // 만족하지못한경우  폴더명삭제
+						}
+						if (now.length == count) {
+							deleteComunity(arr); // 만족하지못한경우 폴더명삭제
 							service.comunityFileDel(codeTarget); // 데이터베이스의 코드삭제
 						}
-		
+
 					}
 				}
 			}
-			
+
 		}
-		
-		
-		
+
 		service.comunityUpdate(vo, page);
-		rttr.addAttribute("page" , page);
-		
-		
+		rttr.addAttribute("page", page);
+
 		return "redirect:comuRead";
 	}
-	
+
 	// comu-image 업로드  
 	@RequestMapping(value="/comunity", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> comunityAjax(MultipartFile file) throws Exception {

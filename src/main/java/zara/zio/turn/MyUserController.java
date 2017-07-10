@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -396,117 +397,105 @@ public class MyUserController {
 		return list;
 	}
 	
-	
-	
 	@RequestMapping(value="/myFriend", method = RequestMethod.GET)
-	public String myfriend(Model model, HttpSession session) throws Exception {
-		
-		String users = (String)session.getAttribute("mem");
-		MemberVO vo = service.read(users);
-		
-		model.addAttribute("vo",vo);
-		
-		
-		return "userPage/myFriend";
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/friendSearch", method = RequestMethod.POST)
-	public List<Map<String,Object>> friendSearch(String search, HttpSession session) throws Exception {
-		
-		String users = (String)session.getAttribute("mem");
-		List<Map<String,Object>> list = service.friends(search);
-		List<Map<String,Object>> fist = service.friendAll(users);
-		
-		for(int i=0; i<list.size(); i++) {
-			String arr = (String)list.get(i).get("user_id");
-			for(int j=0; j<fist.size(); j++) {
-				String err = (String)fist.get(j).get("user_id");
-				String frr = (String)fist.get(j).get("friend_id");
-				
-				if(arr.equals(err) || arr.equals(frr)) {
-					list.remove(i);
-				}
-				
-				System.out.println(err);
-				System.out.println(frr);
-				System.out.println("aa");
-			}
-			
-			System.out.println(arr);
-			System.out.println("bb");
-			
-		}
-		
-		return list;
-	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value="/friendList", method = RequestMethod.GET)
-	public List<Map<String,Object>> friendList(HttpSession session) throws Exception {
-		String users = (String)session.getAttribute("mem");
-		List<Map<String,Object>> lists = service.friendList(users);
-		return lists;
-	}
-	
-	
-	@ResponseBody
-	@RequestMapping(value="/friendReq", method = RequestMethod.POST)
-	public String friendReq(String my_id, String user_id) throws Exception {
-		
-		System.out.println(my_id);
-		System.out.println(user_id);
-		
-		String req = "완료";
-		
-		return req;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/friendCancel", method = RequestMethod.POST)
-	public String friendCancel(String my_id, String user_id) throws Exception {
-		
-		
-		
-		String req = "완료";
-		
-		return req;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/friendDel", method = RequestMethod.POST)
-	public String friendDel(String my_id, String user_id) throws Exception {
-		
-		String req = "완료";
-		
-		return req;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/friendAccept", method = RequestMethod.POST)
-	public String friendAccept(String my_id, String user_id) throws Exception {
-		
-		String req = "완료";
-		
-		return req;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	   public String myfriend(Model model, HttpSession session) throws Exception {
+	      
+	      String users = (String)session.getAttribute("mem");
+	      MemberVO vo = service.read(users);
+	      
+	      model.addAttribute("vo",vo);
+	      
+	      
+	      return "userPage/myFriend";
+	   }
+	   
+	   @ResponseBody
+	   @RequestMapping(value="/friendSearch", method = RequestMethod.POST)
+	   public List<Map<String,Object>> friendSearch(String search, HttpSession session) throws Exception {
+	      
+	      String users = (String)session.getAttribute("mem");
+	      List<Map<String,Object>> list = service.friends(search); // user_info 조회 
+	      List<Map<String,Object>> fist = service.friendAll(users); // friend_list 조회 
+	      
+	      Iterator<Map<String, Object>> iter = list.iterator(); // 삭제하기위한 원소
+	      
+	      while(iter.hasNext()) {
+	         int cnt = 0;
+	         Map<String, Object> s = iter.next();
+	         String arr = (String)s.get("user_id");
+	   
+	         for(int j=0; j<fist.size(); j++) {
+	            String err = (String)fist.get(j).get("user_id");
+	            String frr = (String)fist.get(j).get("friend_id");
+	            
+	            if(cnt == 0 && arr.equals(err) || cnt == 0 && arr.equals(frr)) {
+	               cnt++;
+	               iter.remove(); //
+	            }
+	            
+	         }
+
+	      }
+	      
+	      return list;
+	      
+	   }
+	   
+	   
+	   @ResponseBody
+	   @RequestMapping(value="/friendList", method = RequestMethod.GET)
+	   public List<Map<String,Object>> friendList(HttpSession session) throws Exception {
+	      String users = (String)session.getAttribute("mem");
+	      List<Map<String,Object>> lists = service.friendList(users);
+	      return lists;
+	   }
+	   
+	   // 검색창의 친구요청보내기
+	   @ResponseBody
+	   @RequestMapping(value="/friendReq", method = RequestMethod.POST)
+	   public String friendReq(String my_id, String user_id) throws Exception {
+	      
+	      service.friendReq(my_id, user_id);
+	      
+	      String req = "success";
+	      
+	      return req;
+	   }
+	   
+	   // 친구요청취소.
+	   @ResponseBody
+	   @RequestMapping(value="/friendCancel", method = RequestMethod.POST)
+	   public String friendCancel(String my_id, String user_id) throws Exception {
+	      
+	      service.friendDelCancel(my_id, user_id);
+	      
+	      String cancel = "success";
+	      
+	      return cancel;
+	   }
+	   
+	   // 친구삭제
+	   @ResponseBody
+	   @RequestMapping(value="/friendDel", method = RequestMethod.POST)
+	   public String friendDel(String my_id, String user_id) throws Exception {
+	      
+	      service.friendDelCancel(my_id, user_id);
+	      
+	      String del = "success";
+	      
+	      return del;
+	   }
+	   
+	   // 친구요청수락
+	   @ResponseBody
+	   @RequestMapping(value="/friendAccept", method = RequestMethod.POST)
+	   public String friendAccept(String my_id, String user_id) throws Exception {
+	      
+	      service.friendAccept(my_id, user_id);
+	      
+	      String accept = "success";
+	      
+	      return accept;
+	   }
 }
+	

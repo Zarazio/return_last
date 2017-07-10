@@ -9,13 +9,30 @@ $(document).ready(function(){
 	groupCode = $("#groupCode").text(); //schdulePageA groupCode
 	user_id = $("#user_id").text();
 
-	wsocket = new SockJS("http://localhost:8082/turn/chat.sockjs" );
+		// enter 버튼 누르면 글자가 쳐진다.
+		$('#message').keypress(function(event){
+			var keycode = (event.keyCode ? event.keyCode : event.which);
+				
+			if(keycode == '13'){
+				send(); 
+			}
+			
+			event.stopPropagation();
+		  
+		});
+			  
+		$('#sendBtn').click(function() {  send(); });
+		
 
-		 wsocket.onopen = onOpen;
-		 wsocket.onmessage = onMessage ;
-		 wsocket.onclose = onClose; 
 })
 
+
+function chatConnect(){
+	wsocket = new SockJS("/turn/chat.sockjs");
+	wsocket.onopen = onOpen;
+	wsocket.onmessage = onMessage;
+	wsocket.onclose = onClose;
+}
 	 
 function disconnect() {
 	wsocket.close();
@@ -41,6 +58,8 @@ function send() {
 	console.log("usefd00 :" +user_id);
 	var msg = $("#message").val();
 	
+	
+	console.log("msg :" +msg);
 	wsocket.send(user_id+","+msg );
 	$.ajax({
 			type : 'POST',
@@ -63,8 +82,8 @@ function send() {
 }
 
 function appendMessage(msg) {
-	console.log(msg[0] );
-	console.log(msg[1] );
+	console.log("1번"+msg[0] );
+	console.log("2번"+msg[1] );
 		 
 	var date = new Date() ;
 	date = date.getHours() +"."+date.getMinutes() ;
@@ -92,26 +111,7 @@ function setScrollDown(){
 	$(".chat").scrollTop($(".chat").height());
 	 
 }
-	
-$(document).ready(function() {
-		 
-	$('#message').keypress(function(event){
-		var keycode = (event.keyCode ? event.keyCode : event.which);
-			
-		if(keycode == '13'){
-			send(); 
-		}
-		
-		event.stopPropagation();
-	  
-	});
-		  
-	$('#sendBtn').click(function() { send(); });
-	$('#enterBtn').click(function() { connect(); });
-	$('#exitBtn').click(function() { disconnect(); });
-});
-	
-	 
+ 
 // chatting 창 보이게 하기
 function chattingWrap(){ 
 
@@ -121,12 +121,15 @@ function chattingWrap(){
 		$("#chat").empty() ;
 		chat.css("display","block");
 		chat.attr("data-check",1) ;
+		chatConnect() ;
 	}
 	else if(chat.attr("data-check") == 1){
 		chat.css("display","none") ;
 		chat.attr("data-check",0) ;
+		disconnect();
 	} 
 		 
+	
 	$.ajax({
 		url : "chatting",
 		type : "POST",

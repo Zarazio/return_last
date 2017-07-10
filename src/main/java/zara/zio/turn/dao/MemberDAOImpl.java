@@ -73,10 +73,6 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne(namespace + ".totalAll");
 	}
 	
-	
-	
-	
-	
 	@Override
 	public List<Map<String, Object>> friends(String search) throws Exception {
 		// TODO Auto-generated method stub
@@ -101,7 +97,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String, Object> infoMap = new HashMap<String, Object>();
 		infoMap.put("my_id", my_id);
 		infoMap.put("user_id", user_id);
-		sqlSession.insert(namespace + ".friendReq");
+		sqlSession.insert(namespace + ".friendReq", infoMap);
 	}
 
 	@Override
@@ -110,7 +106,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String, Object> infoMap = new HashMap<String, Object>();
 		infoMap.put("my_id", my_id);
 		infoMap.put("user_id", user_id);
-		sqlSession.delete(namespace + ".friendDelCancel");
+		sqlSession.delete(namespace + ".friendDelCancel", infoMap);
 	}
 
 	@Override
@@ -119,7 +115,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String, Object> infoMap = new HashMap<String, Object>();
 		infoMap.put("my_id", my_id);
 		infoMap.put("user_id", user_id);
-		sqlSession.update(namespace + ".friendAccept");
+		sqlSession.update(namespace + ".friendAccept", infoMap);
 	}
 
 }
