@@ -162,10 +162,10 @@
 						<span class="badge badge-aqua btn-xs badge-corner">2</span>
 						<i class="fa fa-bars"></i>
 					</a>
-					<div class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
+					<div id="alarm" class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
 						<h4>My Information</h4>
 						<!-- 반복문 이벤트적용 -->
-						<div class="quick-cart-wrapper">
+						<!-- <div class="quick-cart-wrapper">
 							<a href="#">
 								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
 								<h6>
@@ -181,7 +181,7 @@
 									<br>재밌는여행 
 								</h6>
 							</a>
-						</div>
+						</div> -->
 					</div>
 				</li>
 			</ul>

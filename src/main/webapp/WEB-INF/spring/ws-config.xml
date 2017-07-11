@@ -11,15 +11,18 @@
  <websocket:handlers>
   	<websocket:mapping handler="echoHandler" path="/echo-ws" />
   	<websocket:mapping handler="chatHandler" path="/chat-ws" />
+  	<websocket:mapping handler="friendHandler" path="/friend-ws" />
  </websocket:handlers>
 
  <bean id="echoHandler" class="zara.zio.turn.socket.EchoHandler" />
  <bean id="chatHandler" class="zara.zio.turn.socket.ChatWebSocketHandler" />
+ <bean id="friendHandler" class="zara.zio.turn.socket.FriendHandler" />
 
  <websocket:handlers>
 
   <websocket:mapping handler="echoHandler" path="/echo.sockjs" />
   <websocket:mapping handler="chatHandler" path="/chat.sockjs" />
+  <websocket:mapping handler="friendHandler" path="/friend.sockjs" />
   <websocket:sockjs />
 
 

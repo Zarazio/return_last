@@ -25,14 +25,13 @@ $(document).ready(function(){
 					 
 					 searchData = "<tr>" + 
 										"<td width='6%' class='text-center' ><img src='displayProfile?fileName=" + data[i].user_profile + "' style='width:45px; height:45px;'></td>" + 
-										"<td width='40%' class='verticals'>" + data[i].user_id + "</td>" + 
+										"<td width='40%' class='verticals'><input type='text' id='message' value='data[i].user_id'/>" + data[i].user_id + "</td>" + 
 										"<td class='verticals'><button class='req btn btn-blue btn-3d btn-xs' data-user='" + data[i].user_id +"'>친구요청</button></td>" + 
 								  "</tr>";
 						 
 					 $(".searchlist").append(searchData);
 						 
 				 }
-				 
 			 }, error: function(){
 				 alert("검색결과가 존재하지않습니다."); 
 				 // error null 처리
@@ -52,6 +51,7 @@ $(document).ready(function(){
 				 my_id:my_id
 			 },
 			 success: function(data){
+				 
 				 alert("완료되었습니다.");
 			 }
 		});

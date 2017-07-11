@@ -492,7 +492,12 @@ public class MyUserController {
 		return req;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value="/follow", method = RequestMethod.POST)
+	public String follow(String my_id, String user_id, String content) throws Exception {
+		
+		return null;
+	}
 	
 	
 	
