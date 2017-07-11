@@ -49,6 +49,7 @@ function onClose(evt) {
 function onMessage(evt) {
 	var data = evt.data;
 	var afterStr = data.split(',');
+	
 	appendMessage(afterStr);
 	  
 }

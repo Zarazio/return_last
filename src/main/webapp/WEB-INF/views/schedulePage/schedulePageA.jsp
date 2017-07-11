@@ -4,7 +4,6 @@
 <script src="./resources/js/sockjs.js"></script>
 <script src="./resources/js/schedule/schedule.js"/></script>
 <script src="./resources/js/schedule/chat.js"></script>
-<script src="./resources/js/schedule/scheduleList.js"></script>
 <script src="./resources/js/jquery-ui-1.10.4.custom.js" /></script>
 <div id="header" class="clearfix bg-dark">
    <!-- TOP NAV -->
