@@ -67,8 +67,6 @@ public class MemberServiceImpl implements MemberService {
 		return dao.getTotalAll();
 	}
 
-	
-	
 	@Override
 	public List<Map<String, Object>> friends(String search) throws Exception {
 		// TODO Auto-generated method stub
@@ -86,6 +84,28 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return dao.friendList(id);
 	}
+
+	@Override
+	public void friendReq(String my_id, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		dao.friendReq(my_id, user_id);
+	}
+
+	@Override
+	public void friendDelCancel(String my_id, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		dao.friendDelCancel(my_id, user_id);
+	}
+
+	@Override
+	public void friendAccept(String my_id, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		dao.friendAccept(my_id, user_id);
+	}
+
+	
+	
+
 
 
 }

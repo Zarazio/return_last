@@ -275,6 +275,7 @@ $(document).ready(function(){
             priority = priority01 ;
          }
          planListStore();
+         esend(planDay);
          
         
          
@@ -287,6 +288,7 @@ $(document).ready(function(){
          placeMarker() ;
          planPriority();
          planRealTimePriority() ;
+         esend(planDay);
          
       },
       cursor: "crosshair"
