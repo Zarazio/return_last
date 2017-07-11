@@ -9,7 +9,6 @@
 
  <websocket:handlers>
   	<websocket:mapping handler="echoHandler" path="/echo-ws" />
-<<<<<<< HEAD
   	<websocket:mapping handler="chatHandler" path="/chat-ws" />
   	<websocket:mapping handler="friendHandler" path="/friend-ws" />
  </websocket:handlers>
@@ -24,20 +23,7 @@
   <websocket:mapping handler="chatHandler" path="/chat.sockjs" />
   <websocket:mapping handler="friendHandler" path="/friend.sockjs" />
   <websocket:sockjs />
-
-
-=======
- 	<websocket:mapping handler="chatHandler" path="/chat-ws" />
- </websocket:handlers>
-
- <bean id="echoHandler" class="zara.zio.turn.socket.EchoHandler" />
- <bean id="chatHandler" class="zara.zio.turn.socket.ChatWebSocketHandler"/>
-
- <websocket:handlers>
-	 <websocket:mapping handler="echoHandler" path="/echo.sockjs" />
-	 <websocket:mapping handler="chatHandler" path="/chat.sockjs" />
-	 <websocket:sockjs />
->>>>>>> 1da1913bef37f657b9dde424fcef814ab808fc2b
+  
  </websocket:handlers>
 
  <mvc:default-servlet-handler />
