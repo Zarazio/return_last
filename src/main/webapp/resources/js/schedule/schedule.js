@@ -658,6 +658,40 @@ $(document).ready(function(){
        $(this).parent().remove() ;
        
     })
+
+/*-----------------------------------친구------------------------------------------*/
+    $("#friend-show").click(function(){
+    	
+    	$("#friend-search div:nth-child(1) > input[type='text'] ").empty();
+    	$.ajax({
+    		url : "plan_friend_list" ,
+    		type : "POST",
+    		data : {
+    			groupCode : groupCode
+    		},
+    		dataType : "json",
+    		success : function(data){
+    			var friend = $("#friend-list") ;
+    			var count = data.array.length ;
+    			var str = "" ;
+    			console.log("panl : " + groupCode);
+    			if(count > 0 ){
+    				for(var i=0 ; i<count ; i++){
+    					str += "<div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+    				}
+    			}else{
+    				console.log("ddd");
+    				str += "<h4>여행할 친구가 없습니다</h4>";
+    			}
+    			
+    			$(str).appendTo(friend);
+    		},
+    		error : function(){
+    			alert("sss");
+    		}
+    	
+    	})
+    })
     
 /*-----------------------------------장소체인지------------------------------------------*/
     var thisLocal ;

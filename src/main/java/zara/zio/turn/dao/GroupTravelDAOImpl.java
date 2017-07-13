@@ -1,6 +1,8 @@
 package zara.zio.turn.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -204,6 +206,15 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 	public String travel_cost(int group_Code) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE + ".travel_cost",group_Code);
+	}
+
+	@Override
+	public List<MemberVO> plan_friend_list(String user_id, int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> plan = new HashMap<String, Object>();
+		plan.put("user_id", user_id);
+		plan.put("group_Code", group_Code);
+		return sqlSession.selectList(NAMESPACE + ".plan_friend_list", plan);
 	}
 
 

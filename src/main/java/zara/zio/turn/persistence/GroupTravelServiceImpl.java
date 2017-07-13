@@ -205,4 +205,10 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 		return dao.travel_cost(group_Code);
 	}
 
+	@Override
+	public List<MemberVO> plan_friend_list(String user_id, int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.plan_friend_list(user_id, group_Code);
+	}
+
 }

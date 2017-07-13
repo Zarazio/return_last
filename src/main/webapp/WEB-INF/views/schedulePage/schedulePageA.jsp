@@ -29,10 +29,7 @@
                      <a href="javascript:chattingWrap()">채팅</a>
                   </li>
                   <li><!-- 친구추가 -->
-                     <a href="#">친구추가</a>
-                  </li>
-                  <li><!-- 임시저장 -->
-                     <a href="#">임시저장</a>
+                     <a href="#" id="friend-show" data-toggle="modal" data-target="#friendShow">친구추가</a>
                   </li>
                   <li class="turn-margin-top-28"><!-- 완료 -->
                      <button id="scheduleSuccess" class="btn btn-teal margin-left-10"> 완료  </button>
@@ -255,6 +252,30 @@
                </div>
                <div id="material-list">
          
+               </div>
+            </div>      
+         </div>
+      </div>
+   </div>
+   
+   
+   <!-- 친구추가 Modal -->
+   <div class="modal fade" id="friendShow">
+      <div class="modal-dialog friend-size ">
+         <div class="modal-content friend-size">
+            <div class="modal-header friend-title">
+               <h3>친구</h3>
+               <button type="button" data-dismiss="modal">X</button>
+            </div>
+            <div class="modal-body friend-body">
+               <div id="friend-list">
+         			
+               </div>
+               <div id="friend-search">
+               		<div>
+               			<input type="text" placeholder="같이 여행할 친구를 검색하세요">
+               			<button class="btn btn-default">검색</button>
+               		</div>
                </div>
             </div>      
          </div>

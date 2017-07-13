@@ -22,7 +22,7 @@
     
    <insert id="groupApplicationCreate">
       	insert into group_application (user_id, group_Code, group_apply, invite_user)
-      	values(#{user_id} , #{group_Code}, 1 , #{invite_user})
+      	values(#{user_id} , #{group_Code}, 0 , #{invite_user})
    </insert>
       
    <!-- Travel 단  -->
@@ -174,5 +174,12 @@
    
    <select id="travel_modify" resultType="GroupVO">
    		select * from travel_group where group_Code = #{group_Code}
+   </select>
+   
+   <!-- friend 단  -->
+   <select id="plan_friend_list" resultType="MemberVO">
+   		select a.user_id,user_profile 
+   		from user_info a, (select * from group_application where group_Code = #{group_Code} and user_id not in (#{user_id}) ) b
+		where a.user_id = b.user_id  
    </select>
 </mapper>

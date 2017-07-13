@@ -7,9 +7,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -500,6 +504,35 @@ public class SchduleContoller {
 	   
 	   return list;
    }
+   
+   
+   @ResponseBody
+   @RequestMapping (value="plan_friend_list", method=RequestMethod.POST)
+   public JSONObject friend_show(String groupCode ,HttpSession session) throws Exception{
+	   
+	   String user_id = (String) session.getAttribute("mem") ;
+	   int group_code = Integer.parseInt(groupCode) ;
+	   
+	   JSONArray array = new JSONArray() ;
+	   JSONObject main = new JSONObject();
+	   
+	   List<MemberVO> mem = service1.plan_friend_list(user_id, group_code) ;
+	   
+	   for(int i=0 ; i<mem.size() ; i++){
+		   JSONObject obj = new JSONObject() ;
+		   System.out.printf("ememe : " +  mem.get(i).getUser_id());
+		   obj.put("user_id", mem.get(i).getUser_id());
+		   obj.put("user_profile", mem.get(i).getUser_profile());
+		   
+		   array.add(obj);
+	   }
+	  
+	   main.put("array", array);
+	   
+	   return main;
+   }
+   
+   
    
 
    
