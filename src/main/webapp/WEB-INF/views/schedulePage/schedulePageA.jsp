@@ -4,7 +4,6 @@
 <script src="./resources/js/sockjs.js"></script>
 <script src="./resources/js/schedule/schedule.js"/></script>
 <script src="./resources/js/schedule/chat.js"></script>
-<script src="./resources/js/schedule/scheduleList.js"></script>
 <script src="./resources/js/jquery-ui-1.10.4.custom.js" /></script>
 <div id="header" class="clearfix bg-dark">
    <!-- TOP NAV -->
@@ -13,7 +12,7 @@
 
          <!-- Logo -->
          <a class="logo pull-left" href="main">
-            <img src="displayLogs?fileName=/logo.png" alt="" />
+            <img src="./resources/img/homeLogo/logo.png" alt="" />
          </a>
          
          <div class="navbar-collapse pull-right nav-main-collapse collapse">
@@ -36,7 +35,7 @@
                      <a href="#">임시저장</a>
                   </li>
                   <li class="turn-margin-top-28"><!-- 완료 -->
-                     <button id="scheduleSuccess" class="btn btn-teal margin-left-10"> 완료  </button>
+                     <button id="scheduleSuccess" class="btn btn-purple margin-left-10"> 완료  </button>
                   </li>
 
                </ul>

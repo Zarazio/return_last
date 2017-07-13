@@ -11,7 +11,7 @@ $(document).ready(function(){
 	groupCode = $("#groupCode").text(); //schdulePageA groupCode
 	user_id = $("#user_id").text();
 	
-	socket = new SockJS("/turn/echo.sockjs");
+	socket = new SockJS("/turn/chat.sockjs");
 	socket.onopen = onOpen;
 	socket.onmessage = onMessage2;
 	socket.onclose = onClose;
@@ -32,28 +32,34 @@ function onClose(evt) {
 }
 	 
 function onMessage2(evt) {
-	console.log("messager admin kakao");
-	modifyScheduleList();
+	var data = evt.data; 
+	
+	console.log("messager admin kakao data : " + data );
+	modifyScheduleList(data);
 }
 	 
 	 
 function esend(day) {
 	
 	  alert("dddsend");
-	  socket.send();
-	  planday = day ;
+	  planDay = day ;
+	  socket.send(planDay);
+	  console.log("day : " + day) ;
 }
 
-function modifyScheduleList(){
+function modifyScheduleList(data){
 	console.log("admin, kakao");
+	
+	planDay = data ;
+	
     $(".selectPlace").each(function(){
         
         var selectThis = $(this) ;
         var select = $(this).attr("data-nal");
-        
+        console.log("select  : " + select  + " planday : " + planDay) ;
         if(select == planDay){
            $(this).css("display", "block");
-           
+           console.log("select = planDay");
            $.ajax({
               type : "POST" ,
               url :  'planDayList',
@@ -63,7 +69,7 @@ function modifyScheduleList(){
               },
               dataType : "json",
               success :function(data){    
-                 
+                 selectThis.empty();
                  for(var i=0 ; i<data.length; i++){
                     $("<div data-code="+data[i].place_code+" data-pri="+ data[i].travel_priority +" data-lat="+ data[i].place_lat 
                     +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + " style='width:100%; padding:5px; height:160px; background : #333333; border-bottom : 1px solid #3a3c3f'></div>")
@@ -74,7 +80,7 @@ function modifyScheduleList(){
                     .css("border-bottom","1px solid #3a3c3f").appendTo(selectThis) ;
                  }
                  
-                 placeMarker();
+                 
               }
            
            })

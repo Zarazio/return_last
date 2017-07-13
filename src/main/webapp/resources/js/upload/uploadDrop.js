@@ -5,6 +5,24 @@ $(document).ready(function(){
 	var hasBeenClicked = false; // 클릭정보
 	
 	// ******************************* upload.jsp & uploadSet.jsp ******************************* //
+	
+	$(".backon").click(function(){
+		if(confirm("돌아가시겠습니까? - 현재 수정중인 정보가 모두사라집니다. ")) {
+			
+			var dataA = getQuerystring("page");
+			var dataB = getQuerystring("recordPage");
+			var dataC = getQuerystring("no");
+			
+			self.location.href = "./uploadRead?page=" + dataA + "&recordPage=" + dataB + "&no=" + dataC;
+		}
+	});
+	
+	$(".cancel").click(function(){
+		if(confirm("작성을 취소하시겠습니까? - 현재 작성중인 정보가 모두사라집니다. ")) {
+			self.location.href = "./uploadList";
+		}
+	});
+	
 	$('#btnsub').on('click', function() {
 		hasBeenClicked = true;
 		if($(".uploadedList > div").hasClass("classCheck")) { // 
@@ -197,6 +215,26 @@ $(document).ready(function(){
 		
 		
 		return text;
+	}
+	
+	// 쿼리스트링 주소데이터
+	function getQuerystring(paramName){ 
+		
+		var tempUrl = window.location.search.substring(1); //url에서 처음부터 '?'까지 삭제 
+		var tempArray = tempUrl.split('&'); // '&'을 기준으로 분리하기 
+		
+		if(tempUrl == "") {
+			return 1;
+		}
+		
+		for(var i=0; tempArray.length; i++) { 
+			var keyValuePair = tempArray[i].split('='); // '=' 을 기준으로 분리하기
+			
+			if(keyValuePair[0] == paramName){ // keyValuePair[0] : 파라미터 명 
+				// keyValuePair[1] : 파라미터 값 
+				return keyValuePair[1];
+			}
+		}
 	}
 	
 	// 페이지를 벗어났을시 저장된 이미지, 썸네일 정보의 제거 

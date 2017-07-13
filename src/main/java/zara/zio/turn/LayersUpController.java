@@ -2,10 +2,8 @@ package zara.zio.turn;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import zara.zio.turn.persistence.LayersService;
-import zara.zio.turn.util.UploadFileUtils;
+
 
 @Controller
 public class LayersUpController {

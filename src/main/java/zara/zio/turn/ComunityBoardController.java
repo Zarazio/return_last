@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import zara.zio.turn.domain.ComunityVO;
 import zara.zio.turn.domain.LogBoardVO;
+import zara.zio.turn.domain.PaginationE;
 import zara.zio.turn.persistence.LogBoardService;
 import zara.zio.turn.util.MediaUtils;
 import zara.zio.turn.util.UploadFileUtils;
@@ -35,7 +36,6 @@ import zara.zio.turn.util.UploadFileUtils;
 
 @Controller
 public class ComunityBoardController {
-	
 	
 	private static final Logger logger =
 			LoggerFactory.getLogger(ComunityBoardController.class);
@@ -49,24 +49,42 @@ public class ComunityBoardController {
 	
 	
 	@RequestMapping(value="/comuList", method = RequestMethod.GET)
-	public String comuList(Model model) throws Exception {
+	public String comuList(Model model, PaginationE pagenation, 
+			@RequestParam(value="page", defaultValue="1") String page) throws Exception {
 		
-		List<ComunityVO> list = service.comunityInfoList();
-		System.out.println(list.size());
+		pagenation.setPage(Integer.parseInt(page));
+		
+		List<ComunityVO> list = service.comunityInfoList(pagenation);
+		
 		model.addAttribute("list", list);
+		model.addAttribute("pagenationE", pagenation);
+		
+		int totalCount = service.comuTotalCount();
+		
+		System.out.println("totalCount [totalCount=" + totalCount + "]");
+		
+		pagenation.setTotalCount(totalCount);
 		
 		return "comunityBorad/comuList";
 	}
 	
 	@RequestMapping(value="/comuWrite", method = RequestMethod.GET)
-	public String comuWrite() {
+	public String comuWrite(HttpSession session, RedirectAttributes rttr) {
+		
+		String username = (String)session.getAttribute("mem");
+		String usergrant = (String) session.getAttribute("info");
+		
+		if(username == null && usergrant == null) {
+			rttr.addAttribute("board","4");
+			return "redirect:login";
+		}
 		
 		return "comunityBorad/comuWrite";
 		
 	}
 	
 	@RequestMapping(value="/comuWrite", method = RequestMethod.POST)
-	public String comuWrite(LogBoardVO vo, HttpSession session) throws Exception {
+	public String comuWrite(String [] cache_content, LogBoardVO vo, HttpSession session) throws Exception {
 		
 		String userName = (String)session.getAttribute("mem");
 		
@@ -79,56 +97,75 @@ public class ComunityBoardController {
 		if(vo.getFile_content() == null) {
 			System.out.println("널캐치");
 		} else {
+			
 			if(vo.getFile_content()[0].contains(".youtube")) {
 	        	type = 2; 
 	        }
+			
+			// 캐싱데이터 예외처리
+			String [] one = vo.getFile_content();
+			
+			for(int i=0; i<cache_content.length; i++) {
+				int count = 0;
+				for(int j=0; j<one.length; j++) {
+					if(!(cache_content[i].equals(one[j]))) {
+						count++;
+					}
+					if(one.length == count) {
+						deleteComunity(cache_content[i]);
+					}
+				}
+			}
+			
 		}
 		
-        Map<String,Object> map = service.maxCode(); // 등록할 최댓값
+        Map<String,Object> map = service.maxCode(); // 등록할 최댓값 , 카운트 추출
         int max = 0;
         int count = Integer.parseInt(map.get("count").toString());
         
-		if(count == 0) {
+		if(count == 0) { // 최초값이 0이면 
 			 max = 1;
 		} else {
 			 max = Integer.parseInt(map.get("max").toString()) + 1;
 		}
-        
+		
+		vo.setBoard_code(max);
         service.logBoardCreate(vo, max, type); // 파일정보	
-        System.out.println("comuWrite : " + max);
         
 		return "redirect:comuList";
 		
 	}
 	
 	@RequestMapping(value="/comuRead", method = RequestMethod.GET)
-	public String comuRead(@RequestParam(value="page", defaultValue="0") int page, Model model) throws Exception {
+	public String comuRead(Model model, @RequestParam(value="page") int page, 
+			@RequestParam(value="post", defaultValue="0") int post) throws Exception {
 		
-		ComunityVO vo = service.comunityInfoRead(page);
+		ComunityVO vo = service.comunityInfoRead(post);
 		model.addAttribute("vo", vo);
+		model.addAttribute("page",page);
 		
 		return "comunityBorad/comuRead";
 	}
 	
 	@RequestMapping(value="/comuSet", method = RequestMethod.GET)
-	public String comuSet(@RequestParam(value="page", defaultValue="0") int page, Model model) throws Exception {
+	public String comuSet(@RequestParam(value="post", defaultValue="0") int post, Model model) throws Exception {
 		
-		ComunityVO vo = service.comunityInfoRead(page);
+		ComunityVO vo = service.comunityInfoRead(post);
 		model.addAttribute("vo", vo);
 		
 		return "comunityBorad/comuSet";
 	}
 
 	@RequestMapping(value = "/comuSet", method = RequestMethod.POST)
-	public String comuSet(@RequestParam(value = "page", defaultValue = "0") int page, LogBoardVO vo,
+	public String comuSet(@RequestParam(value="page") int page, @RequestParam(value="post", defaultValue = "0") int post, LogBoardVO vo,
 			RedirectAttributes rttr, HttpSession session) throws Exception {
-
+		
 		String userName = (String) session.getAttribute("mem");
 		vo.setShare_type(1); // 커뮤니티전체공개
 		vo.setBoard_type_code(4); // 커뮤니티타입
 		vo.setUser_id(userName); // 유저아이디
 
-		List<Map<String, Object>> list = service.comunityFileRead(page); // DB서버
+		List<Map<String, Object>> list = service.comunityFileRead(post); // DB서버
 		String[] now = vo.getFile_content(); // 클라이언트에서 가져오는거
 		int type = 1; // 이미지 디폴트 1
 
@@ -136,17 +173,17 @@ public class ComunityBoardController {
 
 		if (list.isEmpty() && now != null) {
 
-			System.out.println("target_function_1");
+			System.out.println("Exception_function_1");
 			// 서버에 없으며 새로추가하려할때.
 			for (int i = 0; i < now.length; i++) {
 				if (now[i].contains(".youtube")) {
 					type = 2;
 				}
-				service.comunityFileAdd(now[i], type, page);
+				service.comunityFileAdd(now[i], type, post);
 			}
 
 		} else if (now == null && !(list.isEmpty())) {
-			System.out.println("target_function_2");
+			System.out.println("Exception_function_2");
 			// 서버에 있으며 모두삭제하려할때
 			for (int i = 0; i < list.size(); i++) {
 				String arr = (String) list.get(i).get("file_content");
@@ -157,7 +194,7 @@ public class ComunityBoardController {
 			}
 		} else if (now != null && !(list.isEmpty())) {
 
-			System.out.println("target_function_3");
+			System.out.println("Exception_function_3");
 			System.out.println(now.length + " now값");
 			System.out.println(list.size() + " list값");
 
@@ -167,11 +204,11 @@ public class ComunityBoardController {
 				for (int i = 0; i < now.length; i++) {
 					int count = 0;
 					String arr = now[i];
-					// System.out.println(arr + " tA");
+					 System.out.println(arr + " nA");
 					for (int j = 0; j < list.size(); j++) {
 						String err = (String) list.get(j).get("file_content");
 
-						// System.out.println(err + " tB");
+						System.out.println(err + " nB");
 
 						if (!arr.equals(err)) {
 							System.out.println(count + " countCheck");
@@ -180,8 +217,28 @@ public class ComunityBoardController {
 								if (arr.contains(".youtube")) {
 									type = 2;
 								}
-								service.comunityFileAdd(arr, type, page);
+								service.comunityFileAdd(arr, type, post);
 							}
+						} 
+
+					}
+					
+				}
+				
+				System.out.println("next NowArray"); 
+				
+				for (int i = 0; i < list.size(); i++) {
+					int count = 0;
+					String arr = (String) list.get(i).get("file_content");
+					int codeTarget = (int) list.get(i).get("file_code");
+
+					for (int j = 0; j < now.length; j++) {
+						if (!arr.equals(now[j])) {
+							count++;
+						}
+						if (now.length == count) {
+							deleteComunity(arr); // 만족하지못한경우 폴더명삭제
+							service.comunityFileDel(codeTarget); // 데이터베이스의 코드삭제
 						}
 
 					}
@@ -206,14 +263,55 @@ public class ComunityBoardController {
 
 					}
 				}
+				
+				System.out.println("next ListArray"); 
+				
+				for (int i = 0; i < now.length; i++) {
+					int count = 0;
+					String arr = now[i];
+					 System.out.println(arr + " lA");
+					for (int j = 0; j < list.size(); j++) {
+						String err = (String) list.get(j).get("file_content");
+
+						System.out.println(err + " lB");
+
+						if (!arr.equals(err)) {
+							System.out.println(count + " countCheck");
+							count++;
+							if (count == list.size()) {
+								if (arr.contains(".youtube")) {
+									type = 2;
+								}
+								service.comunityFileAdd(arr, type, post);
+							}
+						} 
+
+					}
+					
+				}
+				
 			}
 
 		}
 
-		service.comunityUpdate(vo, page);
+		service.comunityUpdate(vo, post);
 		rttr.addAttribute("page", page);
+		rttr.addAttribute("post", post);
 
 		return "redirect:comuRead";
+	}
+	
+	@RequestMapping(value="/comuDel", method = RequestMethod.GET)
+	public String comuDel(@RequestParam(value="post") int post) throws Exception {
+		
+		List<Map<String, Object>> list = service.comunityFileRead(post);
+		for(int i=0; i<list.size(); i++) {
+			String arr = (String)list.get(i).get("file_content");
+			deleteComunity(arr); // 이미지 타겟경로 삭제
+		}
+		service.boardAllDel(post);
+		
+		return "redirect:comuList";
 	}
 
 	// comu-image 업로드  
@@ -306,10 +404,6 @@ public class ComunityBoardController {
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		
 	}
-	
-	
-	
-	
 	
 	// qna 리스트
 	@RequestMapping(value="/qnaList", method = RequestMethod.GET)

@@ -2,8 +2,8 @@ package zara.zio.turn.domain;
 
 public class MessageVO {
 	
-	private int messageNo ;
-	private String user_id ;
+	private int messageNo;
+	private String user_id;
 	private String content;
 	
 	
