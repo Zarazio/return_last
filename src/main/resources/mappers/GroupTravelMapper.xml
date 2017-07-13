@@ -22,7 +22,7 @@
     
    <insert id="groupApplicationCreate">
       	insert into group_application (user_id, group_Code, group_apply, invite_user)
-      	values(#{user_id} , #{group_Code}, 1 , #{invite_user})
+      	values(#{user_id} , #{group_Code}, 0 , #{invite_user})
    </insert>
       
    <!-- Travel 단  -->
@@ -142,7 +142,6 @@
    		select count(*) from group_application where group_Code = #{group_Code}
    </select>
    
-   
    <delete id="user_groupApplication_delete">
    		delete from group_application where group_Code = #{group_Code} and user_id = #{user_id}
    </delete>
@@ -174,5 +173,12 @@
    
    <select id="travel_modify" resultType="GroupVO">
    		select * from travel_group where group_Code = #{group_Code}
+   </select>
+   
+   <select id="group_travel_alarm" resultType="GroupApplicationVO">
+   		select *
+   		from group_application
+   		where group_apply = 0
+   		order by user_id desc;
    </select>
 </mapper>

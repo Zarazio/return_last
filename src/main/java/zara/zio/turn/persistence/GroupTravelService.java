@@ -59,4 +59,7 @@ public interface GroupTravelService {
 	public List<MaterialVO> travel_supplies_list(int group_Code) throws Exception ; 
 	// 여행 일정 수정하기
 	public GroupVO travel_modify(int group_Code) throws Exception ;
+	
+	// 그룹여행 알림
+	public List<GroupApplicationVO> group_travel_alarm() throws Exception;
 }

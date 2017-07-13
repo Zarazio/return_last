@@ -206,6 +206,10 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 		return sqlSession.selectOne(NAMESPACE + ".travel_cost",group_Code);
 	}
 
-
-
+	@Override
+	public List<GroupApplicationVO> group_travel_alarm() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".group_travel_alarm");
+		
+	}
 }

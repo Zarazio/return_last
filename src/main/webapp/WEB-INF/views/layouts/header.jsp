@@ -3,7 +3,31 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script src="<c:url value="./resources/js/modal/modalView.js"/>" ></script>
-
+<script>
+$(document).ready(function(){
+	
+	 playAlert = setInterval(function() {
+		var alarm = "";
+		var groupAlarm = document.getElementById("groupAlarm").value;
+		
+ 		$.ajax({
+			url: "invite",
+			type: "GET",
+			data: {},
+			success: function(data){
+				for(var i =0; i<data.length; i++){
+					if(groupAlarm != null){
+						console.log("로그인 했다");
+					}
+					else {
+						console.log("로그인 안했다");
+					}
+				}
+			}
+		});
+	}, 5000);
+});
+</script>
 <!-- Modal menu Controll--> 
 <div id="myModal" class="modal fade" role="dialog">
   	<div class="modal-dialog">
@@ -164,24 +188,18 @@
 					</a>
 					<div id="alarm" class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
 						<h4>My Information</h4>
+ 						<input id="groupAlarm" type="text" value="${mem}" style="display:none;"/>
 						<!-- 반복문 이벤트적용 -->
-						<!-- <div class="quick-cart-wrapper">
-							<a href="#">
-								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-								<h6>
-									<span>test  :  </span> good!!! a<br>안녕하세요~
-								</h6>
-							</a>
-						</div>
-						<div class="quick-cart-wrapper">
-							<a href="#">
-								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-								<h6>
-									<span>test  :  </span> 여행의시작
-									<br>재밌는여행 
-								</h6>
-							</a>
-						</div> -->
+ 						<c:forEach items="${invite}" var="invite">
+							<div class="quick-cart-wrapper">
+								<a href="#">
+									<img src="http://placehold.it/45x45" width="45" height="45" alt="">
+									<h6>
+										<span>${invite.invite_id}</span> good!!! a<br>안녕하세요~
+									</h6>
+								</a>
+							</div>
+						</c:forEach>
 					</div>
 				</li>
 			</ul>
