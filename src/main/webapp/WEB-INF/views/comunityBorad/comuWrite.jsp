@@ -23,7 +23,7 @@
 		.shadow-before-3 	= shadow 3 header top
 		.shadow-after-3 	= shadow 3 header bottom
 -->
-<section class="page-header dark page-header-xs shadow-before-1">
+<section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
 		<h1>커뮤니티</h1>
@@ -50,6 +50,7 @@
 				<textarea class="summernote form-control" name="board_content" data-height="600" data-lang="ko-KR"></textarea>
 				<div class="row">
 					<div class="addImage" style="display:none;"></div>
+					<div class="cacheImage" style="display:none;"></div>
 				</div>
 				<div class="form-group text-center margin-top-20">
 					<input id="comuSubmit" class="btn btn-blue" type="submit" value="작성하기">&nbsp;&nbsp;&nbsp;

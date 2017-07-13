@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<script src="./resources/js/comunity/comunityList.js"/></script>
+<script src="./resources/js/comunity/comunityCommand.js"/></script>
 <!-- 
 	PAGE HEADER 
 	
@@ -21,7 +21,7 @@
 		.shadow-before-3 	= shadow 3 header top
 		.shadow-after-3 	= shadow 3 header bottom
 -->
-<section class="page-header dark page-header-xs shadow-before-1">
+<section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
 		<h1>커뮤니티</h1>
@@ -253,8 +253,8 @@
 			<!-- RIGHT -->
 			<div class="col-md-9 col-sm-9">
 
-				<!-- POST ITEM -->
-				<div class="blog-post-item">
+				<!-- POST ITEM  class:blog-post-item-->
+				<div>
 					<table class="table table-striped">
 						<tr>
 							<th class="text-center" width="6%">No</th>
@@ -267,9 +267,11 @@
 						<tr>
 							<td class="text-center">${comu.board_code}</td>
 							<td class="text-center">
-								<a href="${comu.board_code}" class="comu_info">
-									${comu.board_title}
-								</a>
+								<b>
+									<a href="${comu.board_code}" class="comu_info">
+										${comu.board_title}
+									</a>
+								</b>
 							</td>
 							<td class="text-center">${comu.user_id}</td>
 							<td class="text-center">${comu.viewCount}</td>
@@ -289,13 +291,21 @@
 				<div class="text-center">
 					<!-- Pagination Default -->
 					<ul class="pagination nomargin">
-						<li><a href="#">&laquo;</a></li>
-						<li class="active"><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">&raquo;</a></li>
+						<c:if test="${paginationE.prev}">
+							<li>
+								<a href="${paginationE.startPage-1}">&laquo;</a>
+							</li>
+						</c:if>
+						<c:forEach begin="${paginationE.startPage}" end="${paginationE.endPage}" var="idx">
+							<li <c:out value="${idx==paginationE.page?'class=active':''}" /> ><!-- li class="active" -->	
+								<a href="${idx}">${idx}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${paginationE.next}">
+							<li>
+								<a href="${paginationE.endPage+1}">&raquo;</a>
+							</li>
+						</c:if>
 					</ul>
 					<!-- /Pagination Default -->
 				</div>

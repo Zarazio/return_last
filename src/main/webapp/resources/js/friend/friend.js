@@ -21,7 +21,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.1");
+                alert("친구요청을 보냈습니다.");
              }
              friendList();
              reSearch();
@@ -42,7 +42,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.2");
+                alert("요청을 취소하였습니다.");
              }
              friendList();
              reSearch();
@@ -62,7 +62,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.3");
+                alert("삭제되었습니다.");
              }
              friendList();
              reSearch();
@@ -84,7 +84,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.4");
+                alert("완료되었습니다.");
              }
              friendList();
              reSearch();

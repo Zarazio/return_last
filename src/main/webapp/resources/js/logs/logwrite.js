@@ -162,10 +162,16 @@ function sendFile($summernote, file) {
 	        processData: false,
 	        type: 'POST',
 	        success: function (data) {
+	        	
+	        	// 이미지 캐싱정보
+	        	var cache = "";
+	        	cache = "<input type='hidden' name='cache_content' value='" + data + "'>";
+	        	$(".cacheImage").append(cache);
+	        	
 	        	data = "displayLogs?fileName=" + original(data);
 	            $summernote.summernote('insertImage', data, function ($image) {
 	                $image.attr('src',data);
-	                $image.css('width','100%');
+	                $image.css('width','80%');
 	            });
 	        }, error:function(){
 	        	alert("업로드에러");	

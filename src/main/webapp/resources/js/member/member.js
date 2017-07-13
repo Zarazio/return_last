@@ -12,6 +12,15 @@ $(document).ready(function(){
 			pageForm.submit();
 		});
 		
+		$(".pagination li a").on("click",function(){
+			event.preventDefault();
+			var targetPage = $(this).attr("href"); // 어트리뷰트
+			pageForm.find("[name=page]").val(targetPage); // value="${pagination.page} 값을 변경 
+			pageForm.attr("action","memberList");
+			pageForm.attr("method", "get");
+			pageForm.submit();
+		});
+		
 		// ******************************* memberRead.jsp ******************************* //
 		var formObj = $("form[role='form']"); 
 		

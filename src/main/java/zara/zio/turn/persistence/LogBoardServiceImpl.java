@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zara.zio.turn.dao.LogBoardDAO;
 import zara.zio.turn.domain.ComunityVO;
 import zara.zio.turn.domain.LogBoardVO;
+import zara.zio.turn.domain.PaginationE;
 
 @Service
 public class LogBoardServiceImpl implements LogBoardService {
@@ -77,9 +78,15 @@ public class LogBoardServiceImpl implements LogBoardService {
 	}
 	
 	@Override
-	public List<ComunityVO> comunityInfoList() throws Exception {
+	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.comunityInfoList();
+		return dao.comunityInfoList(pagenation);
+	}
+	
+	@Override
+	public int comuTotalCount() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.comuTotalCount();
 	}
 
 	@Override
@@ -114,6 +121,14 @@ public class LogBoardServiceImpl implements LogBoardService {
 		// TODO Auto-generated method stub
 		dao.comunityUpdate(vo, page);
 	}
-	
+
+	@Transactional
+	@Override
+	public void boardAllDel(int page) throws Exception {
+		// TODO Auto-generated method stub
+		dao.boardAllDel(page);
+		dao.boardfileAllDel(page);
+		dao.boardhashAllDel(page);
+	}	
 
 }
