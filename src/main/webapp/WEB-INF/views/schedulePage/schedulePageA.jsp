@@ -12,7 +12,7 @@
 
          <!-- Logo -->
          <a class="logo pull-left" href="main">
-            <img src="displayLogs?fileName=/logo.png" alt="" />
+            <img src="./resources/img/homeLogo/logo.png" alt="" />
          </a>
          
          <div class="navbar-collapse pull-right nav-main-collapse collapse">
@@ -32,7 +32,7 @@
                      <a href="#" id="friend-show" data-toggle="modal" data-target="#friendShow">친구추가</a>
                   </li>
                   <li class="turn-margin-top-28"><!-- 완료 -->
-                     <button id="scheduleSuccess" class="btn btn-teal margin-left-10"> 완료  </button>
+                     <button id="scheduleSuccess" class="btn btn-purple margin-left-10"> 완료  </button>
                   </li>
 
                </ul>

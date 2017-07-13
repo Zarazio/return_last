@@ -5,6 +5,7 @@ import java.util.Map;
 
 import zara.zio.turn.domain.ComunityVO;
 import zara.zio.turn.domain.LogBoardVO;
+import zara.zio.turn.domain.PaginationE;
 
 public interface LogBoardService {
 	
@@ -15,12 +16,15 @@ public interface LogBoardService {
 	public List<Map<String, Object>> logHashRead() throws Exception;
 	public List<Map<String, Object>> logImageFileRead() throws Exception;
 	
-	public List<ComunityVO> comunityInfoList() throws Exception;
+	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception;
+	public int comuTotalCount() throws Exception;
 	public ComunityVO comunityInfoRead(int page) throws Exception;
 	public List<Map<String, Object>> comunityFileRead(int page) throws Exception;
 	
 	public void comunityFileDel (int target) throws Exception;
 	public void comunityFileAdd (String file_name, int type, int page) throws Exception;
 	public void comunityUpdate (LogBoardVO vo, int page) throws Exception;
+	
+	public void boardAllDel (int page) throws Exception;
 	
 }

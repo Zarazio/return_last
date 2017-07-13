@@ -33,40 +33,39 @@ $(document).ready(function(){
 		self.location = "./comuList";
 	});
 	
-	
 	// 언로드 함수
-//	$(window).on('unload', function(){
-//		if(unloadCount == 0) {
-//			
-//			$(".note-editable img").each(function(){
-//				
-//				var imageUrlDel = $(this).attr("src");
-//				
-//				// 업로드 이미지이면 
-//				if(imageUrlDel.match("displayComunity")) {
-//					idx = imageUrlDel.indexOf("/") + 1;
-//					imageUrlDel = "/s_" + imageUrlDel.substr(idx);
-//					
-//					$.ajax({
-//    					 url: "./deleteComunity",
-//    					 type: "POST",
-//    					 data: {fileName:imageUrlDel},
-//    					 dataType: "text",
-//    					 success: function(result){
-//    						 if(result == 'deleted') {
-//			   						
-//    						 }
-//    					 }	
-//    				}); 
-//					
-//				} 
-//				
-//				// 링크파일이면
-//				
-//			}).delay(800);
-//			
-//		} 
-//	});
+	$(window).on('unload', function(){
+		if(unloadCount == 0) {
+			
+			$(".note-editable img").each(function(){
+				
+				var imageUrlDel = $(this).attr("src");
+				
+				// 업로드 이미지이면 
+				if(imageUrlDel.match("displayComunity")) {
+					idx = imageUrlDel.indexOf("/") + 1;
+					imageUrlDel = "/s_" + imageUrlDel.substr(idx);
+					
+					$.ajax({
+    					 url: "./deleteComunity",
+    					 type: "POST",
+    					 data: {fileName:imageUrlDel},
+    					 dataType: "text",
+    					 success: function(result){
+    						 if(result == 'deleted') {
+			   						
+    						 }
+    					 }	
+    				}); 
+					
+				} 
+				
+				// 링크파일이면
+				
+			}).delay(800);
+			
+		} 
+	});
 	
 //	// 썸네일 삭제 클릭펑션
 //	$(".addImage").on("click","a", function(){
@@ -132,10 +131,15 @@ function sendFile($summernote, file) {
 	        success: function (data) {
 	        	console.log(data);
 	        	
+	        	// 이미지 캐싱정보저장
+	        	var cache = "";
+	        	cache = "<input type='hidden' name='cache_content' value='" + data + "'>";
+	        	$(".cacheImage").append(cache);
+	        	
 	        	data = "displayComunity?fileName=" + original(data);
 	            $summernote.summernote('insertImage', data, function ($image) {
 	                $image.attr('src',data);
-	                $image.css('width','90%');
+	                $image.css('width','80%');
 	            });
 	        }, error:function(){
 	        	alert("업로드에러");	

@@ -259,9 +259,16 @@ html { overflow-x:hidden; }
 
 
 /* ========================= 업로드 관리자전용 CSS ========================= */
-.design-level { border:1px solid gray !important; margin-bottom:25px !important; }
+.design-level { border:2px solid rgb(221, 221, 221) !important; margin-top:25px !important; }
 .tresize { margin:0 0 0px 0 !important; padding:10px !important; background-color:rgba(200, 220, 220, 0.41) !important; } 
 .tboder { border:1px solid !important; }
+.turn-upload-color { color:#43a7ef !important; }
+.ul-line { border-bottom: #e5e5e5 1px solid !important; padding-bottom: 0px !important; }
+.ul-margins-0 { margin-bottom:10px !important; }
+.contentLine { line-height:1.5; }
+.uploadFont { font-weight: 600; }
+.upEle { border-right:#d0d0d0 1px solid; }
+.sky-form .btn-set-margin { margin: 0 0 0 5px !important;} 
 
 
 
@@ -710,6 +717,10 @@ html { overflow-x:hidden; }
 
 .fontRead { font-size: 20px; font-weight:normal !important; color: cadetblue;	 }
 .fontMargin { margin-right:5px; }
+
+.comuTitle { font-size: 24px; font-weight: bold; line-height: 0.9; color: black; }
+.comuTitleline { padding-bottom: 30px !important; border-bottom: #eaeaea 1px solid !important;}
+.hei-line { line-height:0.2; }
 
 
 /*================================GIF=================================*/

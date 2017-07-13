@@ -131,6 +131,16 @@ $(document).ready(function(){
 					$(".placeInfos").append(elemen);
 					
 				}
+				
+				if(cnt == 0) {
+					elemen = "<div class='delelement margin-top-60 margin-bottom-80 col-md-8 col-md-offset-2'>" + 
+				        	 	"<div>" +
+				        	 		"<h2>장소정보가 존재하지않습니다.</h2>" +
+								"</div>" +
+							 "</div>";
+			        $(".placeInfos").append(elemen);
+				}
+				
 				// 페이징정보
 				var paging = "<ul class='pagination pagination-simple'>"; // 페이징생성데이터
 				if(prev == true) {

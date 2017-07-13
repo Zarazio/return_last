@@ -1,9 +1,7 @@
  package zara.zio.turn;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.text.SimpleDateFormat;
 
 import javax.inject.Inject;
@@ -19,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import zara.zio.turn.domain.ChattingVO;

@@ -5,57 +5,94 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="<c:url value="./resources/js/member/member.js"/>" ></script>
 <c:if test="${info == 'admin'}">
+<!-- 
+	PAGE HEADER 
+	
+	CLASSES:
+		.page-header-xs	= 20px margins
+		.page-header-md	= 50px margins
+		.page-header-lg	= 80px margins
+		.page-header-xlg= 130px margins
+		.dark			= dark page header
+	
+		.shadow-before-1 	= shadow 1 header top
+		.shadow-after-1 	= shadow 1 header bottom
+		.shadow-before-2 	= shadow 2 header top
+		.shadow-after-2 	= shadow 2 header bottom
+		.shadow-before-3 	= shadow 3 header top
+		.shadow-after-3 	= shadow 3 header bottom
+-->
+<section class="page-header page-header-xs shadow-before-1">
+	<div class="container">
+
+		<h1>회원정보</h1>
+
+		<!-- breadcrumbs -->
+		<ol class="breadcrumb">
+			<li><a href="main">메인</a></li>
+			<li><a href="memberList">회원정보 관리</a></li>
+			<li class="active"> 회원정보</li>
+		</ol><!-- /breadcrumbs -->
+
+	</div>
+</section>
+<!-- /PAGE HEADER -->
 <section>
 	<div class="container">
-		<form role="form"></form>
-		<table class="table table-striped">
-		<tr>
-			<td>
-				<label for="user_id">아이디 : </label>
-				${member.user_id}
-			</td>
-		</tr>
-		<tr>
-			<td><label for="user_birth">생일 : </label>
-				${member.user_birth}
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="user_gender">성별 : </label>
-				<c:set var="gender" value="${member.user_gender}" />
-	
-				<c:if test="${gender eq 0}">
-					남자
-				</c:if>
-				<c:if test="${gender eq 1}">
-					여자
-				</c:if>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="user_phone">전화번호 : </label>
-				${member.user_phone}
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="user_email">이메일 </label>
-				${member.user_email}
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="user_date">가입날짜 : </label>
-				<fmt:formatDate pattern="yyyy-MM-dd" value="${member.user_date}" />
-			</td>
-		</tr>
-		</table>
-		<div>
-			<button type="submit" class="btn btn-warning">Modify</button>
-			<button type="submit" class="btn btn-danger">Remove</button>
-			<button type="submit" class="btn btn-primary">List</button>
+		<form role="form" style="display:none;"></form>
+		<div class="col-md-6 col-md-offset-3">
+			<table class="table table-striped">
+				<tr>
+					<td class="text-center">
+						<img src="displayProfile?fileName=${member.user_profile}" style="width:450px; height:400px;" data-src="/default.png">
+					</td>
+				</tr>
+				<tr>
+					<td class="text-center">
+						<label for="user_id">아이디 : ${member.user_id}</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-center">
+						<label for="user_birth">생일 : ${member.user_birth}</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-center">
+						<label for="user_gender">성별 : 
+							<c:set var="gender" value="${member.user_gender}" />
+			
+							<c:if test="${gender eq 0}">
+								남자
+							</c:if>
+							<c:if test="${gender eq 1}">
+								여자
+							</c:if>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-center">
+						<label for="user_phone">전화번호 : ${member.user_phone}</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-center">
+						<label for="user_email">이메일 : ${member.user_email}</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-center">
+						<label for="user_date">가입날짜 : <fmt:formatDate pattern="yyyy-MM-dd" value="${member.user_date}" /></label>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="row"></div>
+		<div class="text-center">
+			<button type="submit" class="btn btn-warning">정보수정</button>
+			<button type="submit" class="btn btn-danger">회원정보삭제</button>
+			<button type="submit" class="btn btn-primary">목록</button>
 		</div>
 		<div class="pagelist">
 			<input type="hidden" id="page" name="page" value="${pagination.page}">
@@ -66,5 +103,28 @@
 </section>
 </c:if>
 <c:if test="${info == null || info == 'user'}">
-잘못된접근입니다.
+<section class="page-header">
+	<div class="container">
+
+		<h1>PAGE ACCESS ERROR</h1>
+
+		<!-- breadcrumbs -->
+		<ol class="breadcrumb">
+			<li class="active">엑세스 오류</li>
+		</ol><!-- /breadcrumbs -->
+
+	</div>
+</section>
+<!-- /PAGE HEADER -->
+
+<!-- -->
+<section class="padding-xlg">
+	<div class="container">
+		<div class="col-md-8 col-md-offset-3">
+			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>
+			<a class="size-20 font-lato" href="main"><i class="glyphicon glyphicon-menu-left margin-right-10 size-16"></i>메인 페이지로 이동</a>
+		</div>
+	</div>
+</section>
+<!-- / -->
 </c:if>
