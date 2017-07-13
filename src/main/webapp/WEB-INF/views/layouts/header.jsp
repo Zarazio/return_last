@@ -162,10 +162,10 @@
 						<span class="badge badge-aqua btn-xs badge-corner">2</span>
 						<i class="fa fa-bars"></i>
 					</a>
-					<div class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
+					<div id="alarm" class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
 						<h4>My Information</h4>
 						<!-- 반복문 이벤트적용 -->
-						<div class="quick-cart-wrapper">
+						<!-- <div class="quick-cart-wrapper">
 							<a href="#">
 								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
 								<h6>
@@ -181,12 +181,12 @@
 									<br>재밌는여행 
 								</h6>
 							</a>
-						</div>
+						</div> -->
 					</div>
 				</li>
 			</ul>
 			<a class="logo pull-left" href="main">
-				<img src="displayLogs?fileName=/logo.png" />
+				<img src="./resources/img/homeLogo/logo.png" />
 			</a>
 			<div class="navbar-collapse pull-right nav-main-collapse collapse in">
 				<div class="nav-main">
@@ -200,9 +200,8 @@
 						</c:if>
 						<c:if test="${info == 'admin'}">
 							<li><a href="memberList">회원정보 관리</a>
-							<li><a href="upload">장소 등록하기</a>
 							<li><a href="uploadList">장소 리스트</a>
-							<li><a href="#">기타 관리</a>
+							<li><a href="#">고객지원</a>
 						</c:if>
 						<c:if test="${info == 'user'}">
 							<li><a href="logInfo">Log</a></li>

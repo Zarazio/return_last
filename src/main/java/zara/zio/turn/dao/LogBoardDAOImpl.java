@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import zara.zio.turn.domain.ComunityVO;
 import zara.zio.turn.domain.LogBoardVO;
+import zara.zio.turn.domain.PaginationE;
 
 @Repository
 public class LogBoardDAOImpl implements LogBoardDAO {
@@ -81,9 +82,15 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	
 	
 	@Override
-	public List<ComunityVO> comunityInfoList() throws Exception {
+	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + ".comunityList");
+		return sqlSession.selectList(NAMESPACE + ".comunityList", pagenation);
+	}
+	
+	@Override
+	public int comuTotalCount() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".comuTotalCount");
 	}
 
 	@Override
@@ -124,5 +131,23 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 		sqlSession.update(NAMESPACE + ".conmunityUpdate", Updateinfo); 
 	}
 
+	
+	@Override
+	public void boardAllDel(int page) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".boardAllDel", page);
+	}
+
+	@Override
+	public void boardfileAllDel(int page) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".boardfileAllDel", page);
+	}
+
+	@Override
+	public void boardhashAllDel(int page) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".boardhashAllDel", page);
+	}
 
 }

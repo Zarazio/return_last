@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.persistence.LogBoardService;
@@ -90,15 +91,13 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		
 	}
 	
-	
-	
-	
 	@RequestMapping(value="logWrite", method = RequestMethod.GET)
-	public String writeLog(HttpSession session) {
+	public String writeLog(HttpSession session, RedirectAttributes rttr) {
 		String username = (String)session.getAttribute("mem");
 		String usergrant = (String) session.getAttribute("info");
 		
 		if(username == null && usergrant == null) {
+			rttr.addAttribute("board","1");
 			return "redirect:login";
 		}
 		
@@ -106,7 +105,7 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 	}
 	
 	@RequestMapping(value="logWrite", method = RequestMethod.POST)
-	public String writeLog(HttpSession session, LogBoardVO vo) throws Exception {
+	public String writeLog(HttpSession session, LogBoardVO vo, String [] cache_content) throws Exception {
 		
 		String userId = (String)session.getAttribute("mem"); // 작성자아이디 정보
 		vo.setUser_id(userId); // 작성자아이디 	
@@ -140,22 +139,40 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
         if(vo.getFile_content() == null) {
         	System.out.println("널캐치");
         } else {
-	          if(vo.getFile_content()[0].contains(".youtube")) {
+	        if(vo.getFile_content()[0].contains(".youtube")) {
 	        	type = 2;
 	        } else if(vo.getFile_content()[0].contains(".kml")) {
 	        	type = 3;
 	        } 
+	        
+	        // 캐싱데이터 예외처리
+ 			String [] one = vo.getFile_content();
+ 			
+ 			for(int i=0; i<cache_content.length; i++) {
+ 				int count = 0;
+ 				for(int j=0; j<one.length; j++) {
+ 					if(!(cache_content[i].equals(one[j]))) {
+ 						count++;
+ 					}
+ 					if(one.length == count) {
+ 						deleteLogs(cache_content[i]);
+ 					}
+ 				}
+ 			}
+	        
         }
         
         Map<String,Object> map = service.maxCode(); // 등록할 최댓값
         int max = 0;
         int count = Integer.parseInt(map.get("count").toString());
+        
 		if(count == 0) {
 			 max = 1;
 		} else {
 			 max = Integer.parseInt(map.get("max").toString()) + 1;
 		}
        
+		vo.setBoard_code(max);
 		service.logBoardCreate(vo, max, type); // 파일정보
 
 		return "redirect:logInfo";

@@ -25,7 +25,7 @@
 -->
 
 <c:if test="${info == 'user' || info == 'admin'}">
-<section class="page-header dark page-header-xs shadow-before-1">
+<section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
 		<h1>마이페이지</h1>
@@ -96,5 +96,28 @@
 </section>
 </c:if>
 <c:if test="${info == null}">
-잘못된접근입니다.
+<section class="page-header">
+	<div class="container">
+
+		<h1>PAGE ACCESS ERROR</h1>
+
+		<!-- breadcrumbs -->
+		<ol class="breadcrumb">
+			<li class="active">엑세스 오류</li>
+		</ol><!-- /breadcrumbs -->
+
+	</div>
+</section>
+<!-- /PAGE HEADER -->
+
+<!-- -->
+<section class="padding-xlg">
+	<div class="container">
+		<div class="col-md-8 col-md-offset-3">
+			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>
+			<a class="size-20 font-lato" href="main"><i class="glyphicon glyphicon-menu-left margin-right-10 size-16"></i>메인 페이지로 이동</a>
+		</div>
+	</div>
+</section>
+<!-- / -->
 </c:if>

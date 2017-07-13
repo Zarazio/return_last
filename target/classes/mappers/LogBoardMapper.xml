@@ -64,7 +64,15 @@
 		select board_code, board_title, board_date, viewCount, user_id 
 		from board
 		where board_type_code = 4
+		order by board_code desc
+		limit #{startRecord}, #{recordPage}
 	</select>
+	<select id="comuTotalCount" resultType="Integer">
+		select count(*)
+		from board
+		where board_type_code = 4
+	</select>
+	
 	<select id="comunityRead" resultType="ComunityVO">
 		select a.board_code board_code, a.board_title board_title, a.board_content board_content, 
 		a.board_date board_date, a.viewCount viewCount, a.user_id user_id, b.user_profile user_profile
@@ -88,10 +96,24 @@
 		insert into attached_file(file_content, file_type, board_code)
 		values (#{file_name}, #{type}, #{page})
 	</insert>
+	
 	<update id="conmunityUpdate">
 		update board set board_title=#{vo.board_title}, board_content=#{vo.board_content} 
 		where board_code = #{page}
 	</update>
 	
+	
+	<!-- log, comu, travel 모든삭제 -->
+	<delete id="boardAllDel">
+		delete from board where board_code = #{page}
+	</delete>
+	
+	<delete id="boardfileAllDel">
+		delete from attached_file where board_code = #{page}
+	</delete>
+	
+	<delete id="boardhashAllDel">
+		delete from hash_tag where board_code = #{page}
+	</delete>
 	
 </mapper>

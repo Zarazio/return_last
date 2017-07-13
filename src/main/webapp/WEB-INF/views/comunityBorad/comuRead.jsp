@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<script src="./resources/js/comunity/comunityCommand.js"/></script>
 
 <!-- 
 	PAGE HEADER 
@@ -21,7 +22,7 @@
 		.shadow-before-3 	= shadow 3 header top
 		.shadow-after-3 	= shadow 3 header bottom
 -->
-<section class="page-header dark page-header-xs shadow-before-1">
+<section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
 		<h1>커뮤니티</h1>
@@ -43,33 +44,32 @@
 			<!-- LEFT -->
 			<div class="col-md-12 col-sm-12">
 				<div class="numberPost" data-src="${vo.board_code}">
-				<h1 class="blog-post-title">${vo.board_title}</h1>
-				<ul class="blog-post-info list-inline">
-					<li class="pull-right">
-						<a href="#">
-							<i class="fa fa-eye"></i> 
-							<span class="font-lato">${vo.viewCount}</span>
-						</a>
-					</li>
-					<li class="pull-right">
-						<a href="#">
-							<i class="fa fa-clock-o"></i> 
-							<span class="font-lato"><fmt:formatDate pattern="yyyy-MM-dd" value="${vo.board_date}" /></span>
-						</a>
-					</li>
+
+				<div class="pull-left">
+					<div class="comuTitle">${vo.board_title}</div>
+				</div>
+				<div class="pull-right hei-line">
+					<i class="fa fa-eye size-20"></i> 
+					<span class="size-20">${vo.viewCount}</span> <!-- class:font-lato -->
+					&nbsp;
+					<i class="fa fa-clock-o size-20"></i> 
+					<span class="size-20"><fmt:formatDate pattern="yyyy-MM-dd" value="${vo.board_date}" /></span>
+				</div>
+
+				<ul class="blog-post-info comuTitleline">
 				</ul>
 
 				<div><p class="content">${vo.board_content}</p></div>
 
-				<div class="divider"><!-- divider --></div>
+				<hr/><!--class:divider -->
 
 
 
 
 				<!-- SHARE POST -->
-				<div class="clearfix margin-top-30">
+				<div class="clearfix margin-top-20">
 
-					<span class="pull-left margin-top-6 bold hidden-xs">
+					<span class="pull-left margin-top-10 bold hidden-xs">
 						Share Post &nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;
 					</span>
 
@@ -98,11 +98,11 @@
 						<i class="icon-email3"></i>
 					</a>
 					
-					<a href="comuList" class="btn btn-3d btn-teal pull-right" style="margin:0px 0px 0px 5px;">목록</a>
+					<a href="comuList?page=${page}" class="btn btn-3d btn-teal pull-right" style="margin:0px 0px 0px 5px;">목록</a>
 		
 					<c:if test="${vo.user_id eq mem}">
-						<a href="#" class="btn btn-3d btn-amber pull-right" style="margin:0px 0px 0px 5px;">글삭제</a>
-						<a href="comuSet?page=${vo.board_code}" class="btn btn-3d btn-aqua pull-right" style="margin:0px 0px 0px 5px;">글수정</a>
+						<a class="btn btn-3d btn-amber pull-right comuDel" style="margin:0px 0px 0px 5px;">글삭제</a>
+						<a href="comuSet?page=${page}&post=${vo.board_code}" class="btn btn-3d btn-aqua pull-right" style="margin:0px 0px 0px 5px;">글수정</a>
 					</c:if>
 					<a href="#" class="pull-right fontMargin"><img src="displayProfile?fileName=${vo.user_profile}" style="width:40px; height:40px; border:1px solid gray;">
 							&nbsp;<span class="font-lato fontRead">${vo.user_id}</span>
@@ -112,7 +112,7 @@
 				</div>
 				<!-- /SHARE POST -->
 
-				<div class="divider"><!-- divider --></div>
+				<hr/><!--class:divider -->
 
 
 

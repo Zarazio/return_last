@@ -17,7 +17,7 @@
 		.shadow-before-3 	= shadow 3 header top
 		.shadow-after-3 	= shadow 3 header bottom
 -->
-<section class="page-header dark page-header-xs shadow-before-1">
+<section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
 		<h1>장소정보</h1>
