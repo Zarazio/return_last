@@ -58,7 +58,7 @@
 				size="80" maxlength="80" class="form-control" autofocus>
 				<label for="place_lng">경도</label>
 				<input id="place_lng" name="place_lng" type="text"
-`				size="80" maxlength="80" class="form-control" autofocus>
+				size="80" maxlength="80" class="form-control" autofocus>
 			<li>
 				<label for="place_type">장소분류</label>
 				<select name="place_type" class="form-control">

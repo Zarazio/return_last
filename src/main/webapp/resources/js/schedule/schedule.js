@@ -5,6 +5,24 @@ var markersPlan = [] ; // 여행일정에 추가된 장소를 넣음
 
 var materials = [];
 
+
+
+var planDayCheck ; // 첫째날인지 확인하는 용도
+
+var placeCode; //place_code 받는 변수
+var priority = 0; // priority 변수 
+var priority01 = 0; // 바뀐 data-pri와 기존의 pri를 비교해서
+
+var data01 = new Array()  ; //placeList의 모든 배열
+var planList = new Array() ; // 사용자가 여행계획에 등록한 장소 배열 넣기
+var planB ;
+var map ;
+var mapDiv;
+
+
+	 
+
+
 $(document).ready(function(){
    $("#header").remove();
    $("#topBar").remove();
@@ -20,19 +38,19 @@ $(document).ready(function(){
    var diff = day2 - day1; 
    var currDay = 24 * 60 * 60 * 1000; // 일수 (차) 구하는식 
    var cnt = parseInt(diff/currDay); // date (차) 결과값
-
    var planDay = nal(0) ;// 계획 날짜 확인 용도
-   var planDayCheck ; // 첫째날인지 확인하는 용도
    var groupCode = $("#groupCode").text(); //schdulePageA groupCode
-   var placeCode; //place_code 받는 변수
-   var priority = 0; // priority 변수 
-   var priority01 = 0; // 바뀐 data-pri와 기존의 pri를 비교해서
-
-   var data01 = new Array()  ; //placeList의 모든 배열
-   var planList = new Array() ; // 사용자가 여행계획에 등록한 장소 배열 넣기
-
 
    elements = $(".addMenu"); // ul 엘리먼트값불러온다.
+   
+   /*==================================socket=========================================*/
+   
+   socket = new SockJS("/turn/chat.sockjs");
+   socket.onopen = onOpen;
+   socket.onmessage = onMessage2;
+   socket.onclose = onClose;
+   
+   /*=================================================================================*/
    
    // 일정의 날들을 순차적으로 실행
    for(var i=0; i<=cnt; i++) {
@@ -50,6 +68,7 @@ $(document).ready(function(){
       
       
    }
+   
    initDay(); // 처음함수를 실행
    material_list(groupCode);
    
@@ -86,7 +105,7 @@ $(document).ready(function(){
    });
    
    
-   function initDay() { // 함수실행 기본값 날짜
+   function initDay(){ // 함수실행 기본값 날짜
       
       $(".dayChoose").text(
          $(".addMenu .dayon").eq(0).text() + " - " + 
@@ -165,6 +184,8 @@ $(document).ready(function(){
                         .appendTo(selectThis) ;
                         
                      }
+                     
+                     placeMarker();
                   }
                
                })
@@ -265,7 +286,7 @@ $(document).ready(function(){
          // selectPlace의 draggable를 했을 때, 이벤트 발생
          console.log("receive : ") ;
          
-         placeMarker() ;
+         
          planPriority() ;
          planRealTimePriority() ;
          priority01 = priority01.attr("data-pri");
@@ -276,6 +297,7 @@ $(document).ready(function(){
          }
          planListStore();
          esend(planDay);
+         placeMarker() ;
          
         
          
@@ -285,10 +307,11 @@ $(document).ready(function(){
       update : function(){
          // 위치가 바꼈을 때, 이벤트 발생
          console.log("update : ") ;
-         placeMarker() ;
+         
          planPriority();
          planRealTimePriority() ;
          esend(planDay);
+         placeMarker() ;
          
       },
       cursor: "crosshair"
@@ -478,6 +501,7 @@ $(document).ready(function(){
              planPriority();
              planRealTimePriority();
              placeMarker() ;
+             esend(planDay);
              
           },
           error : function(){
@@ -633,6 +657,40 @@ $(document).ready(function(){
        
        $(this).parent().remove() ;
        
+    })
+
+/*-----------------------------------친구------------------------------------------*/
+    $("#friend-show").click(function(){
+    	
+    	$("#friend-search div:nth-child(1) > input[type='text'] ").empty();
+    	$.ajax({
+    		url : "plan_friend_list" ,
+    		type : "POST",
+    		data : {
+    			groupCode : groupCode
+    		},
+    		dataType : "json",
+    		success : function(data){
+    			var friend = $("#friend-list") ;
+    			var count = data.array.length ;
+    			var str = "" ;
+    			console.log("panl : " + groupCode);
+    			if(count > 0 ){
+    				for(var i=0 ; i<count ; i++){
+    					str += "<div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+    				}
+    			}else{
+    				console.log("ddd");
+    				str += "<h4>여행할 친구가 없습니다</h4>";
+    			}
+    			
+    			$(str).appendTo(friend);
+    		},
+    		error : function(){
+    			alert("sss");
+    		}
+    	
+    	})
     })
     
 /*-----------------------------------장소체인지------------------------------------------*/
@@ -834,327 +892,323 @@ $(document).ready(function(){
     
     
 /*-----------------------------------지도-------------------------------------*/
-    var mapDiv = document.getElementById('mapArea')  ;
-    var map = new naver.maps.Map(mapDiv) ;
-    var planB ;
+    mapDiv = document.getElementById('mapArea')  ;
+    map = new naver.maps.Map(mapDiv) ;
+    
     var count = 0 ;
- 
-    
-    
-    
+
+});
+
+
+// 날짜가 바꼈을 경우, 이전 날짜에 선택된 장소를 숨김
+function markerHide(){
    
-    // 날짜가 바꼈을 경우, 이전 날짜에 선택된 장소를 숨김
-    function markerHide(){
+   var hide ;
+   var hides ;
+   
+   naver.maps.Event.addListener(map ,'idle' , function(){
        
-       var hide ;
-       var hides ;
-       
-       naver.maps.Event.addListener(map ,'idle' , function(){
-           
-           // idle 지도의 움직이 멈췄을 때, 발생
-          if(markersPlan != null){
-             for(var i=0 ; i < markersPlan.length ; i++ ){
-                  hide = markersPlan[i] ;
-                  //position = marker.getPosition(); // 마커의 위치 반환
-                  //alert("g확인 : " + markersPlan.length);
-                  hide.setMap(null);
-                  
-               }
+       // idle 지도의 움직이 멈췄을 때, 발생
+      if(markersPlan != null){
+         for(var i=0 ; i < markersPlan.length ; i++ ){
+              hide = markersPlan[i] ;
+              //position = marker.getPosition(); // 마커의 위치 반환
+              //alert("g확인 : " + markersPlan.length);
+              hide.setMap(null);
+              
            }
-          
-          if(markers != null){
-             for(var i=0 ; i < markers.length ; i++ ){
-                  hides = markers[i] ;
-                  //position = marker.getPosition(); // 마커의 위치 반환
-                  console.log("hide  : " + markers[i]);
-                  hides.setMap(null);
-             }
-          }
-             
-        })   
+       }
+      
+      if(markers != null){
+         for(var i=0 ; i < markers.length ; i++ ){
+              hides = markers[i] ;
+              //position = marker.getPosition(); // 마커의 위치 반환
+              console.log("hide  : " + markers[i]);
+              hides.setMap(null);
+         }
+      }
+         
+    })   
+    
+}
+
+
+//planB에 다가 선택한 장소를 넣음
+function planBArray(){
+   planB = new Array() ;// 초기화시켜주고 다시 넣음
+   count = 0 ; //배열의 크기
+
+   $(".selectPlace > div").each(function(){
+      //console.log("this " + $(this).children().eq(0));
+        planB[count] = new Array(6) ;
         
-    }
-    
-    
-    //planB에 다가 선택한 장소를 넣음
-    function planBArray(){
-       planB = new Array() ;// 초기화시켜주고 다시 넣음
-       count = 0 ; //배열의 크기
+        planB[count][0] = $(this).attr("data-pri") ;
+        planB[count][1] = $(this).attr("data-lat") ;
+        planB[count][2] = $(this).attr("data-lng") ;
+        planB[count][3] = $(this).children().eq(0).attr("src") ;
+        planB[count][4] = $(this).attr("data-name") ;
+        planB[count][5] = $(this).attr("data-code") ;
+       
+        
+        count++ ;
+        //console.log("planB : " + $(this).children().eq(0).attr("src") );
+        
+    })
+}
+// 마커 호출
+function placeMarker(){
+
+   console.log("placeMarker 입니다" );
+   if (data01.length == 0) {
+	   return false;
+   }
+	
+   if(markersPlan != null || markers != null){
+      
+      markerHide() ;
+   }
    
-       $(".selectPlace > div").each(function(){
-          //console.log("this " + $(this).children().eq(0));
-            planB[count] = new Array(6) ;
-            
-            planB[count][0] = $(this).attr("data-pri") ;
-            planB[count][1] = $(this).attr("data-lat") ;
-            planB[count][2] = $(this).attr("data-lng") ;
-            planB[count][3] = $(this).children().eq(0).attr("src") ;
-            planB[count][4] = $(this).attr("data-name") ;
-            planB[count][5] = $(this).attr("data-code") ;
-           
-            
-            count++ ;
-            //console.log("planB : " + $(this).children().eq(0).attr("src") );
-            
+   planBArray();
+       
+    // 만약 count 값이 0이면 계획에 등록된 장소가 없으므로 
+   // 제일 먼저 등록되어 있는 장소를 초첨 잡는다
+   if(count == 0){
+   
+      //console.log("위도 : "+ planB[0][1] + "경도 : " + planB[0][2] );
+
+      map = new naver.maps.Map(mapDiv , {
+         center : new naver.maps.LatLng(data01[0][1], data01[0][2]) ,
+         zoom : 7 
+      })
+   } else{
+       map = new naver.maps.Map(mapDiv , {
+           center : new naver.maps.LatLng(planB[0][1],planB[0][2]) ,
+           zoom : 7
         })
+   }
+    markers = [];
+    infoWindows = [] ;
+   // data01.length만큼의 마커를 만들어줌
+   for(var i=0 ; i<data01.length ; i++){
+              
+       var marker = new naver.maps.Marker({
+           position: new naver.maps.LatLng(data01[i][1], data01[i][2]),
+           map: map,
+           icon : {
+              content: [
+                 '<div class="cs_mapbridge marker">',
+              '<img src="./resources/img/map/place_marker.png">',
+              '</div>'
+           ].join(''),
+           size: new naver.maps.Size(22, 35),
+             anchor: new naver.maps.Point(25,48)
+         },
+           zIndex : 100 
+       });
+
+      
+       
+       var infoWindow = new naver.maps.InfoWindow({
+            content : "<div style='width:350px; height:180px ; padding:10px ; position: relative'>"
+                  +"<div>"
+                  +    "<div style='display:inline-block'>"
+                  +       "<img src='displayFile?fileName="+ thumb(data01[i][3]) + "'  style='width:100px; height:100px'>"
+                  +       "</div>"
+                  +    "<div style='display:inline-block ; padding-left:10px'>"
+                  +       "<h4 style='color:black'>"+data01[i][4]+"</h4>"
+                  +         "<p style='color:black'></p>"
+                  +    "</div>"
+                  +      "<div class='d' style='position: absolute; width:20px ; height:20px; border:1px solid black; text-align:center; line-height : 20px; right:10px; top:10px'><a href=\javascript:infoClose(" +i+ ");\>X</a>"      
+                  +      "</div>"
+                  + "</div>"
+                  + "<div style='padding-top:8px; border-top: 1px solid black; margin-top:10px' >"
+                  +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href='\javascript:placeDetailWindow("+data01[i][0]+");\'>자세히보기</a></div>"
+                  +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; text-align:center; line-height : 40px'><a href='#'>일정에 추가</a></div>"
+                  + "</div>"
+                  + "</div>"
+           });
+
+        infoWindows.push(infoWindow) ;
+        
+       
+        
+        
+        
+       // markers 배열에 넣어줌 
+       markers.push(marker) ;  
+       marker.addListener("mouseover", onMouseOver) ;
+       marker.addListener("mouseout", onMouseOut) ;
+       
+       marker = null ;
+       
+       
     }
+   
+   
+   
     
+    markersPlan = [];
+    infoWindowsPlan = [] ;
+   // planB가 존재하면 실행 
+   if(count > 0){
+      for(var i=0 ; i<planB.length ; i++){
 
-    // 마커 호출
-    function placeMarker(){
-    	
-       if (data01.length == 0) {
-    	   return false;
-       }
-    	
-       if(markersPlan != null || markers != null){
-          
-          markerHide() ;
-       }
-       
-       planBArray();
-           
-        // 만약 count 값이 0이면 계획에 등록된 장소가 없으므로 
-       // 제일 먼저 등록되어 있는 장소를 초첨 잡는다
-       if(count == 0){
-       
-          //console.log("위도 : "+ planB[0][1] + "경도 : " + planB[0][2] );
-
-          map = new naver.maps.Map(mapDiv , {
-             center : new naver.maps.LatLng(data01[0][1], data01[0][2]) ,
-             zoom : 7 
-          })
-       } else{
-           map = new naver.maps.Map(mapDiv , {
-               center : new naver.maps.LatLng(planB[0][1],planB[0][2]) ,
-               zoom : 7
-            })
-       }
-        markers = [];
-        infoWindows = [] ;
-       // data01.length만큼의 마커를 만들어줌
-       for(var i=0 ; i<data01.length ; i++){
-                  
-           var marker = new naver.maps.Marker({
-               position: new naver.maps.LatLng(data01[i][1], data01[i][2]),
-               map: map,
-               icon : {
-                  content: [
+         var marker01 = new naver.maps.Marker({
+            position : new naver.maps.LatLng(planB[i][1],planB[i][2]),
+            map : map ,
+            icon : {
+               content: [
                      '<div class="cs_mapbridge marker">',
-                  '<img src="./resources/img/map/place_marker.png">',
-                  '</div>'
+                        '<img src="./resources/img/map/select_marker.png">',
+                        '<div class="priority2">'+(i+1)+'</div>',
+                      '</div>'
                ].join(''),
                size: new naver.maps.Size(22, 35),
                  anchor: new naver.maps.Point(25,48)
-             },
-               zIndex : 100 
+               
+            },
+            zIndex : 100 
+         })
+         
+          var infoWindow = new naver.maps.InfoWindow({
+            content : "<div style='width:350px; height:180px ; padding:10px ; position: relative'>"
+                  +"<div>"
+                  +    "<div style='display:inline-block'>"
+                  +       "<img src='"+planB[i][3] +"' style='width:100px ; height:100px'>"
+                  +       "</div>"
+                  +    "<div style='display:inline-block ; padding-left:10px'>"
+                  +       "<h4 style='color:black'>"+planB[i][4]+"</h4>"
+                  +         "<p style='color:black'></p>"
+                  +    "</div>"
+                  +      "<div class='d' style='position: absolute; width:20px ; height:20px; border:1px solid black; text-align:center; line-height : 20px; right:10px; top:10px'><a href=\javascript:infoClosePlan(" +i+ ");\>X</a>"      
+                  +      "</div>"
+                  + "</div>"
+                  + "<div style='padding-top:8px; border-top: 1px solid black; margin-top:10px' >"
+                  +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href='\javascript:placeDetailWindow("+planB[i][5]+");\'>자세히보기</a></div>"
+                  +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; text-align:center; line-height : 40px'><a href='#'>일정에 추가</a></div>"
+                  + "</div>"
+                  + "</div>"
            });
-
+          
           
            
-           var infoWindow = new naver.maps.InfoWindow({
-                content : "<div style='width:350px; height:180px ; padding:10px ; position: relative'>"
-                      +"<div>"
-                      +    "<div style='display:inline-block'>"
-                      +       "<img src='displayFile?fileName="+ thumb(data01[i][3]) + "'  style='width:100px; height:100px'>"
-                      +       "</div>"
-                      +    "<div style='display:inline-block ; padding-left:10px'>"
-                      +       "<h4 style='color:black'>"+data01[i][4]+"</h4>"
-                      +         "<p style='color:black'></p>"
-                      +    "</div>"
-                      +      "<div class='d' style='position: absolute; width:20px ; height:20px; border:1px solid black; text-align:center; line-height : 20px; right:10px; top:10px'><a href=\javascript:infoClose(" +i+ ");\>X</a>"      
-                      +      "</div>"
-                      + "</div>"
-                      + "<div style='padding-top:8px; border-top: 1px solid black; margin-top:10px' >"
-                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href='\javascript:placeDetailWindow("+data01[i][0]+");\'>자세히보기</a></div>"
-                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; text-align:center; line-height : 40px'><a href='#'>일정에 추가</a></div>"
-                      + "</div>"
-                      + "</div>"
-               });
+           infoWindowsPlan.push(infoWindow) ;
+           console.log("marker01 : " +infoWindow.content) ;
+           marker01.set('seq', i+1 ) ;
+           markersPlan.push(marker01) ;
+           marker01.addListener("mouseover", onMouseOverPlan) ;
+           marker01.addListener("mouseout", onMouseOutPlan) ;
+          
+           marker01 = null ;
+           
+          
+      }
+      
+      
+   }
 
-            infoWindows.push(infoWindow) ;
-            
-           
-            
-            
-            
-           // markers 배열에 넣어줌 
-           markers.push(marker) ;  
-           marker.addListener("mouseover", onMouseOver) ;
-           marker.addListener("mouseout", onMouseOut) ;
-           
-           marker = null ;
-           
-           
-        }
+    naver.maps.Event.addListener(map ,'idle' , function(){
        
+       // idle 지도의 움직이 멈췄을 때, 발생
+       updateMarkers(map, markers) ;
+       if(count > 0)
+          updateMarkers(map, markersPlan);
+    })
+    
+    function updateMarkers(map , markers) {
+       var mapBounds = map.getBounds() ; // 현재 지도의 좌표경계
+       var marker , position; 
        
-       
-        
-        markersPlan = [];
-        infoWindowsPlan = [] ;
-       // planB가 존재하면 실행 
-       if(count > 0){
-          for(var i=0 ; i<planB.length ; i++){
-
-             var marker01 = new naver.maps.Marker({
-                position : new naver.maps.LatLng(planB[i][1],planB[i][2]),
-                map : map ,
-                icon : {
-                   content: [
-                         '<div class="cs_mapbridge marker">',
-                            '<img src="./resources/img/map/select_marker.png">',
-                            '<div class="priority2">'+(i+1)+'</div>',
-                          '</div>'
-                   ].join(''),
-                   size: new naver.maps.Size(22, 35),
-                     anchor: new naver.maps.Point(25,48)
-                   
-                },
-                zIndex : 100 
-             })
-             
-              var infoWindow = new naver.maps.InfoWindow({
-                content : "<div style='width:350px; height:180px ; padding:10px ; position: relative'>"
-                      +"<div>"
-                      +    "<div style='display:inline-block'>"
-                      +       "<img src='"+planB[i][3] +"' style='width:100px ; height:100px'>"
-                      +       "</div>"
-                      +    "<div style='display:inline-block ; padding-left:10px'>"
-                      +       "<h4 style='color:black'>"+planB[i][4]+"</h4>"
-                      +         "<p style='color:black'></p>"
-                      +    "</div>"
-                      +      "<div class='d' style='position: absolute; width:20px ; height:20px; border:1px solid black; text-align:center; line-height : 20px; right:10px; top:10px'><a href=\javascript:infoClosePlan(" +i+ ");\>X</a>"      
-                      +      "</div>"
-                      + "</div>"
-                      + "<div style='padding-top:8px; border-top: 1px solid black; margin-top:10px' >"
-                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; margin-right:10px; text-align:center; line-height : 40px'><a href='\javascript:placeDetailWindow("+planB[i][5]+");\'>자세히보기</a></div>"
-                      +    "<div style='width:160px; height: 40px; float:left; border:1px solid black; text-align:center; line-height : 40px'><a href='#'>일정에 추가</a></div>"
-                      + "</div>"
-                      + "</div>"
-               });
-              
-              
-               
-               infoWindowsPlan.push(infoWindow) ;
-               console.log("marker01 : " +infoWindow.content) ;
-               marker01.set('seq', i+1 ) ;
-             markersPlan.push(marker01) ;
-             marker01.addListener("mouseover", onMouseOverPlan) ;
-               marker01.addListener("mouseout", onMouseOutPlan) ;
-              
-               marker01 = null ;
-               
-              
-          }
+       for(var i=0 ; i < markers.length ; i++ ){
+          marker = markers[i] ;
+          position = marker.getPosition(); // 마커의 위치 반환
           
-          
-       }
-    
-        naver.maps.Event.addListener(map ,'idle' , function(){
-           
-           // idle 지도의 움직이 멈췄을 때, 발생
-           updateMarkers(map, markers) ;
-           if(count > 0)
-              updateMarkers(map, markersPlan);
-        })
-        
-        function updateMarkers(map , markers) {
-           var mapBounds = map.getBounds() ; // 현재 지도의 좌표경계
-           var marker , position; 
-           
-           for(var i=0 ; i < markers.length ; i++ ){
-              marker = markers[i] ;
-              position = marker.getPosition(); // 마커의 위치 반환
-              
-              if(mapBounds.hasLatLng(position)){
-                 showMarker(map, marker) ;             
-              }else {
-                 hideMarker(map, marker) ;
-              }
-           }
-        }
-        
-        
-        function showMarker(map, marker) {
-
-            if (marker.setMap()) return;
-            marker.setMap(map);
-        }
-
-        function hideMarker(map, marker) {
-
-            if (!marker.setMap()) return;
-            marker.setMap(null);
-        }
-        
-        var polyline = new naver.maps.Polyline({
-            map: map,
-            path: [],
-            endIcon: naver.maps.PointingIcon.OPEN_ARROW,
-            //아이콘의 크기를 지정합니다. 단위는 픽셀입니다.
-            endIconSize: 20,
-            strokeColor: '#5347AA',
-            strokeWeight: 2
-        });
-        
-        for(var i=0 ; i<planB.length ; i++){
-           var path = polyline.getPath() ;
-           if(i==0){
-              polyline.setVisible(false);
-           }else{
-              polyline.setVisible(true);
-           }
-           path.push(new naver.maps.LatLng(planB[i][1], planB[i][2]));
-           console.log(path);
-        }
-        
-        for(var i=0 ; i<data01.length ; i++){
-           naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)) ;
-           
-           console.log("mrea : " + markers[i] )
-        }
-        
-        for(var i=0 ; i<planB.length ; i++){
-           naver.maps.Event.addListener(markersPlan[i], 'click', getClickHandlerPlan(i)) ;
-           
-           console.log("markersPlan[i] : " + markersPlan[i] )
-        }
-        
-    }
-    
-    
- // 마커마다 정보창 띄우기 (모든 장소)
-    function getClickHandler(seq){
-       return function(e){
-          var marker = markers[seq] ;
-          var infoWindow = infoWindows[seq] ;
-          
-          if(infoWindow.getMap()){
-             infoWindow.close() ;
-          }
-          else{
-             infoWindow.open(map, marker) ;
+          if(mapBounds.hasLatLng(position)){
+             showMarker(map, marker) ;             
+          }else {
+             hideMarker(map, marker) ;
           }
        }
     }
-    // 마커마다 정보창 띄우기 (사용자가 계획한 장소)
-    function getClickHandlerPlan(seq){
-       return function(e){
-          var marker = markersPlan[seq] ;
-          var infoWindow = infoWindowsPlan[seq] ;
-          
-          if(infoWindow.getMap()){
-             infoWindow.close() ;
-          }
-          else{
-             infoWindow.open(map, marker) ;
-          }
-       }
-    }
-  
+    
+    
+    function showMarker(map, marker) {
 
-});
+        if (marker.setMap()) return;
+        marker.setMap(map);
+    }
+
+    function hideMarker(map, marker) {
+
+        if (!marker.setMap()) return;
+        marker.setMap(null);
+    }
+    
+    var polyline = new naver.maps.Polyline({
+        map: map,
+        path: [],
+        endIcon: naver.maps.PointingIcon.OPEN_ARROW,
+        //아이콘의 크기를 지정합니다. 단위는 픽셀입니다.
+        endIconSize: 20,
+        strokeColor: '#5347AA',
+        strokeWeight: 2
+    });
+    
+    for(var i=0 ; i<planB.length ; i++){
+       var path = polyline.getPath() ;
+       if(i==0){
+          polyline.setVisible(false);
+       }else{
+          polyline.setVisible(true);
+       }
+       path.push(new naver.maps.LatLng(planB[i][1], planB[i][2]));
+       console.log(path);
+    }
+    
+    for(var i=0 ; i<data01.length ; i++){
+       naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i)) ;
+       
+       console.log("mrea : " + markers[i] )
+    }
+    
+    for(var i=0 ; i<planB.length ; i++){
+       naver.maps.Event.addListener(markersPlan[i], 'click', getClickHandlerPlan(i)) ;
+       
+       console.log("markersPlan[i] : " + markersPlan[i] )
+    }
+    
+}
+
+
+// 마커마다 정보창 띄우기 (모든 장소)
+function getClickHandler(seq){
+   return function(e){
+      var marker = markers[seq] ;
+      var infoWindow = infoWindows[seq] ;
+      
+      if(infoWindow.getMap()){
+         infoWindow.close() ;
+      }
+      else{
+         infoWindow.open(map, marker) ;
+      }
+   }
+}
+// 마커마다 정보창 띄우기 (사용자가 계획한 장소)
+function getClickHandlerPlan(seq){
+   return function(e){
+      var marker = markersPlan[seq] ;
+      var infoWindow = infoWindowsPlan[seq] ;
+      
+      if(infoWindow.getMap()){
+         infoWindow.close() ;
+      }
+      else{
+         infoWindow.open(map, marker) ;
+      }
+   }
+}
+
 
 function onMouseOver(e){
    var marker = e.overlay 
@@ -1333,5 +1387,81 @@ function thumb(data){
    
    return idxA ;
 }
+
+
+/*=====================================socket 연결 ==========================================*/
+
+function disconnect() {
+	socket.close();
+}
+	 
+function onOpen(evt) {
+	 
+}
+		 
+function onClose(evt) {
+	  
+}
+	 
+function onMessage2(evt) {
+	var data = evt.data; 
+	
+	console.log("messager admin kakao data : " + data );
+	modifyScheduleList(data);
+}
+	 
+	 
+function esend(day) {
+	
+	  alert("dddsend");
+	  planDay = day ;
+	  socket.send(planDay);
+	  console.log("day : " + day) ;
+}
+
+function modifyScheduleList(data){
+	console.log("admin, kakao");
+	
+	planDay = data ;
+	
+	 $(".selectPlace").each(function(){
+         
+         var selectThis = $(this) ;
+         var select = $(this).attr("data-nal");
+         
+         if(select == planDay){
+            $(this).css("display", "block");
+            
+            $.ajax({
+               type : "POST" ,
+               url :  'planDayList',
+               data : {
+                  group : groupCode,
+                    plan : planDay
+               },
+               dataType : "json",
+               success :function(data){    
+                  selectThis.empty();
+                  for(var i=0 ; i<data.length; i++){
+                     $("<div data-code="+data[i].place_code+" data-pri="+ data[i].travel_priority +" data-lat="+ data[i].place_lat 
+                     +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + " style='width:100%; padding:5px; height:160px; background : #333333; border-bottom : 1px solid #3a3c3f'></div>")
+                     .addClass("planList")
+                     .addClass("priority")
+                     .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "' style='width:150px ; height:150px'><span>"+data[i].place_name+"</span>")
+                     .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><a href='#'>삭제</a></div>") 
+                     .css("border-bottom","1px solid #3a3c3f").appendTo(selectThis) ;
+                  }
+                  placeMarker();
+               }
+            
+            })
+         }
+      
+      });
+}
+
+
+/*=================================================================================================*/
+
 
 

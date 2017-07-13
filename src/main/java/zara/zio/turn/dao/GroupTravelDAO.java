@@ -62,7 +62,11 @@ public interface GroupTravelDAO {
 	
 	// 여행 일정 수정하기
 	public GroupVO travel_modify(int group_Code) throws Exception ;
-	
+
 	// 그룹여행 알림
 	public List<GroupApplicationVO> group_travel_alarm() throws Exception;
+
+	//여행 친구 불러오기
+	public List<MemberVO> plan_friend_list(String user_id, int group_Code) throws Exception ;
+
 }

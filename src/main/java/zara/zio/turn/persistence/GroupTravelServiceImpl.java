@@ -2,7 +2,6 @@ package zara.zio.turn.persistence;
 
 import java.util.List;
 
-
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -18,10 +17,10 @@ import zara.zio.turn.domain.TravelListVO;
 
 @Service
 public class GroupTravelServiceImpl implements GroupTravelService {
-	
-	@Inject 
+
+	@Inject
 	private GroupTravelDAO dao;
-	
+
 	@Override
 	public void create(GroupVO group) throws Exception {
 		// TODO Auto-generated method stub
@@ -33,9 +32,9 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 		// TODO Auto-generated method stub
 		return dao.selectGroupCode(group);
 	}
-	
-	// --------------- // 
-	
+
+	// --------------- //
+
 	@Override
 	public void create(TravelListVO travel) throws Exception {
 		// TODO Auto-generated method stub
@@ -66,7 +65,6 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 		dao.planDelete(travel);
 	}
 
-	
 	@Override
 	public List<TravelListVO> planRealTimePriority(TravelListVO travel) throws Exception {
 		// TODO Auto-generated method stub
@@ -130,7 +128,7 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 	@Override
 	public void limit_cost_update(GroupVO group) throws Exception {
 		// TODO Auto-generated method stub
-		dao.limit_cost_update(group); 
+		dao.limit_cost_update(group);
 	}
 
 	@Override
@@ -142,7 +140,7 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 	@Override
 	public void chattingStore(ChattingVO chat) throws Exception {
 		// TODO Auto-generated method stub
-		dao.chattingStore(chat) ;
+		dao.chattingStore(chat);
 	}
 
 	@Override
@@ -209,6 +207,11 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 	public List<GroupApplicationVO> group_travel_alarm() throws Exception {
 		// TODO Auto-generated method stub
 		return dao.group_travel_alarm();
+	}
+	public List<MemberVO> plan_friend_list(String user_id, int group_Code) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.plan_friend_list(user_id, group_Code);
+
 	}
 
 }

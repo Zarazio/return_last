@@ -181,4 +181,11 @@
    		where group_apply = 0
    		order by user_id desc;
    </select>
+   <!-- friend 단  -->
+   <select id="plan_friend_list" resultType="MemberVO">
+   		select a.user_id,user_profile 
+   		from user_info a, (select * from group_application where group_Code = #{group_Code} and user_id not in (#{user_id}) ) b
+		where a.user_id = b.user_id  
+   </select>
+   
 </mapper>
