@@ -43,11 +43,11 @@
 		</div>
 		<hr />
 		<div class="table-responsive padding-40">
-			<table class="table"><!-- table-bordered 속성제거 -->
+			<table class="table turn-shadow"><!-- table-bordered 속성제거 -->
 				<tbody>
 					<tr class="text-center clickta">
 						<td><b>광역도시</b></td>
-						<td rowspan="2" class="locals turntive table-bordered turn-vertical" data-local="locals_all">모든지역</td>
+						<td rowspan="2" class="locals turntive turn-vertical" data-local="locals_all">모든지역</td>
 						<td class="locals" data-local="서울">서울</td>
 						<td class="locals" data-local="인천">인천</td>
 						<td class="locals" data-local="대전">대전</td>

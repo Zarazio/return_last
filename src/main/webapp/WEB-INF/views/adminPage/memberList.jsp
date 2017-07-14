@@ -36,33 +36,35 @@
 	</div>
 </section>
 <!-- /PAGE HEADER -->
-<section>
+<section class="alternate">
 	<div class="container">
 		<form id="pageForm" class="form-inline" style="display:none;">
 			<input type="hidden" name="page" value="${pagination.page}">
 			<input type="hidden" name="recordPage" value="${pagination.recordPage}">
 		</form>
 		<div class="col-md-6 col-md-offset-3">
-			<table class="table table-striped text-center">
-				<tr>
-					<th class="text-center">회원 아이디</th>
-					<th class="text-center">회원 가입날짜</th>
-					<th class="text-center">회원정보</th>
-				</tr>
-				<c:forEach items="${member}" var="member">
+			<div class="turn-shadow">
+				<table class="table table-striped text-center">
 					<tr>
-						<td>${member.user_id}</td>
-						<td>
-							<fmt:formatDate pattern="yyyy-MM-dd" value="${member.user_date}" />
-						</td>
-						<td>
-							<a href="${member.user_id}" class="member_info btn btn-primary btn-xs">
-								정보보기
-							</a>
-						</td>
+						<th class="text-center">회원 아이디</th>
+						<th class="text-center">회원 가입날짜</th>
+						<th class="text-center">회원정보</th>
 					</tr>
-				</c:forEach>	
-			</table>
+					<c:forEach items="${member}" var="member">
+						<tr>
+							<td>${member.user_id}</td>
+							<td>
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${member.user_date}" />
+							</td>
+							<td>
+								<a href="${member.user_id}" class="member_info btn btn-primary btn-xs">
+									정보보기
+								</a>
+							</td>
+						</tr>
+					</c:forEach>	
+				</table>
+			</div>
 		</div>
 		<div class="row"></div>
 			<div class="text-center">
@@ -103,7 +105,7 @@
 <!-- /PAGE HEADER -->
 
 <!-- -->
-<section class="padding-xlg">
+<section class="padding-xlg alternate">
 	<div class="container">
 		<div class="col-md-8 col-md-offset-3">
 			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>

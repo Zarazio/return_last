@@ -1,6 +1,7 @@
 package zara.zio.turn.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import zara.zio.turn.domain.Pagination;
 import zara.zio.turn.domain.PlaceInfoListVO;
@@ -15,6 +16,8 @@ public interface PlaceService {
 	public int getTotalCount() throws Exception;
 	public PlaceVO read(int no) throws Exception;
 	public List<PlaceVO> readimg(int no) throws Exception;
+	public Map<Object, String> creatorimg (int no) throws Exception;
+	
 	public void placeAll_delete(int no) throws Exception;
 	public void pimg_delete(int no) throws Exception;
 	public void place_update(PlaceVO vo, int no) throws Exception;

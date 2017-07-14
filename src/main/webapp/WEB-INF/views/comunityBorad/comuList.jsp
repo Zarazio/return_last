@@ -37,7 +37,7 @@
 <!-- /PAGE HEADER -->
 
 <!-- -->
-<section>
+<section class="alternate">
 	<div class="container">
 
 		<div class="row">
@@ -254,7 +254,7 @@
 			<div class="col-md-9 col-sm-9">
 
 				<!-- POST ITEM  class:blog-post-item-->
-				<div>
+				<div class="turn-shadow">
 					<table class="table table-striped">
 						<tr>
 							<th class="text-center" width="6%">No</th>

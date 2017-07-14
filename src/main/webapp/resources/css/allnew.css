@@ -26,9 +26,13 @@ html { overflow-x:hidden; }
 .turn-c { width:345px !important; }
 .turn-tb-16 { margin-top:15px; margin-bottom:15px;}
 .turn-border { border-bottom:1px solid rgba(255, 255, 255, 0.1) !important; }
-.turn-color { color:#60d8d8 !important; }
-
-
+.turn-color { color:#ffffff !important; }
+.turn-shadow {
+	box-shadow: 0 1px 1px rgba(125,125,125,.2);
+	-webkit-box-shadow: 0 1px 1px rgba(125,125,125,.2);
+}
+.turn-lineheight { line-height:2; }
+.bor_floor:hover { border-bottom:1px solid #fff; }
 
 /* ========================= 일정등록부분 CSS ============================ */
 
@@ -206,7 +210,7 @@ html { overflow-x:hidden; }
 .t-close i { border-color:#83bdbd !important; }
 
 /* 장소 content-box 부분 */
-.infoboard { padding:0 !important; border:1px solid #e0d1d1; cursor:pointer; }
+.infoboard { padding:0 !important; border:1px solid #e0d1d1; cursor:pointer; background-color:#fbfbfb; }
 .infoboard:hover {border:1px solid #7e59b9; opacity:0.8; }
 .infoboard h4 { margin:0 0 10px 0 !important; }
 .infoboard p { margin-bottom:10px !important; }
@@ -214,13 +218,26 @@ html { overflow-x:hidden; }
 .infoboard img { width:100%; height:170px; }
 .infoboard img:hover { width:100%; height:170px; }
 
+/* 장소 상세보기 부분 */
+.sideFont { color: #2d84e0; font-family: initial; }
+.left-line { border-bottom:#e5e5e5 1px solid !important; }
+.contentLine-two { line-height: 1.5; margin-bottom: 0px !important;}
+.content-line { margin-bottom: 20px !important;}
+
 
 
 /* =========================== 로그 부분 CSS ============================ */
 .t-cellgrid { /* 세로형 그리드지정 */ vertical-align:top; display:inline-block; padding:10px; }
 
 /* Log content-box 부분 */
-.timeline { padding:0 !important; border:1px solid #e0d1d1; border-radius:5px; cursor:pointer; }
+.timeline { 
+	padding:0 !important; 
+	border:1px solid #e0d1d1; 
+	border-radius:5px; 
+	cursor:pointer; 
+	box-shadow: 0 1px 1px rgba(125,125,125,.2);
+	-webkit-box-shadow: 0 1px 1px rgba(125,125,125,.2); 
+}
 .timeline h4 { margin:0 0 10px 0 !important; }
 .timeline p { margin-bottom:10px !important; word-break:break-word; }
 .timeline ul { margin-bottom:0px !important; }

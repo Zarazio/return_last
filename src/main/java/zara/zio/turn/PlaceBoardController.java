@@ -1,6 +1,7 @@
 package zara.zio.turn;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -34,9 +35,13 @@ public class PlaceBoardController {
 		
 		PlaceVO place = service.read(post);
 		List<PlaceVO> list = service.readimg(post);
+		Map<Object, String> map = service.creatorimg(post);
+		
+		
 		
 		model.addAttribute("place", place);
 		model.addAttribute("list", list);
+		model.addAttribute("map",map);
 		
 		return "placeBorad/placeRead";
 	}

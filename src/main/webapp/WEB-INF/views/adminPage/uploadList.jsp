@@ -35,44 +35,48 @@
 	</div>
 </section>
 <!-- /PAGE HEADER -->
-<section>
+<section class="alternate">
 	<div class="container">
 		<form id="pageForm" class="form-inline" style="display:none;">
 			<input type="hidden" name="page" value="${pagination.page}">
 			<input type="hidden" name="recordPage" value="${pagination.recordPage}">
 		</form>
-		<table class="table table-striped">
-			<tr>
-				<th>글 번호</th>
-				<th>주소</th>
-				<th>장소명</th>
-				<th>위도</th>
-				<th>경도</th>
-				<th>장소타입</th>
-				<th>장소 활성화</th>
-				<th>등록일자</th>
-			</tr>
-			<c:forEach items="${list}" var="place">
+		
+		<div class="turn-shadow">
+			<table class="table table-striped">
 				<tr>
-					<td>${place.place_code}</td>
-					<td>${place.place_address}</td>
-					<td>
-						<b>
-							<a href="${place.place_code}" class="place_info">
-								${place.place_name}
-							</a>
-						</b>
-					</td>
-					<td>${place.place_lat}</td>
-					<td>${place.place_lng}</td>
-					<td>${place.place_type}</td>
-					<td class="text-center">${place.place_on}</td>
-					<td>
-						<fmt:formatDate pattern="yyyy-MM-dd" value="${place.add_date}" />
-					</td>
+					<th>글 번호</th>
+					<th>주소</th>
+					<th>장소명</th>
+					<th>위도</th>
+					<th>경도</th>
+					<th>장소타입</th>
+					<th>장소 활성화</th>
+					<th>등록일자</th>
 				</tr>
-			</c:forEach>	
-		</table>
+				<c:forEach items="${list}" var="place">
+					<tr>
+						<td>${place.place_code}</td>
+						<td>${place.place_address}</td>
+						<td>
+							<b>
+								<a href="${place.place_code}" class="place_info">
+									${place.place_name}
+								</a>
+							</b>
+						</td>
+						<td>${place.place_lat}</td>
+						<td>${place.place_lng}</td>
+						<td>${place.place_type}</td>
+						<td class="text-center">${place.place_on}</td>
+						<td>
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${place.add_date}" />
+						</td>
+					</tr>
+				</c:forEach>	
+			</table>
+		</div>
+		
 		<div class="row margin-left-0">
 				<a href="upload" class="btn btn-blue">장소등록</a>
 		</div>
@@ -114,7 +118,7 @@
 <!-- /PAGE HEADER -->
 
 <!-- -->
-<section class="padding-xlg">
+<section class="padding-xlg alternate">
 	<div class="container">
 		<div class="col-md-8 col-md-offset-3">
 			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>

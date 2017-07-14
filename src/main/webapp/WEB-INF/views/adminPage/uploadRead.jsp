@@ -37,7 +37,7 @@
 	</div>
 </section>
 <!-- /PAGE HEADER -->
-<section>
+<section class="alternate">
 	<div class="container">
 		<form role="form" style="display:none;">
 		</form>
@@ -104,42 +104,42 @@
 					<input type="hidden" id="recordPage" name="recordPage" value="${pagination.recordPage}">
 					<input type="hidden" class="no" name="no" value="${place.place_code}">
 				</div>
-		<script>
-		var map;
-		
-		var lat = document.getElementById("lat").innerHTML;
-		var lng = document.getElementById("lng").innerHTML;
-		
-		function initialize() {
-		
-		  var mapOptions = { //구글 맵 옵션 설정
-		      zoom : 16, //기본 확대율
-		      center : new google.maps.LatLng(lat, lng), // 지도 중앙 위치
-		      scrollwheel : true, //마우스 휠로 확대 축소 사용 여부
-		      mapTypeControl : true //맵 타입 컨트롤 사용 여부
-		  };
-		
-		  map = new google.maps.Map(document.getElementById('google_map'), mapOptions); //구글 맵을 사용할 타겟
-		  
-		  var image = './resources/img/placeholder.png'; //마커 이미지 설정
-		
-		  var marker = new google.maps.Marker({ //마커 설정
-		      map : map,
-		      position : map.getCenter(), //마커 위치
-		      icon : image //마커 이미지
-		  });
-		
-		  google.maps.event.addDomListener(window, "resize", function() { //리사이즈에 따른 마커 위치
-		      var center = map.getCenter();
-		      google.maps.event.trigger(map, "resize");
-		      map.setCenter(center); 
-		  });
-		
-		}
-	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF8iTF3JtdLLhprWyASWE8APl6RM6BGBQ&callback=initialize"></script>
-	</fieldset>
-	</div>
+				<script>
+				var map;
+				
+				var lat = document.getElementById("lat").innerHTML;
+				var lng = document.getElementById("lng").innerHTML;
+				
+				function initialize() {
+				
+				  var mapOptions = { //구글 맵 옵션 설정
+				      zoom : 16, //기본 확대율
+				      center : new google.maps.LatLng(lat, lng), // 지도 중앙 위치
+				      scrollwheel : true, //마우스 휠로 확대 축소 사용 여부
+				      mapTypeControl : true //맵 타입 컨트롤 사용 여부
+				  };
+				
+				  map = new google.maps.Map(document.getElementById('google_map'), mapOptions); //구글 맵을 사용할 타겟
+				  
+				  var image = './resources/img/placeholder.png'; //마커 이미지 설정
+				
+				  var marker = new google.maps.Marker({ //마커 설정
+				      map : map,
+				      position : map.getCenter(), //마커 위치
+				      icon : image //마커 이미지
+				  });
+				
+				  google.maps.event.addDomListener(window, "resize", function() { //리사이즈에 따른 마커 위치
+				      var center = map.getCenter();
+				      google.maps.event.trigger(map, "resize");
+				      map.setCenter(center); 
+				  });
+				
+				}
+				</script>
+				<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF8iTF3JtdLLhprWyASWE8APl6RM6BGBQ&callback=initialize"></script>
+			</fieldset>
+		</div>
 	</div>
 </section>
 </c:if>
@@ -159,7 +159,7 @@
 <!-- /PAGE HEADER -->
 
 <!-- -->
-<section class="padding-xlg">
+<section class="padding-xlg alternate">
 	<div class="container">
 		<div class="col-md-8 col-md-offset-3">
 			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>

@@ -40,8 +40,7 @@
 </section>
 <!-- /PAGE HEADER -->
 
-
-<section>
+<section class="alternate">
 	<div class="container">
 
 		<div class="row">
@@ -89,7 +88,7 @@
 <!-- /PAGE HEADER -->
 
 <!-- -->
-<section class="padding-xlg">
+<section class="padding-xlg alternate">
 	<div class="container">
 		<div class="col-md-8 col-md-offset-3">
 			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>

@@ -114,7 +114,7 @@ $(document).ready(function(){
 				var elemen = ""; // 엘리먼트 생성&상태 데이터
 				for(var i=0; i<cnt; i++) {
 					elemen = "<div class='delelement col-md-3 col-sm-3 margin-bottom-30'>" + 
-						   	 	"<div class='infoboard' data-num='" + data[i].place_code + "'>" + 
+						   	 	"<div class='infoboard turn-shadow' data-num='" + data[i].place_code + "'>" + 
 						   	 		"<div class='images'>" +
 										"<img class='img-responsive' src='displayFile?fileName=" + thumb(data[i].place_img) + "' alt=''>" + 
 									"</div>" + 

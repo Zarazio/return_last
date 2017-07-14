@@ -36,7 +36,7 @@
 <!-- /PAGE HEADER -->
 
 <!-- -->
-<section>
+<section class="alternate">
 	<div class="container">
 
 		<div class="row">

@@ -20,7 +20,7 @@
 	</div>
 </section>
 <!-- /PAGE HEADER -->
-<section>
+<section class="alternate">
 	<div class="container">
 		<form method="post" id="textbr" class="nomargin sky-form boxed" onsubmit="return false">
 			<header class="size-18 margin-bottom-20" style="background:rgba(199, 199, 199, 0.1) !important;">
@@ -31,7 +31,7 @@
 					<div class="col-md-6">
 						<div class="profile text-center">
 							<label class="input margin-bottom-10">프로필 이미지</label>
-							<img src="displayProfile?fileName=${my.user_profile}" style="width:450px; height:400px;" data-src="${my.user_profile}"/>
+							<img src="displayProfile?fileName=${my.user_profile}" class="turn-shadow" style="width:450px; height:400px;" data-src="${my.user_profile}"/>
 							<input type="hidden" name="user_profile" value="${my.user_profile}">
 							<div class="cookieData" data-cookie="${my.user_profile}" data-cnt="0" style="display:none;"></div>
 						</div>
@@ -142,7 +142,7 @@
 <!-- /PAGE HEADER -->
 
 <!-- -->
-<section class="padding-xlg">
+<section class="padding-xlg alternate">
 	<div class="container">
 		<div class="col-md-8 col-md-offset-3">
 			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>
