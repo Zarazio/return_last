@@ -22,7 +22,7 @@
       .shadow-after-3    = shadow 3 header bottom
 -->
 
-<section class="page-header dark page-header-xs shadow-before-1">
+<section class="page-header page-header-xs shadow-before-1">
    <div class="container">
 
       <h1>회원가입</h1>
@@ -36,7 +36,7 @@
    </div>
 </section>
 
-<section>
+<section class="alternate">
    <div class="container">
       <div class="row">
          <div class="col-md-6 col-md-offset-3">

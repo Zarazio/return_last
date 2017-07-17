@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import zara.zio.turn.domain.MemberVO;
@@ -51,11 +53,13 @@ public class LoginController {
 	
 	// 로그인 폼이동 
 	@RequestMapping(value="login", method = RequestMethod.GET)
-	public String loginForm(HttpServletRequest request, HttpServletResponse response) {
+	public String loginForm(HttpServletRequest request, HttpServletResponse response, 
+			Model model, @RequestParam(value="board", defaultValue="0") String board) {
 		
 		HttpSession session = request.getSession();
 		
 		String info = (String)session.getAttribute("info");
+		
 		// 로그인후 다시 로그인창으로 이동할시
 		if(info == "admin") { // 관리자  
 			return "mHome";
@@ -63,6 +67,8 @@ public class LoginController {
 		else if (info == "user"){ // 일반회원
 			return "uHome";
 		}
+			
+		model.addAttribute("board",board); // board 번호정보
 		
 		return "loginForm/login";
 	}
@@ -85,18 +91,32 @@ public class LoginController {
 	
 	//로그인 정보전송 세션활성화 
 	@RequestMapping (value="main", method=RequestMethod.POST) // 로그인이동
-	public String Login(HttpSession session, HttpServletRequest request, HttpServletResponse response, MemberVO mem) throws Exception {
+	public String Login(HttpSession session, HttpServletRequest request, HttpServletResponse response, 
+			MemberVO mem, String board) throws Exception {
 		
 		String id = mem.getUser_id();
-		session.setAttribute("mem", id); // 유저 아이디만 세션로 전송 
+		session.setAttribute("mem", id); // 유저 아이디 세션설정
 		
-		if(id.equals("manager")) { // 매니저 로그인 
+		/** 정보전송 **/
+		if(id.equals("manager")) {
 			session.setAttribute("info", "admin"); // 관리자 jstl정보
+		} else {
+			session.setAttribute("info", "user"); // 유저 jstl정보
+		}
+		
+		/** ================= 게시글 로그인 발생 이동 ================= **/
+		if(board.equals("1")) { // 라이프로그 
+			return "redirect:logWrite";
+		} else if(board.equals("4")) { // 커뮤니티
+			return "redirect:comuWrite";
+		}
+		
+		/** ================= 아무것도 해당안할시 이동 ================= **/
+		if(id.equals("manager")) { // 매니저 로그인
 			return "mHome";
 		}
 		
 		// 일반회원 로그인
-		session.setAttribute("info", "user"); // 유저 jstl정보
 		return "uHome";
 	}
 	

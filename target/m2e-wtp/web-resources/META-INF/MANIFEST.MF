@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: YunSungHyun
 Build-Jdk: 1.8.0_121
+=======
+Built-By: daria
+Build-Jdk: 1.8.0_111
+>>>>>>> b4b5146d0c1bd674a3a2e0e79639b6941407d9ec
 Created-By: Maven Integration for Eclipse
 

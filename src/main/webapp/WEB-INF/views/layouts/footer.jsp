@@ -2,29 +2,35 @@
     pageEncoding="UTF-8"%>
 <div id="footer">
 	<div class="container">
-		<div class="row">
+		<div class="row padding-10">
 			<!-- col #1 -->
-			<div class="col-md-8">
+			<div class="col-md-4">
 		
-				<ul class="list-inline">
-					<li><h4><a href="#" class="turn-color">서비스소개</a></h4>
-					<li class="margin-left-30"><h4><a href="#" class="turn-color">여행로그</a></h4>
-					<li class="margin-left-30"><h4><a href="#" class="turn-color">장소문의</a></h4>
-					<li class="margin-left-30"><h4><a href="#" class="turn-color">고객문의</a></h4>
+				<ul class="size-18" style="list-style-type:none; font-weight:600;">
+					<li class="turn-lineheight"><a href="#" class="turn-color bor_floor">서비스소개</a>
+					<li class="turn-lineheight"><a href="#" class="turn-color bor_floor">여행로그</a>
+					<li class="turn-lineheight"><a href="#" class="turn-color bor_floor">장소문의</a>
+					<li class="turn-lineheight"><a href="#" class="turn-color bor_floor">고객문의</a>
 				</ul>
 		
-				<!-- Small Description -->
-				<p>
-					<i class="fa fa-caret-right"></i>&nbsp;&nbsp;주　소：대구광역시 북구 복현로 35. Travels...
-					<br>
-					<i class="fa fa-caret-right"></i>&nbsp; 이메일：teamProject@travellog...
-				</p>
 			</div>
 			<!-- /col #1 -->
-		
+			
 			<!-- col #2 -->
 			<div class="col-md-4">
-				<h4 class="letter-spacing-1 text-right">소셜 서비스</h4>
+				<!-- Small Description -->
+				<ul class="size-10" style="list-style-type:none; font-weight:600;">
+					<li class="turn-lineheight turn-color"> Travel Story • Team Zarazio
+					<li class="turn-lineheight turn-color"> 대구광역시 북구 복현로 35
+					<li class="turn-lineheight turn-color"> TEL : (010)-0000-0000 
+					<li class="turn-lineheight turn-color"> Email : Zarazio@Zarazio.com
+				</ul>
+			</div>
+			<!-- /col #2 -->
+			
+			<!-- col #3 -->
+			<div class="col-md-4">
+				<h3 class="letter-spacing-1 text-right turn-color">소셜 서비스</h3>
 		
 				<!-- Newsletter Form -->
 				
@@ -65,7 +71,7 @@
 				<!-- /Newsletter Form -->
 		
 			</div>
-			<!-- /col #2 -->
+			<!-- /col #3 -->
 	
 		</div>
 	

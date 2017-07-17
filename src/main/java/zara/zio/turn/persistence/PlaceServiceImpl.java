@@ -1,6 +1,7 @@
 package zara.zio.turn.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -57,6 +58,12 @@ public class PlaceServiceImpl implements PlaceService {
 	public List<PlaceVO> readimg(int no) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.readimg(no);
+	}
+	
+	@Override
+	public Map<Object, String> creatorimg(int no) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.creatorimg(no);
 	}
 
 	@Override

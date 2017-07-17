@@ -282,22 +282,22 @@
 	<!-- /REVOLUTION SLIDER -->
 			
 	<!-- INFO BAR -->
-	<section class="info-bar info-bar-dark">
+	<section class="info-bar info-bar-clean">
 		<div class="container">
 
 			<div class="text-center">
 
-				<div class="col-sm-4 margin-top-3 margin-bottom-8">
+				<div class="col-sm-4 margin-top-8 margin-bottom-8" style="border-right: rgba(0,0,0,0.2) 1px solid;">
 					<h1>여행정보 &amp; 여행계획</h1>
 					<p>여행정보를 통해 떠나고 싶은여행을 계획해보세요.</p>
 				</div>
 
-				<div class="col-sm-4 margin-top-3 margin-bottom-8">
+				<div class="col-sm-4 margin-top-8 margin-bottom-8" style="border-right: rgba(0,0,0,0.2) 1px solid;">
 					<h1>여행일정</h1>
 					<p>계획한 여행정보로 직접 일정을 만들어보세요.</p>
 				</div>
 
-				<div class="col-sm-4 margin-top-3 margin-bottom-8">
+				<div class="col-sm-4 margin-top-8 margin-bottom-8">
 					<h1>커뮤니티</h1>
 					<p>여행자들과 멋진 이야기들을 공유해보세요.</p>
 				</div>

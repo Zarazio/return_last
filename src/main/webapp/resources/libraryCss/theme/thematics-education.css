@@ -11,10 +11,10 @@
 #header,
 #topMain.nav-pills>li,
 #topNav div.submenu-dark ul.dropdown-menu {
-	background-color:#3b3d46;
+	background-color:#2d84e0;
 }
 #topBar {
-	background-color:#392f3c !important;
+	background-color:#333 !important;
 }
 #topNav ul.dropdown-menu {
 	border-top-color:#392f3c !important;
@@ -30,7 +30,7 @@
 #header li.search i.fa,
 #header ul.nav-second-main li>a,
 #topMain.nav-pills>li>a {
-	color:#eee !important;
+	color:rgb(255, 255, 255) !important;
 }
 #topBar ul.top-links>li.active>a,
 #topMain.nav-pills>li.active>a {
@@ -39,7 +39,8 @@
 
 /* footer */
 #footer {
-	background: #24293a;
+	background: #454545;
+	/*
 	background: -moz-linear-gradient(top, #1a1d2b 0%, #2e3648 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1a1d2b), color-stop(100%, #2e3648));
 	background: -webkit-linear-gradient(top, #1a1d2b 0%, #2e3648 100%);
@@ -47,4 +48,5 @@
 	background: -ms-linear-gradient(top, #1a1d2b 0%, #2e3648 100%);
 	background: linear-gradient(to bottom, #1a1d2b 0%,#2e3648 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1a1d2b', endColorstr='#2e3648',GradientType=0 );
+	*/
 }

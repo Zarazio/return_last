@@ -24,8 +24,8 @@
 		.shadow-after-3 	= shadow 3 header bottom
 -->
 
-<c:if test="${info == 'user' || info == 'admin'}">
-<section class="page-header dark page-header-xs shadow-before-1">
+<c:if test="${info == 'user'}">
+<section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
 		<h1>LayersUp</h1>
@@ -40,8 +40,7 @@
 </section>
 <!-- /PAGE HEADER -->
 
-
-<section>
+<section class="alternate">
 	<div class="container">
 
 		<div class="row">
@@ -63,11 +62,6 @@
 								<a href="javascript:gifMakeList();"><span class="size-11 text-muted pull-right"></span>Gif</a>
 							</li>
 						</c:if>
-						<c:if test="${info == 'admin'}">
-							<li class="list-group-item mypageMove">
-								<a href="myModify"><span class="size-11 text-muted pull-right"></span>관리자정보수정</a>
-							</li>
-						</c:if>
 					</ul>
 				</div>
 			</div>
@@ -78,6 +72,29 @@
 	</div>
 </section>
 </c:if>
-<c:if test="${info == null}">
-잘못된접근입니다.
+<c:if test="${info == null || info == 'admin'}">
+<section class="page-header">
+	<div class="container">
+
+		<h1>PAGE ACCESS ERROR</h1>
+
+		<!-- breadcrumbs -->
+		<ol class="breadcrumb">
+			<li class="active">엑세스 오류</li>
+		</ol><!-- /breadcrumbs -->
+
+	</div>
+</section>
+<!-- /PAGE HEADER -->
+
+<!-- -->
+<section class="padding-xlg alternate">
+	<div class="container">
+		<div class="col-md-8 col-md-offset-3">
+			<h2>페이지 접근오류, <br><br><strong>요청하신 페이지에 엑세스 할 수 없습니다. <br><br> 요청 권한을 다시 확인해주십시오.</strong></h2><br>
+			<a class="size-20 font-lato" href="main"><i class="glyphicon glyphicon-menu-left margin-right-10 size-16"></i>메인 페이지로 이동</a>
+		</div>
+	</div>
+</section>
+<!-- / -->
 </c:if>

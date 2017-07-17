@@ -21,7 +21,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.1");
+                alert("친구요청을 보냈습니다.");
              }
              friendList();
              reSearch();
@@ -42,7 +42,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.2");
+                alert("요청을 취소하였습니다.");
              }
              friendList();
              reSearch();
@@ -62,7 +62,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.3");
+                alert("삭제되었습니다.");
              }
              friendList();
              reSearch();
@@ -84,7 +84,7 @@ $(document).ready(function(){
           },
           success: function(data){
              if(data == 'success') {
-                alert("완료되었습니다.4");
+                alert("완료되었습니다.");
              }
              friendList();
              reSearch();
@@ -116,7 +116,7 @@ function friendList() {
             
             if(data[i].friend_accept == 0 && data[i].user_id == myId) {
                friendList = "<tr>" + 
-                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' style='width:45px; height:45px;'></td>" +
+                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' class='turn-shadow' style='width:45px; height:45px; border:1px solid #b4b4b4;'></td>" +
                            "<td class='verticals distinct'>" + data[i].friend_id + "</td>" +
                            "<td class='verticals'>친구대기</td>" +
                            "<td class='verticals'><button class='btn btn-blue btn-3d btn-xs cancel' data-c=" + data[i].friend_id +">요청취소</button></td>" +
@@ -124,7 +124,7 @@ function friendList() {
                $(".friendList").append(friendList);
             } else if((data[i].friend_accept == 1 && data[i].user_id == myId) && (data[i].friend_id != myId && data[i].friend_accept == 1)) {
                friendList = "<tr>" + 
-                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' style='width:45px; height:45px;'></td>" + 
+                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' class='turn-shadow' style='width:45px; height:45px; border:1px solid #b4b4b4;'></td>" + 
                            "<td class='verticals distinct'>" + data[i].friend_id +"</td>" +
                            "<td class='verticals'>친구</td>" +
                            "<td class='verticals'><button class='btn btn-red btn-3d btn-xs delete' data-d=" + data[i].friend_id +">친구삭제</button></td>" + 
@@ -132,7 +132,7 @@ function friendList() {
                $(".friendList").append(friendList);
             } else if(data[i].user_id != myId && data[i].friend_id == myId && data[i].friend_accept == 1) {
                friendList = "<tr>" + 
-                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' style='width:45px; height:45px;'></td>" + 
+                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' class='turn-shadow' style='width:45px; height:45px; border:1px solid #b4b4b4;'></td>" + 
                            "<td class='verticals distinct'>" + data[i].user_id +"</td>" +
                            "<td class='verticals'>친구</td>" +
                            "<td class='verticals'><button class='btn btn-red btn-3d btn-xs delete' data-d=" + data[i].user_id +">친구삭제</button></td>" + 
@@ -140,7 +140,7 @@ function friendList() {
                $(".friendList").append(friendList);
             } else if(myId == data[i].friend_id && data[i].friend_accept == 0) {
                friendList = "<tr>" + 
-                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' style='width:45px; height:45px;'></td>" +
+                           "<td><img src='displayProfile?fileName=" + data[i].user_profile + "' class='turn-shadow' style='width:45px; height:45px; border:1px solid #b4b4b4;'></td>" +
                            "<td class='verticals distinct'>" + data[i].user_id + "</td>" +
                            "<td class='verticals'>친구요청</td>" +
                            "<td class='verticals'>" +
@@ -220,7 +220,7 @@ function reSearch() {
                 
              } else {
                 searchData = "<tr>" + 
-                           "<td width='6%' class='text-center' ><img src='displayProfile?fileName=" + data[i].user_profile + "' style='width:45px; height:45px;'></td>" + 
+                           "<td width='6%' class='text-center' ><img src='displayProfile?fileName=" + data[i].user_profile + "' class='turn-shadow' style='width:45px; height:45px; border:1px solid #b4b4b4;'></td>" + 
                            "<td width='40%' class='verticals'>" + data[i].user_id + "</td>" + 
                            "<td class='verticals'><button class='req btn btn-blue btn-3d btn-xs' data-user='" + data[i].user_id +"'>친구요청</button></td>" + 
                           "</tr>";

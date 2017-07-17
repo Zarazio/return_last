@@ -22,7 +22,7 @@
       .shadow-after-3    = shadow 3 header bottom
 -->
 
-<section class="page-header dark page-header-xs shadow-before-1">
+<section class="page-header page-header-xs shadow-before-1">
    <div class="container">
 
       <h1>로그인</h1>
@@ -36,9 +36,9 @@
    </div>
 </section>
 
-<section>
+<section class="alternate">
    <div class="container">
-      <div class="row margin-top-100 margin-bottom-100">
+      <div class="row margin-top-80 margin-bottom-80">
          <div class="col-md-6 col-md-offset-3">
             <form id="test_submit" class="sky-form boxed" onsubmit="return false;">
                <header class="size-18 margin-bottom-20" style="background:rgba(199, 199, 199, 0.1) !important">
@@ -59,6 +59,7 @@
                   </label>
                   
                   <div class="text-center margin-bottom-10">
+                  	 <input type="hidden" name="board" value="${board}">
                      <input type="submit" id="loginTest" value="로그인" class="btn btn-info">
                      <button class="btn btn-primary reg-go">회원가입</button>
                   </div>

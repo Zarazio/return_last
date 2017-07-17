@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.Pagination;
@@ -23,6 +24,7 @@ public class AdminMemberController {
 	
 	@RequestMapping(value="/memberList", method = RequestMethod.GET)
 	public String memberList(Model model, Pagination pagination) throws Exception{
+		
 		System.out.println(pagination);
 		
 		List<MemberVO> member = service.listAll(pagination);
@@ -73,7 +75,7 @@ public class AdminMemberController {
 	}
 	
 	@RequestMapping(value="/memberSet", method=RequestMethod.POST)
-	public String memberSet(String check, Pagination pagination, MemberVO mem) throws Exception {
+	public String memberSet(String check, MemberVO mem, RedirectAttributes rttr, int page, int recordPage) throws Exception {
 		
 		String yyyy = mem.getYyyy();
 		String mm = mem.getMm();
@@ -83,7 +85,11 @@ public class AdminMemberController {
 		
 		service.modify(mem, check);
 		
-		return "redirect:memberList";
+		rttr.addAttribute("page", page);
+		rttr.addAttribute("recordPage", recordPage);
+		rttr.addAttribute("user_id", mem.getUser_id());
+		
+		return "redirect:memberRead";
 		
 	}
 	

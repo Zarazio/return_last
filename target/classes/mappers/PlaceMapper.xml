@@ -35,6 +35,12 @@
 		from pimg_tbl
 		where place_code = #{no}
 	</select>
+	<select id="creator_img" resultType="java.util.HashMap">
+		select a.user_id user_id, b.user_profile user_profile
+		from place_tbl a, user_info b
+		where a.user_id = b.user_id
+		and a.place_code = #{no}
+	</select>
 	
 	<select id="read_local" resultType="PlaceVO">
 		select a.place_code AS place_code, a.place_name AS place_name, a.place_content AS place_content, 
