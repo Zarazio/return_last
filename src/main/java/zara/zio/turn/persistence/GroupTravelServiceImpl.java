@@ -214,4 +214,16 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 
 	}
 
+	@Override
+	public List<MemberVO> friend_search_list(String user_id, String friend_name) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.friend_search_list(user_id, friend_name);
+	}
+
+	@Override
+	public void groupApplication_cancel(GroupApplicationVO groupA) throws Exception {
+		// TODO Auto-generated method stub
+		dao.groupApplication_cancel(groupA);
+	}
+
 }

@@ -179,7 +179,8 @@ $(document).ready(function(){
                           +" data-name="+ data[i].place_name+ " style='width:100%; padding:5px; height:160px; background : #333333; '></div>")
                            .addClass("planList")
                            .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'><span>"+data[i].place_name+"</span>")
-                           .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><a href='#'>삭제</a></div>") 
+                           .append("<div class='planPlaceMemo' onclick='memoWindow();'><img src='./resources/img/memo.png'></div>")
+                           .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><img src='./resources/img/waste.png'></div>") 
                            .css("border-bottom","1px solid #3a3c3f")
                         .appendTo(selectThis) ;
                         
@@ -660,9 +661,12 @@ $(document).ready(function(){
     })
 
 /*-----------------------------------친구------------------------------------------*/
+    var arrays = [];
     $("#friend-show").click(function(){
     	
-    	$("#friend-search div:nth-child(1) > input[type='text'] ").empty();
+    	$("#friend-search > div > input[type='text'] ").val("");
+    	$("#friend-list").empty();
+    	arrays = [];
     	$.ajax({
     		url : "plan_friend_list" ,
     		type : "POST",
@@ -677,7 +681,13 @@ $(document).ready(function(){
     			console.log("panl : " + groupCode);
     			if(count > 0 ){
     				for(var i=0 ; i<count ; i++){
-    					str += "<div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+    					if(data.array[i].group_apply == 0){
+    						str += "<div class='friend-list-div'><div class='group_apply_0' style='display:block'><h1>?</h1>"+"<h5>"+data.array[i].user_id+"</h5></div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+    					}
+    					else{
+    						str += "<div class='friend-list-div'><div class='group_apply_1'>"+data.array[i].user_id+"</div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+    					}
+    					arrays.push(data.array[i].user_id) ;
     				}
     			}else{
     				console.log("ddd");
@@ -691,6 +701,188 @@ $(document).ready(function(){
     		}
     	
     	})
+    })
+    
+    $("#friend-search-btn").click(function(){
+    	$("#friend-search > div:eq(1)").empty();
+    	
+    	var friend_name = $("#friend-search > div > input[type='text'] ").val();
+    	
+    	console.log("frined : " + friend_name) ;
+    	console.log("dd : "+ arrays) ;
+    	
+    	$.ajax({
+    		url : "friend_search_list" ,
+    		type : "POST",
+    		traditional: true,
+    		dataType : "json",
+    		data : {
+    			friend_name : friend_name ,
+    			arrays : arrays
+    		},
+    		success : function(data){
+    			
+    			var str = "";
+    			
+    			if(data.array.length > 0){
+    				for(var i=0; i<data.array.length; i++){
+    					
+    					var count = 0;
+    					
+    					for(var j=0; j<arrays.length; j++){
+    						if(data.array[i].user_id == arrays[j]){
+    							str += "<div class='friend-add-list'>" 
+    								+"<img src='displayProfile?fileName="+data.array[i].user_profile+"'/>" 
+    								+"<p>"+data.array[i].user_id+"</p>"
+    								+"<button class='btn btn-danger friend-add-btn'>cancel</button>"
+    						   +"</div>" ;
+    							
+    							count++;
+    						}
+    					}
+    					
+    					if(count==0){
+	    					str += "<div class='friend-add-list'>" 
+	    								+"<img src='displayProfile?fileName="+data.array[i].user_profile+"'/>" 
+	    								+"<p>"+data.array[i].user_id+"</p>"
+	    								+"<button class='btn btn-default friend-add-btn'>add</button>"
+	    						   +"</div>" ;
+    					}
+    					
+    				}
+    			}
+    			else{
+    				str += "<h4>검색한 내용이 없습니다</h4>";
+    			}
+    			console.log("srt :  " + str);
+    			$(str).appendTo($("#friend-search > div:eq(1)"));
+    			
+    			$("#friend-search > div > input[type='text'] ").val("");
+    		}
+    	})
+    })
+    
+    $("#friend-search").on("click",".friend-add-btn", function(){
+    	var friend_name = $(this).prev().text();
+    	
+    	if($(this).text() == "add"){
+    		$(this).text("cancel");
+        	$(this).removeClass("btn-default");
+        	$(this).addClass("btn-danger");
+        	
+        	$.ajax({
+        		url : "group_Application",
+        		type : "POST",
+        		async : false,
+        		data :{
+        			groupCode : groupCode,
+        			friend_name : friend_name
+        		},
+        		success : function(){
+        			alert("성공");
+        		}
+        	})
+        	arrays = [];
+        	$("#friend-list").empty();
+        	$.ajax({
+	    		url : "plan_friend_list" ,
+	    		type : "POST",
+	    		data : {
+	    			groupCode : groupCode
+	    		},
+	    		dataType : "json",
+	    		success : function(data){
+	    			var friend = $("#friend-list") ;
+	    			var count = data.array.length ;
+	    			var str = "" ;
+	    			console.log("panl : " + groupCode);
+	    			if(count > 0 ){
+	    				for(var i=0 ; i<count ; i++){
+	    					if(data.array[i].group_apply == 0){
+	    						str += "<div class='friend-list-div'><div class='group_apply_0' style='display:block'><h1>?</h1>"+"<h5>"+data.array[i].user_id+"</h5></div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+	    					}
+	    					else{
+	    						str += "<div class='friend-list-div'><div class='group_apply_1'>"+data.array[i].user_id+"</div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+	    					}
+	    					arrays.push(data.array[i].user_id) ;
+	    				}
+	    			}else{
+	    				console.log("ddd");
+	    				str += "<h4>여행할 친구가 없습니다</h4>";
+	    			}
+	    			
+	    			$(str).appendTo(friend);
+	    		}
+	    		
+	    		
+        	})
+    	}else{
+    		$(this).text("add");
+        	$(this).removeClass("btn-danger");
+        	$(this).addClass("btn-default");
+        	
+        	$.ajax({
+        		url : "groupApplication_cancel",
+        		type : "POST",
+        		async : false,
+        		data : {
+        			friend_name : friend_name,
+        			groupCode : groupCode
+        		},
+        		success : function(){
+        			alert("삭제");
+        		}
+        	})
+        	
+        	
+        	arrays = [];
+        	$("#friend-list").empty();
+        	$.ajax({
+	    		url : "plan_friend_list" ,
+	    		type : "POST",
+	    		data : {
+	    			groupCode : groupCode
+	    		},
+	    		dataType : "json",
+	    		success : function(data){
+	    			var friend = $("#friend-list") ;
+	    			var count = data.array.length ;
+	    			var str = "" ;
+	    			console.log("panl : " + groupCode);
+	    			if(count > 0 ){
+	    				for(var i=0 ; i<count ; i++){
+	    					if(data.array[i].group_apply == 0){
+	    						str += "<div class='friend-list-div'><div class='group_apply_0' style='display:block'><h1>?</h1>"+"<h5>"+data.array[i].user_id+"</h5></div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+	    					}
+	    					else{
+	    						str += "<div class='friend-list-div'><div class='group_apply_1'>"+data.array[i].user_id+"</div><img src='displayProfile?fileName="+data.array[i].user_profile+"'></div>"
+	    					}
+	    					arrays.push(data.array[i].user_id) ;
+	    				}
+	    			}else{
+	    				console.log("ddd");
+	    				str += "<h4>여행할 친구가 없습니다</h4>";
+	    			}
+	    			
+	    			$(str).appendTo(friend);
+	    		}
+	    		
+	    		
+        	})
+    	}
+    	console.log("ddd : " + arrays);
+    })
+    
+    $("#friend-list").on("mouseover", ".friend-list-div" ,function(){
+  
+    	$(this).children(".group_apply_1").css("display","block");
+    	
+    })
+    
+    $("#friend-list").on("mouseout", ".friend-list-div" ,function(){
+  
+    	$(this).children(".group_apply_1").css("display","none");
+    	
     })
     
 /*-----------------------------------장소체인지------------------------------------------*/
@@ -1410,7 +1602,7 @@ function onMessage2(evt) {
 	modifyScheduleList(data);
 }
 	 
-	 
+// 장소 추가해서 웹소켓에 전달
 function esend(day) {
 	
 	  alert("dddsend");
@@ -1460,6 +1652,40 @@ function modifyScheduleList(data){
       });
 }
 
+
+//메모 창 띄우기
+function memoWindow(){
+
+//	
+//	$.ajax({
+//		url : "placeDetail" ,
+//		type : "POST",
+//		data : {
+//			place : place_code 
+//		},
+//		success : function(data){
+//			console.log("name : " + data.place_name) ;
+//			var detail = $("#detail_view") ;
+//			detail.children().children().eq(0).text(data.place_name);
+//			
+//			$("#detail_body > img").attr("src","displayFile?fileName="+ thumb(data.place_img) +"");
+//			$("#detail_content").text(data.place_content);
+//			$("#detail_content_box div").children().eq(1).text(data.place_type) ;
+//			$("#detail_content_box div").children().eq(3).text(data.place_address) ;
+//			
+//		}
+//	})
+	
+	$("#memoDetail").animate({ width : "345px"})
+	$("#memoDetail").css("display","block");
+	$("#memoDetail div").css("display","inline-block");
+}
+
+//메모 창 없애기
+function memoClose(){
+	$("#memoDetail").animate({ width : "0px" });
+	$("#memoDetail div").css("display" , "none") ;
+}
 
 /*=================================================================================================*/
 

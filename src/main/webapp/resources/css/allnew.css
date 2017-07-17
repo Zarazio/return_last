@@ -34,12 +34,15 @@ html { overflow-x:hidden; }
 
 #mainMenu { height:853px; float:left; }
 #heightfull { height:853px !important; }
-
+.friend-list {height : 400px; overflow : auto}
 .selectPlace { height:802px; list-style-type:none; margin:0; padding:0; }
 .mxpnone { list-style-type:none; margin:0; padding:0; }
 
 .plan { width:260px; }
-.planPlaceDelete { position:absolute; right:0; bottom:0; }
+.planPlaceMemo {position:absolute; right:40px; bottom:5px; width:30px; height:30px; cursor:pointer }
+.planPlaceMemo > img { width : 30px ; height :30px}
+.planPlaceDelete { position:absolute; right:5px; bottom:5px; width:30px; height:30px; cursor:pointer }
+.planPlaceDelete > img { width : 30px ; height :30px}
 .first-list { height:50px; }
 .first-list > label { line-height:48px; }
 .plan { width:260px; }
@@ -442,6 +445,50 @@ html { overflow-x:hidden; }
 .detail_wrap:nth-child(2) div:nth-child(1){ line-height:30px; }
 .detail_wrap:nth-child(2) div:nth-child(2){ left:30px; margin-top:5px; line-height:30px; }
 
+/*===============================여행일정 memo==================================*/
+
+#memoDetail {
+	 display:none;
+	 position:absolute;
+	 top:0;
+	 left:430px;
+	 width:0px;
+	 height:853px;
+	 background:white;
+	 overflow-y:auto;
+	 z-index:9999;
+}
+
+#memo_main {
+	 width:100%;
+	 height:50px;
+	 border-bottom:1px solid black;
+	 background:#333333
+}
+
+#memo_main p {
+ 	margin:0;
+ 	display:inline-block;
+ 	font-size:33px;
+ 	font-weight:bold;
+ 	color:#cccccc;
+ 	line-height:50px;
+}
+
+#memo_main span {
+ 	position:absolute;
+ 	top:8px;
+ 	right:10px;
+ 	font-size:23px;
+ 	font-weight:bold;
+ 	color:white;
+}
+
+#memo_body { width:100%;}
+#memo_body img { width:100%; height:300px; }
+#memo_content { margin:12px; padding:10px; width:310px; font-size:15px; color:black; }
+
+
 /*===============================마이페이지======================*/
 
 #user-travel-log { }
@@ -804,11 +851,20 @@ html { overflow-x:hidden; }
 .friend-title >button { margin:0; line-height:80px; float:right; font-size:20px; font-weight:bold; margin-right:20px; }
 .friend-title { text-align:center; height:80px; padding:0; }
 .friend-body {margin : 0 ; padding : 0 ; width : 100% ; height : 400px}
-#friend-list { width : 320px ; height : 100% ; border : 1px solid black; float : left ; overflow : auto }
-#friend-list div {width : 100px ; height : 100px ; border:1px solid black; margin-left : 4px; margin-bottom : 15px;float : left}
-#friend-list div > img {width : 100px ; height : 100px ; }
+#friend-list { width : 320px ; height : 100% ; border : 1px solid black; float : left ; overflow : auto; padding-top : 4px; }
+.friend-list-div  {width : 100px ; height : 100px ; border:1px solid black; margin-left : 4px; margin-bottom : 15px;float : left; cursor : pointer; position : relative}
+.friend-list-div img {width : 100px ; height : 100px ; }
 #friend-list h4 { text-align : center ; line-height : 320px }
-#friend-search { width : 320px ; height : 100% ; border : 1px solid black; float : left; }
-#friend-search div:nth-child(1) { width : 100%; height : 50px; line-height : 50px; margin-left : 10px}
-#friend-search div:nth-child(1) > input[type="text"]{ height : 40px; width : 230px; padding-left : 10px}
+.friend-list-div > div { width : 100px; height :100px ; position : absolute; background : black ; opacity : 0.8; display:none; line-height : 100px ; text-align : center ; font-size:18px}
 
+.group_apply_0  h1,h5{margin :0}
+#friend-search { width : 320px ; height : 100% ; border : 1px solid black; float : left;  }
+#friend-search > div:nth-child(1) { width : 100%; height : 50px; line-height : 50px; margin-left : 10px}
+#friend-search > div:nth-child(1) > input[type="text"]{ height : 40px; width : 238px; padding-left : 10px}
+#friend-search > div:nth-child(2) { width :100% ; height :320px; overflow-y:auto ;}
+#friend-search div > img {width : 60px ; height : 60px ; }
+#friend-search h4 {line-height : 300px ; text-align:center ;}
+.friend-add-list {width : 100%; height :80px; border-bottom :1px solid black ; line-height : 80px }
+.friend-add-list >img { display : inline-block ; margin-left : 10px;}
+.friend-add-list >p {margin : 0; width : 170px;display : inline-block ; font-size : 18px; text-align : center}
+.friend-add-btn {width : 70px;  }

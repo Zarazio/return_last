@@ -14,6 +14,8 @@ public class MemberVO {
 	private String yyyy, mm, dd; //생년월일
 	private String user_profile; // 유저이미지
 	
+	private int group_apply; //초대 승인 유무
+	
 	public String getUser_profile() {
 		return user_profile;
 	}
@@ -90,6 +92,12 @@ public class MemberVO {
 				" 회원이메일 : " + user_email + 
 				" 회원가입일자 : " + user_date + 
 				" 유저이미지 : " + user_profile + " )";
+	}
+	public int getGroup_apply() {
+		return group_apply;
+	}
+	public void setGroup_apply(int group_apply) {
+		this.group_apply = group_apply;
 	}
 	
 }

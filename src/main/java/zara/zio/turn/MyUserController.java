@@ -280,22 +280,24 @@ public class MyUserController {
       // SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
       
       // 서브스트링 데이 뽑아내기 위한 순서
-      int index = list.get(0).getTravel_Date().toString().lastIndexOf("-")+1;
-      
-      // 데이 뽑아내기
-      String dayStr = list.get(0).getTravel_Date().toString().substring(index);
-      
-      int day = Integer.parseInt(dayStr)-1;
-            
-      for(int i=0; i<list.size(); i++) {
-         String toDayStr = list.get(i).getTravel_Date().toString().substring(index);
-         System.out.println(list.get(i).getTravel_Date().toString());
-         int toDay = Integer.parseInt(toDayStr);
-         
-         days.add((toDay-day));
-         System.out.println("오늘날짜 = " + list.get(0).getTravel_Date().toString() + "  데이 = " + day + "   투데이 = " + toDay + "  계산값 = " + (toDay-day));
-         
-         
+      if(list.size()>0){
+	      int index = list.get(0).getTravel_Date().toString().lastIndexOf("-")+1;
+	      
+	      // 데이 뽑아내기
+	      String dayStr = list.get(0).getTravel_Date().toString().substring(index);
+	      
+	      int day = Integer.parseInt(dayStr)-1;
+	            
+	      for(int i=0; i<list.size(); i++) {
+	         String toDayStr = list.get(i).getTravel_Date().toString().substring(index);
+	         System.out.println(list.get(i).getTravel_Date().toString());
+	         int toDay = Integer.parseInt(toDayStr);
+	         
+	         days.add((toDay-day));
+	         System.out.println("오늘날짜 = " + list.get(0).getTravel_Date().toString() + "  데이 = " + day + "   투데이 = " + toDay + "  계산값 = " + (toDay-day));
+	         
+	         
+	      }
       }
       
       model.addAttribute("days",days) ;
