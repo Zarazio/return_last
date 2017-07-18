@@ -181,11 +181,21 @@
    		where group_apply = 0
    		order by user_id desc;
    </select>
+   
+   <update id="group_alarm_update">
+   		update group_application set group_apply = 1
+		where group_Code=#{group_Code} and user_id=#{user_id}
+   </update>
+   
+   <delete id="group_alarm_delete">
+   		delete from group_application where group_Code = #{group_Code} and user_id = #{user_id}
+   </delete>
+   
    <!-- friend 단  -->
    <select id="plan_friend_list" resultType="MemberVO">
    		select a.user_id,user_profile, b.group_apply
    		from user_info a, (select * from group_application where group_Code = #{group_Code} and user_id not in (#{user_id}) ) b
-		where a.user_id = b.user_id  
+		where a.user_id = b.user_id
    </select>
    <select id="friend_search_list" resultType="MemberVO">
    		select user_profile , user_id from user_info 

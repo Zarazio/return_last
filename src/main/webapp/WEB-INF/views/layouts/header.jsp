@@ -6,26 +6,90 @@
 <script>
 $(document).ready(function(){
 	
+	var alarm = "";
+	var groupAlarm = $('#groupAlarm').attr('value');
+	var alarmCnt = 0;
+	var countA = 0;
+ 	var groupCode = "";
+	var user_id = "";
+	
 	 playAlert = setInterval(function() {
-		var alarm = "";
-		var groupAlarm = document.getElementById("groupAlarm").value;
-		
+		 console.log("알림 갯수:"+$("div[name=alarm]").length);
+ 		 alarmCnt = $("div[name=alarm]").length;
+		 
  		$.ajax({
 			url: "invite",
 			type: "GET",
-			data: {},
+			data: {alarmCnt: alarmCnt},
 			success: function(data){
-				for(var i =0; i<data.length; i++){
-					if(groupAlarm != null){
-						console.log("로그인 했다");
+				if(groupAlarm == ""){
+					console.log("로그인 안했다");
+				}else{
+					if($(".alarm").length > 0){
+						$(".alarm").remove();
+						console.log("지웠다");
 					}
-					else {
-						console.log("로그인 안했다");
+					if($(".CountA").length > 0){
+						$(".CountA").remove();
+					}
+					if(alarmCnt != 0){
+						countA = "<span class='CountA' class='badge badge-aqua btn-xs badge-corner'>" + alarmCnt + "</span>";
+						$("#CountA").append(countA);	
+					}
+					
+					for(var i =0; i<data.length; i++){
+						
+						if(groupAlarm == data[i].user_id && data[i].invite_user != groupAlarm){
+							alarm =
+								"<div class='alarm' name='alarm' class='quick-cart-wrapper'>" + 
+								"<img src='http://placehold.it/45x45' width='45' height='45' alt=''>" +
+								"<h6>" + 
+								"<span>" + data[i].invite_user + "님</span>께서 <br>그룹여행에  초대하셨습니다." +
+								"</h6>" +
+								"<input type='hidden' class='Del_group_Code' name='group_Code' value='" + data[i].group_Code +"'/>" +
+								"<input type='hidden' class='Del_user_id' name='user_id' value='" + data[i].user_id +"'/>" +
+								"<input class='sure' type='submit' value='수락' />" +
+								"<input class='nope' type='submit' value='거절' />" +
+								"</div>";
+							
+							$("#alarm").append(alarm);
+							console.log("생성했다");
+						}
 					}
 				}
 			}
 		});
-	}, 5000);
+	}, 3000);
+	 
+	 $("#alarm").on("click", ".sure", function(){
+		 alert("수락한다.");
+		 groupCode = $('.Del_group_Code').attr('value');
+		 user_id = $('.Del_user_id').attr('value');
+		 $.ajax({
+			 url: "groupTravel",
+			 type: "POST",
+			 data: {group: groupCode, user: user_id},
+			 success: function(data){
+				 alert(data.group_Code);
+				 window.location = "scheduleSet?groupCode=" + data.group_Code +"&&scheduleDate="+data.start_Date+"+-+"+data.end_Date+"&&local="+data.local;
+			 }
+		 });
+	 });
+	 
+	 $("#alarm").on("click",".nope", function(){
+		 alert("거절한다.");
+		 
+		 groupCode = $('.Del_group_Code').attr('value');
+		 user_id = $('.Del_user_id').attr('value');
+		 $.ajax({
+			 url: "group_alarm_delete",
+			 type: "POST",
+			 data: {group: groupCode, user: user_id},
+			 success: function(data){
+				 alert("갔다왔다!");
+			 }
+		 });
+	 });
 });
 </script>
 <!-- Modal menu Controll--> 
@@ -183,42 +247,14 @@ $(document).ready(function(){
 			<ul class="pull-right nav nav-pills nav-second-main has-topBar">
 				<li class="quick-cart">
 					<a href="#">
-						<span class="badge badge-aqua btn-xs badge-corner">2</span>
+						<span id="CountA" class="badge badge-aqua btn-xs badge-corner"></span>
 						<i class="fa fa-bars"></i>
 					</a>
-					<div id="alarm" class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
+					<div class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
 						<h4>My Information</h4>
- 						<input id="groupAlarm" type="text" value="${mem}" style="display:none;"/>
-						<!-- 반복문 이벤트적용 -->
-
- 						<c:forEach items="${invite}" var="invite">
-							<div class="quick-cart-wrapper">
-								<a href="#">
-									<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-									<h6>
-										<span>${invite.invite_id}</span> good!!! a<br>안녕하세요~
-									</h6>
-								</a>
-							</div>
-						</c:forEach>
-
-						<!-- <div class="quick-cart-wrapper">
-							<a href="#">
-								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-								<h6>
-									<span>test  :  </span> good!!! a<br>안녕하세요~
-								</h6>
-							</a>
+						<input id="groupAlarm" type="hidden" value="${mem}" />
+						<div id="alarm">
 						</div>
-						<div class="quick-cart-wrapper">
-							<a href="#">
-								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-								<h6>
-									<span>test  :  </span> 여행의시작
-									<br>재밌는여행 
-								</h6>
-							</a>
-						</div> -->
 					</div>
 				</li>
 			</ul>

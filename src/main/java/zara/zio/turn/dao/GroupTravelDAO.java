@@ -65,6 +65,12 @@ public interface GroupTravelDAO {
 
 	// 그룹여행 알림
 	public List<GroupApplicationVO> group_travel_alarm() throws Exception;
+	
+	// 그룹여행 알림 지우기
+	public void group_alarm_delete(GroupApplicationVO group_alarm_delete) throws Exception;
+	
+	// 그룹 여행 알람 수락 시 알람 없애기
+	public void group_alarm_update(GroupApplicationVO group_alarm_update) throws Exception;
 
 	//여행 친구 불러오기
 	public List<MemberVO> plan_friend_list(String user_id, int group_Code) throws Exception ;

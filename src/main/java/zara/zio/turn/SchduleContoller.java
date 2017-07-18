@@ -58,10 +58,10 @@ public class SchduleContoller {
       String[] friend = (String[]) request.getParameterValues("friend") ;
 
       String[] date = scheduleDate.split(" - ");
-         
+      
        String date01 = date[0];
        String date02 = date[1];
-         
+       
        Date start_Date = Date.valueOf(date01) ;
        Date end_Date = Date.valueOf(date02) ;
       
