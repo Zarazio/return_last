@@ -1,11 +1,14 @@
 package zara.zio.turn.persistence;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.Income_disbursementVO;
+import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.MaterialVO;
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.TravelListVO;
@@ -64,6 +67,9 @@ public interface GroupTravelService {
 	// 그룹여행 알림
 	public List<GroupApplicationVO> group_travel_alarm() throws Exception;
 	
+	// 여행 상세보기 타임라인
+	public List<LogBoardVO> travel_timeline(int group_Code, Timestamp start_Date, Timestamp end_Date) throws Exception;
+	
 	// 그룹여행 알림 지우기
 	public void group_alarm_delete(GroupApplicationVO group_alarm_delete) throws Exception;
 	
@@ -76,5 +82,5 @@ public interface GroupTravelService {
 	public List<MemberVO> friend_search_list(String user_id, String friend_name) throws Exception ;
 	//여행 친구 삭제
 	public void groupApplication_cancel(GroupApplicationVO groupA) throws Exception;
-
+	
 }

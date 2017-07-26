@@ -1,5 +1,6 @@
 package zara.zio.turn.dao;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.Income_disbursementVO;
+import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.MaterialVO;
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.TravelListVO;
@@ -249,6 +251,19 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 		// TODO Auto-generated method stub
 		sqlSession.update(NAMESPACE + ".group_alarm_update", group_alarm_update);
 	}
+
+	@Override
+	public List<LogBoardVO> travel_timeline(int group_Code, Timestamp start_Date, Timestamp end_Date) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> timeline = new HashMap<String, Object>();
+		
+		timeline.put("group_Code", group_Code);
+		timeline.put("start_Date", start_Date);
+		timeline.put("end_Date", end_Date);
+		
+		return sqlSession.selectList(NAMESPACE + ".travel_timeline", timeline);
+	}
+
 
 
 

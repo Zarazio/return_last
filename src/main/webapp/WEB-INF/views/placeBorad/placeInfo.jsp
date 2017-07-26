@@ -108,7 +108,10 @@
 			<h3 class="">장소 정보<span></span></h3>
 			<p class="font-lato size-14">Place-Info</p>
 			</div>
-			<div class="pull-left text-center sresult"></div>
+			<div class="pull-left s-style">
+				<div class="totalCount"></div>
+				<div class="sresult"></div>
+			</div>
 		</div>
 		<br />
 		<!-- 

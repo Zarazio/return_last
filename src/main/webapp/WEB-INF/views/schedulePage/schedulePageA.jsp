@@ -12,7 +12,7 @@
 
          <!-- Logo -->
          <a class="logo pull-left" href="main">
-            <img src="./resources/img/homeLogo/logo.png" alt="" />
+            <img src="./resources/img/homeLogo/large_logo.png" alt="" />
          </a>
          
          <div class="navbar-collapse pull-right nav-main-collapse collapse">

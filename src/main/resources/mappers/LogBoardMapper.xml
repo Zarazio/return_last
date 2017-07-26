@@ -22,7 +22,7 @@
 		from board
 	</select>
 	
-	<!-- 로그읽는맵퍼 -->
+	<!-- 로그리스트 읽는맵퍼 -->
 	<select id="infoRead" resultType="LogBoardVO" parameterType="hashmap">
 		select a.*, b.user_profile
 		from board a, user_info b
@@ -58,6 +58,65 @@
 		</if>
 	</sql>
 	
+	<!-- 좋아요, 내 좋아요 상태  -->
+	<select id="likeCounts" resultType="LikesVO">
+		select board_code, count(board_code) AS cnt
+		from board_like
+		group by board_code
+	</select>
+	<select id="likeMy" resultType="LikesVO">
+		select board_code 
+		from board_like
+		where user_id = #{id}
+	</select>
+	<insert id="likeUp">
+		insert into board_like(user_id, board_code)
+		values (#{user_id}, #{board_code})
+	</insert>
+	<delete id="likeDown">
+		delete from board_like 
+		where user_id = #{user_id}
+		and board_code = #{board_code}
+	</delete>
+	<select id="likeState" resultType="LikesVO">
+		select count(board_code) AS cnt
+		from board_like
+		where board_code = #{no}
+		group by board_code
+	</select>
+	
+	<!-- 조회수 업데이트 조회 -->
+	<update id="viewCount">
+		update board set viewCount = viewCount + 1
+		where board_code = #{no}
+	</update>
+	<select id="viewSearch" resultType="int">
+		select viewCount
+		from board
+		where board_code = #{no}
+	</select>
+	
+	<!-- 댓글맵퍼 -->
+	<select id="replyList" resultType="LogBoardVO">
+		select a.board_code board_code, a.board_content board_content, a.board_date board_date, a.board_type_code board_type_code, 
+		a.user_id user_id, a.reply_code reply_code, a.write_type write_type, b.user_profile user_profile
+		from board a, user_info b
+		where a.user_id = b.user_id
+		and reply_code = #{no} and board_type_code = 6 
+		order by board_date
+	</select>
+	<insert id="replyWrite">
+		insert into board (board_content ,board_type_code , write_type, user_id, reply_code)
+		values (#{board_content}, #{board_type_code}, #{write_type}, #{user_id}, #{reply_code})
+	</insert>
+	<update id="replyModify">
+		update board set board_content=#{board_content}
+		where board_code = #{reply_code}
+	</update>
+	<delete id="replyDelete">
+		delete from board 
+		where board_code = #{replyno}
+	</delete>
 	
 	<!-- 커뮤니티 읽는 맵퍼  -->
 	<select id="comunityList" resultType="ComunityVO">
@@ -67,6 +126,7 @@
 		order by board_code desc
 		limit #{startRecord}, #{recordPage}
 	</select>
+	
 	<select id="comuTotalCount" resultType="Integer">
 		select count(*)
 		from board

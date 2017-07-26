@@ -1,5 +1,6 @@
 package zara.zio.turn;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.persistence.LogBoardService;
 import zara.zio.turn.util.MediaUtils;
@@ -52,40 +54,11 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 	
 	@ResponseBody
 	@RequestMapping(value="/logList", method = RequestMethod.POST)
-	public List<LogBoardVO> logList(int logType, int startRecord, int recordTimeline) throws Exception {
+	public List<LogBoardVO> logList(int logType, int startRecord, int recordTimeline, HttpSession session) throws Exception {
 		
-		List<LogBoardVO> list = service.logInfoRead(logType, startRecord, recordTimeline);
-		List<Map<String,Object>> LogHash = service.logHashRead();
-		List<Map<String,Object>> LogImage = service.logImageFileRead();
+		String my = (String)session.getAttribute("mem");
 		
-		for(int i=0; i<list.size(); i++) {
-			
-			String hash = "";
-			String image = "";
-			
-			int listNum = list.get(i).getBoard_code();
-
-			for(int a=0; a<LogHash.size(); a++) {
-				int hashNum = (int)LogHash.get(a).get("board_code");
-				if(listNum == hashNum) {
-					hash += (String)LogHash.get(a).get("hash_tag_content") + "◆";
-				}
-			}
-			
-			for(int b=0; b<LogImage.size(); b++) {
-				int imageNum = (int)LogImage.get(b).get("board_code");
-				if(listNum == imageNum) {
-					image += (String)LogImage.get(b).get("file_content") + "◆";
-				}
-			}
-			
-			String [] itemA = hash.split("◆");
-			String [] itemB = image.split("◆");
-			
-			list.get(i).setHash_tag_content(itemA);
-			list.get(i).setFile_content(itemB);
-			
-		}
+		List<LogBoardVO> list = service.logInfoRead(logType, startRecord, recordTimeline, my);
 		
 		return list;
 		
@@ -177,6 +150,60 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 
 		return "redirect:logInfo";
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="viewCount", method = RequestMethod.GET)
+	public int viewCount(int no, int state) throws Exception {
+		
+		int view = service.view(no, state);
+		
+		return view;
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="likeConfirm", method = RequestMethod.GET)
+	public int likeConfirm(int states, int no, HttpSession session) throws Exception {
+		
+		String users = (String) session.getAttribute("mem");
+		LikesVO vo = new LikesVO();
+		
+		vo.setBoard_code(no);
+		vo.setUser_id(users);
+		
+		int likes = service.LikeUpDown(vo, states);
+		
+		return likes;
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="replyAll", method = RequestMethod.GET)
+	public List<LogBoardVO> replyAll(int no, HttpSession session) throws Exception {
+		
+		String users = (String) session.getAttribute("mem");
+		List<LogBoardVO> list = service.replyList(no, users);
+		
+		return list;
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="replyGo", method = RequestMethod.POST)
+	public List<LogBoardVO> replyGo(int replytype, int no, int replyno, String text, HttpSession session) throws Exception {
+		
+		String users = (String) session.getAttribute("mem");
+		
+		List<LogBoardVO> list = service.replyCommand(replytype, no, replyno, text, users);
+		
+		return list;
+	}
+	
+	
+	
+	
+	
 	
 	// log-image 업로드  
 	@RequestMapping(value="/logs", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")

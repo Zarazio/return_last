@@ -16,12 +16,33 @@ public class LogBoardVO {
 	
 	private String user_profile; // 유저프로필이미지;	
 	private int write_type; // 작성타입 웹 or 모바일 
-
+	private int reply_code; // 게시글 댓글타겟코드
+	
 	// 해시태그 부분
 	private String [] hash_tag_content; // 해시태그정보
-	
 	// 파일업로드 정보 
 	private String [] file_content; // 업로드 파일정보
+	
+	// 각 게시물 좋아요 수
+	private int like_count; 
+	private int my_like;
+	
+	// 상태객체
+	private int states;
+	// 댓글아이디 == 세션아이디 상태 
+	private int reply_state;
+
+	
+	public int getStates() {
+		return states;
+	}
+	public int getReply_state() {
+		return reply_state;
+	}
+	public void setReply_state(int reply_state) {
+		this.reply_state = reply_state;
+	}
+	
 	
 	
 	public String getUser_profile() {
@@ -42,13 +63,31 @@ public class LogBoardVO {
 	public void setHash_tag_content(String[] hash_tag_content) {
 		this.hash_tag_content = hash_tag_content;
 	}
+	public int getReply_code() {
+		return reply_code;
+	}
+	public void setReply_code(int reply_code) {
+		this.reply_code = reply_code;
+	}
 	public String[] getFile_content() {
 		return file_content;
 	}
 	public void setFile_content(String[] file_content) {
 		this.file_content = file_content;
 	}
-
+	public int getLike_count() {
+		return like_count;
+	}
+	public void setLike_count(int like_count) {
+		this.like_count = like_count;
+	}
+	public int getMy_like() {
+		return my_like;
+	}
+	public void setMy_like(int my_like) {
+		this.my_like = my_like;
+	}
+	
 	
 	public int getBoard_code() {
 		return board_code;

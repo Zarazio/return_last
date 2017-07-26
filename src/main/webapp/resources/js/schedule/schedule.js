@@ -19,10 +19,6 @@ var planB ;
 var map ;
 var mapDiv;
 
-
-	 
-
-
 $(document).ready(function(){
    $("#header").remove();
    $("#topBar").remove();

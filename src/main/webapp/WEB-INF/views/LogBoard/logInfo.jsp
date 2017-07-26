@@ -34,6 +34,7 @@
 	</div>
 </section>
 <!-- /PAGE HEADER -->
+
 <section class="alternate">
 	<div class="container">
 		<div class="logbar hidden-xs">
@@ -43,21 +44,34 @@
 			<div class="bars" data-onlog="2">여행기로그</div>
 		</div>
 		
-		<!-- first cell -->
-		<div class="columnA t-cellgrid col-md-4">
-
-		</div>
-			
-		<!-- second cell -->
-		<div class="columnB t-cellgrid col-md-4">
-			
-		</div>
-			
-		<!-- third cell -->
-		<div class="columnC t-cellgrid col-md-4">
+		<div id="users" data-check="${mem}" style="display:none;"></div>
+		<div id="allCell">
+			<!-- first cell -->
+			<div class="columnA t-cellgrid col-md-4">
+	
+			</div>
 				
+			<!-- second cell -->
+			<div class="columnB t-cellgrid col-md-4">
+				
+			</div>
+				
+			<!-- third cell -->
+			<div class="columnC t-cellgrid col-md-4">
+					
+			</div>
+		</div>
+		
+		<!-- lightBox -->
+		<div class="lightBox">
+			<span class="lightClose">&times;</span>
+			<div class="lightBox-content">
+				
+			</div>
 		</div>
 		
 	</div>
-	<div style="height:100px;"></div>
+	<div id="imgToggle" class="text-center text-center margin-top-200 margin-bottom-200" style="visibility:hidden;">
+		<img src="./resources/img/homeLogo/bottom_logo.png">
+	</div>
 </section>

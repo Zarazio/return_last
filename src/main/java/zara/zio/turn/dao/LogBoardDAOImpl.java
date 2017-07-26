@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import zara.zio.turn.domain.ComunityVO;
+import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
 
@@ -56,7 +57,7 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	}
 
 	
-	
+	// 리스트 읽기 전용
 	@Override
 	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum) throws Exception {
 		// TODO Auto-generated method stub
@@ -64,7 +65,7 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 		typeMap.put("type", type);
 		typeMap.put("startRecord", start);
 		typeMap.put("timeLineNum", timeNum);
-		return sqlSession.selectList(NAMESPACE + ".infoRead",typeMap);
+		return sqlSession.selectList(NAMESPACE + ".infoRead", typeMap);
 	}
 	
 	@Override
@@ -78,7 +79,72 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".imgfileRead");
 	}
+	
+	@Override
+	public List<LikesVO> likeCounts() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".likeCounts");
+	}
+	
+	@Override
+	public List<LikesVO> myLikes(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".likeMy", id);
+	}
+	
+	@Override
+	public void likeUp(LikesVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(NAMESPACE + ".likeUp", vo);
+	}
 
+	@Override
+	public void likeDown(LikesVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".likeDown", vo);
+	}
+	
+	@Override
+	public LikesVO likeState(int no) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".likeState", no);
+	}
+	
+	@Override
+	public void viewCount(int no) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".viewCount", no);
+	}
+	
+	@Override
+	public int viewSearch(int no) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".viewSearch", no);
+	}
+	
+	@Override
+	public List<LogBoardVO> replyList(int no) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".replyList", no);
+	}
+	
+	@Override
+	public void replyWrite(LogBoardVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(NAMESPACE + ".replyWrite", vo);
+	}
+	
+	@Override
+	public void replyModify(LogBoardVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".replyModify", vo);
+	}
+	
+	@Override
+	public void replyDelete(int replyno) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".replyDelete", replyno);
+	}
 	
 	
 	@Override

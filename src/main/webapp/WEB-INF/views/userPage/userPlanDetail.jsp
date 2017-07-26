@@ -56,19 +56,18 @@
 					
 					</div>
 				</div>
-				<div>
-				
-				</div>
+				<div id="plan-start" data-code="${startDate}" style="display:none"></div>
+				<div id="plan-end" data-code="${endDate}" style="display:none"></div>
 			</div>
 			<div class="plan_nav">
 				<div onclick="travel_plan()">여행일정</div>
 				<div onclick="travel_cost()">여행경비</div>
 				<div onclick="travel_supplies()">여행준비물</div>
-				<div>타임라인</div>
+				<div onclick="travel_timeline()">타임라인</div>
 				<div onclick="travel_modify()">수정하기</div>
 			</div>
 			<div class="plan_section">
-				<div id="plan_contain">
+				<div id="plan_contain" style="height:auto;">
 					<div id="plan_list_contain">
 					<c:forEach items="${list}" var="list" varStatus="status">
 						<div class="plan-day-list" data-lat = "${list.place_lat}" data-lng = "${list.place_lng}">

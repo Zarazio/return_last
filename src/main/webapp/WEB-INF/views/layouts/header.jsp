@@ -3,95 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script src="<c:url value="./resources/js/modal/modalView.js"/>" ></script>
-<script>
-$(document).ready(function(){
-	
-	var alarm = "";
-	var groupAlarm = $('#groupAlarm').attr('value');
-	var alarmCnt = 0;
-	var countA = 0;
- 	var groupCode = "";
-	var user_id = "";
-	
-	 playAlert = setInterval(function() {
-		 console.log("알림 갯수:"+$("div[name=alarm]").length);
- 		 alarmCnt = $("div[name=alarm]").length;
-		 
- 		$.ajax({
-			url: "invite",
-			type: "GET",
-			data: {alarmCnt: alarmCnt},
-			success: function(data){
-				if(groupAlarm == ""){
-					console.log("로그인 안했다");
-				}else{
-					if($(".alarm").length > 0){
-						$(".alarm").remove();
-						console.log("지웠다");
-					}
-					if($(".CountA").length > 0){
-						$(".CountA").remove();
-					}
-					if(alarmCnt != 0){
-						countA = "<span class='CountA' class='badge badge-aqua btn-xs badge-corner'>" + alarmCnt + "</span>";
-						$("#CountA").append(countA);	
-					}
-					
-					for(var i =0; i<data.length; i++){
-						
-						if(groupAlarm == data[i].user_id && data[i].invite_user != groupAlarm){
-							alarm =
-								"<div class='alarm' name='alarm' class='quick-cart-wrapper'>" + 
-								"<img src='http://placehold.it/45x45' width='45' height='45' alt=''>" +
-								"<h6>" + 
-								"<span>" + data[i].invite_user + "님</span>께서 <br>그룹여행에  초대하셨습니다." +
-								"</h6>" +
-								"<input type='hidden' class='Del_group_Code' name='group_Code' value='" + data[i].group_Code +"'/>" +
-								"<input type='hidden' class='Del_user_id' name='user_id' value='" + data[i].user_id +"'/>" +
-								"<input class='sure' type='submit' value='수락' />" +
-								"<input class='nope' type='submit' value='거절' />" +
-								"</div>";
-							
-							$("#alarm").append(alarm);
-							console.log("생성했다");
-						}
-					}
-				}
-			}
-		});
-	}, 3000);
-	 
-	 $("#alarm").on("click", ".sure", function(){
-		 alert("수락한다.");
-		 groupCode = $('.Del_group_Code').attr('value');
-		 user_id = $('.Del_user_id').attr('value');
-		 $.ajax({
-			 url: "groupTravel",
-			 type: "POST",
-			 data: {group: groupCode, user: user_id},
-			 success: function(data){
-				 alert(data.group_Code);
-				 window.location = "scheduleSet?groupCode=" + data.group_Code +"&&scheduleDate="+data.start_Date+"+-+"+data.end_Date+"&&local="+data.local;
-			 }
-		 });
-	 });
-	 
-	 $("#alarm").on("click",".nope", function(){
-		 alert("거절한다.");
-		 
-		 groupCode = $('.Del_group_Code').attr('value');
-		 user_id = $('.Del_user_id').attr('value');
-		 $.ajax({
-			 url: "group_alarm_delete",
-			 type: "POST",
-			 data: {group: groupCode, user: user_id},
-			 success: function(data){
-				 alert("갔다왔다!");
-			 }
-		 });
-	 });
-});
-</script>
+<<<<<<< HEAD
+=======
+
+>>>>>>> a71ed6fee97c04faff3335065272b539f569aada
 <!-- Modal menu Controll--> 
 <div id="myModal" class="modal fade" role="dialog">
   	<div class="modal-dialog">
@@ -223,18 +138,18 @@ $(document).ready(function(){
 <!-- TopBar menu -->
 <div id="topBar" class="fixmenu">
 	<div class="container">
-		<ul class="top-links list-inline pull-right"> <!-- .turn-hei-center -->
+		<ul class="pull-right headers-margin size-12"> <!-- .turn-hei-center -->
 			<c:if test="${info == null}">
-				<li class=""><a href="login">로그인 메뉴</a>
-				<li class=""><a href="register">회원가입 메뉴</a>
+				<li class="inline-block headers-set margin-right-10"><a href="login">로그인 메뉴</a>
+				<li class="inline-block headers-set"><a href="register">회원가입 메뉴</a>
 			</c:if>
 			<c:if test="${info == 'admin'}">
-				<li class="text-welcome"><a href="myinfo"><strong>${mem}</strong> 님.</a>
-				<li class="hidden-xs"><a href="logout">로그아웃</a>
+				<li class="text-welcome inline-block headers-set margin-right-10"><a href="myinfo"><strong>${mem}</strong> 님.</a>
+				<li class="hidden-xs inline-block headers-set"><a href="logout">로그아웃</a>
 			</c:if>
 			<c:if test="${info == 'user'}">
-				<li class="text-welcome"><a href="myinfo"><strong>${mem}</strong> 님.</a>
-				<li class="hidden-xs"><a href="logout">로그아웃</a>
+				<li class="text-welcome inline-block headers-set margin-right-10"><a href="myinfo"><strong>${mem}</strong> 님.</a>
+				<li class="hidden-xs inline-block headers-set"><a href="logout">로그아웃</a>
 			</c:if>
 		</ul>
 	</div>
@@ -259,7 +174,7 @@ $(document).ready(function(){
 				</li>
 			</ul>
 			<a class="logo pull-left" href="main">
-				<img src="./resources/img/homeLogo/logo.png" />
+				<img src="./resources/img/homeLogo/large_logo.png" />
 			</a>
 			<div class="navbar-collapse pull-right nav-main-collapse collapse in">
 				<div class="nav-main">

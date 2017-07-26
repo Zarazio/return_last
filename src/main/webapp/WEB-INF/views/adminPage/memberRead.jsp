@@ -45,7 +45,7 @@
 				<table class="table table-striped">
 					<tr>
 						<td class="text-center">
-							<img src="displayProfile?fileName=${member.user_profile}" class="turn-shadow" style="width:450px; height:400px;" data-src="/default.png">
+							<img src="displayProfile?fileName=${member.user_profile}" class="turn-shadow" style="width:450px; height:400px; margin:30px;" data-src="/default.png">
 						</td>
 					</tr>
 					<tr>
