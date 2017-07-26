@@ -82,5 +82,4 @@
       where user_id = #{my_id} and friend_id = #{user_id}
       or friend_id = #{my_id} and user_id = #{user_id}
    </update>
-	
 </mapper>

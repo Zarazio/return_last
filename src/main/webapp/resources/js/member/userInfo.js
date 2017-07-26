@@ -420,9 +420,6 @@ function hideMarker(map, marker) {
     marker.setMap(null);
 }
 
-
-
-
 //이미지 썸네일
 function thumb(data){
 
@@ -431,5 +428,118 @@ function thumb(data){
  var idxA = "/s_" + data.substr(idx) ;
  
  return idxA ;
+}
+
+function travel_timeline(){
+	$('#plan_contain').empty();
+	
+	var group_code = $("#plan-title").attr("data-code");
+	var start_Date = $("#plan-start").attr("data-code");
+	var end_Date = $("#plan-end").attr("data-code");
+	
+	$.ajax({
+		url: "travel_timeline",
+		type: "GET",
+		data: {group: group_code, start: start_Date, end: end_Date},
+		success: function(data){
+			
+			for(var i =0; i<data.length; i++){
+				var timestamp = data[i].board_date;
+				var date = new Date(timestamp);
+				var year = date.getFullYear();
+				var month = date.getMonth()+1;
+				var day = date.getDate();
+				var hour = date.getHours();
+				var min = date.getMinutes();
+				var sec = date.getSeconds();
+				var retVal =   year + "-" + (month < 10 ? "0" + month : month) + "-" 
+				                        + (day < 10 ? "0" + day : day) + " " 
+				                        + (hour < 10 ? "0" + hour : hour) + ":"
+				                        + (min < 10 ? "0" + min : min) + ":" 
+				                        + (sec < 10 ? "0" + sec : sec);
+				var monthE = "";
+				
+				day = (day < 10 ? "0" + day : day);
+				hour = (hour < 10 ? "0" + hour : hour);
+				min = (min < 10 ? "0" + min : min);
+				sec = (sec < 10 ? "0" + sec : sec);
+				
+			switch(month){
+			case 01: monthE = "Jan"; break;
+			case 02: monthE = "Feb"; break;
+			case 03: monthE = "Mar"; break;
+			case 04: monthE = "Apr"; break;
+			case 05: monthE = "May"; break;
+			case 06: monthE = "Jun"; break;
+			case 07: monthE = "Jul"; break;
+			case 08: monthE = "Aug"; break;
+			case 09: monthE = "Sep"; break;
+			case 10: monthE = "Oct"; break;
+			case 11: monthE = "Nov"; break;
+			case 12: monthE = "Dec"; break;
+			default: break;
+			
+			}
+			
+			var content = data[i].board_content;
+			var image = data[i].file_content;
+			console.log(image);
+			
+			var board_content = content.replace(/[<][^>]*[>]/gi, "");
+			
+			alarm = "<div class='timeline' style='cursor:default;border:none;box-shadow:none;'>" +
+			"<div class='timeline-hline'></div>" +
+			"<div class='blog-post-item' style='margin:0px 0px 0px 100px;'>" +
+			"<div class='timeline-entry rounded' style='background-color:white;'>" +
+			day + "<span>"+ monthE +"</span>" +
+			"<div class='timeline-vline'></div>" +
+			"</div>" +
+/*			"<div class='flexslider' data-arrowNav='false' data-slideshowSpeed='3000'>" +
+			"<ul class='slides'>" +
+			"<li>" +
+			"<a href='#'>" +
+			'<img class="img-fluid" src="demo_files/images/720x400/1-min.jpg" width="600" height="399" alt="">' +
+			"</a>" +
+			"</li>" +
+			'</ul>'+
+			'</div>'+*/
+			'<div style="background-color:white;padding:20px 0px 0px 0px;">' +
+			'<h2><a href="blog-single-default.html">' + data[i].board_title + '</a></h2>'+
+			'<ul class="blog-post-info list-inline">' + 
+			'<li>'+
+			'<a href="#">'+
+			'<i class="fa fa-clock-o"></i>'+
+			'<span class="font-lato">작성일: ' + retVal + '</span>'+
+			'</a>'+
+			'</li>'+
+			'<li>'+
+			'<a href="#">'+
+			'<i class="fa fa-comment-o"></i>'+
+			'<span class="font-lato">28 Comments</span>'+
+			'</a>'+
+			'</li>'+
+/*			'<li>'+
+			'<i class="fa fa-folder-open-o"></i>'+
+			'<a class="category" href="#">'+
+			'<span class="font-lato">Design</span>'+
+			'</a>'+
+			'<a class="category" href="#">'+
+			'<span class="font-lato">Photography</span>'+
+			'</a>'+
+			'</li>'+*/
+			'<li>'+
+			'<a href="#">'+
+			'<i class="fa fa-user"></i>'+
+			'<span class="font-lato">' + data[i].user_id + '</span>'+
+			'</a>'+
+			'</li>'+
+			'</ul>'+ "</div>" +
+			'<p>' + board_content + '<p>' +
+			'</div>';
+			
+			$("#plan_contain").append(alarm);
+			}
+		}
+	});	
 }
 

@@ -36,9 +36,6 @@ public class AlarmController {
 	public List<GroupApplicationVO> groupAlarm(Model model, int alarmCnt, HttpSession session) throws Exception {
 
 		List<GroupApplicationVO> invite = service.group_travel_alarm();
-		
-		session.setAttribute("alarmCnt", alarmCnt);
-		int CountA = (int)session.getAttribute("alarmCnt");
 
 		System.out.println("받은 알림 갯수:" + alarmCnt);
 		

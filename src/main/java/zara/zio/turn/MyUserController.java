@@ -3,6 +3,7 @@ package zara.zio.turn;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,6 +33,7 @@ import com.google.gson.Gson;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.Income_disbursementVO;
+import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.MaterialVO;
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.TravelListVO;
@@ -499,5 +501,26 @@ public class MyUserController {
          
          return accept;
       }
+      
+      // 여행일정에서 타임라인
+      @ResponseBody
+      @RequestMapping(value="travel_timeline", method=RequestMethod.GET)
+      public List<LogBoardVO> travel_timeline(String group, String start, String end) throws Exception{
+
+    	  start = start + " 00:00:00";
+    	  end = end + " 23:59:59";
+    	  System.out.println(group);
+    	  System.out.println(start);
+    	  System.out.println(end);
+    	  
+    	  int group_Code = Integer.parseInt(group);
+    	  Timestamp start_Date = Timestamp.valueOf(start);
+    	  Timestamp end_Date = Timestamp.valueOf(end);
+    	  
+    	  List<LogBoardVO> list = service1.travel_timeline(group_Code, start_Date, end_Date);
+    	  
+    	  return list;
+      }
+      
 }
    

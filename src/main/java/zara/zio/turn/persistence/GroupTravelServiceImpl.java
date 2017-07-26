@@ -1,5 +1,6 @@
 package zara.zio.turn.persistence;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,6 +12,7 @@ import zara.zio.turn.domain.ChattingVO;
 import zara.zio.turn.domain.GroupApplicationVO;
 import zara.zio.turn.domain.GroupVO;
 import zara.zio.turn.domain.Income_disbursementVO;
+import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.MaterialVO;
 import zara.zio.turn.domain.MemberVO;
 import zara.zio.turn.domain.TravelListVO;
@@ -238,6 +240,15 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 		// TODO Auto-generated method stub
 		dao.group_alarm_update(group_alarm_update);
 	}
+
+	@Override
+	public List<LogBoardVO> travel_timeline(int group_Code, Timestamp start_Date, Timestamp end_Date) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.travel_timeline(group_Code, start_Date, end_Date);
+	}
+
+	
+	
 	
 	
 	

@@ -22,7 +22,7 @@
     
    <insert id="groupApplicationCreate">
       	insert into group_application (user_id, group_Code, group_apply, invite_user)
-      	values(#{user_id} , #{group_Code}, 0 , #{invite_user})
+      	values(#{user_id} , #{group_Code}, #{group_apply} , #{invite_user})
    </insert>
       
    <!-- Travel 단  -->
@@ -197,13 +197,25 @@
    		from user_info a, (select * from group_application where group_Code = #{group_Code} and user_id not in (#{user_id}) ) b
 		where a.user_id = b.user_id
    </select>
+   
    <select id="friend_search_list" resultType="MemberVO">
    		select user_profile , user_id from user_info 
 		where user_id in (select  CONCAT(replace(user_id, #{user_id} ,'') , replace(friend_id, #{user_id} ,'') ) as friend_id from friend_list where user_id= #{user_id} or friend_id= #{user_id} and friend_accept = 1)    
 	    and user_id like CONCAT('%', #{friend_name} , '%')
    </select>
+   
    <delete id="groupApplication_cancel">
    		delete from group_application where user_id = #{user_id} and group_Code = #{group_Code}
    </delete>
+   
+   <!-- 여행계획 상세에서 타임라인 -->
+   <select id="travel_timeline" resultType="LogBoardVO">
+   		select * from board a, attached_file b 
+   		where board_type_code = 1 and user_id IN (
+   			select user_id from group_application
+   			where group_Code = #{group_Code})
+   			or a.board_code = b.board_code
+   			and board_date between #{start_Date} and #{end_Date}
+   </select>
    
 </mapper>

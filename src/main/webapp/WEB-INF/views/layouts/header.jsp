@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script src="<c:url value="./resources/js/modal/modalView.js"/>" ></script>
-
 <!-- Modal menu Controll--> 
 <div id="myModal" class="modal fade" role="dialog">
   	<div class="modal-dialog">
