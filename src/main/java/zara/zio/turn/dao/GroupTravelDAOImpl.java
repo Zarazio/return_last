@@ -223,6 +223,33 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 		return sqlSession.selectList(NAMESPACE + ".plan_friend_list", plan);
 	}
 
+	@Override
+	public List<MemberVO> friend_search_list(String user_id, String friend_name) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> plan = new HashMap<String, Object>();
+		plan.put("user_id", user_id);
+		plan.put("friend_name", friend_name);
+		return sqlSession.selectList(NAMESPACE + ".friend_search_list",plan) ;
+	}
+
+	@Override
+	public void groupApplication_cancel(GroupApplicationVO groupA) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".groupApplication_cancel", groupA);
+	}
+	
+	@Override
+	public void group_alarm_delete(GroupApplicationVO group_alarm_delete) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".group_alarm_delete", group_alarm_delete);
+	}
+
+	@Override
+	public void group_alarm_update(GroupApplicationVO group_alarm_update) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".group_alarm_update", group_alarm_update);
+	}
+
 
 
 

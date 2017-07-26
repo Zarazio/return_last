@@ -94,7 +94,6 @@ $(document).ready(function(){
 		var startRecord = getStartRecord(curentPage,recordPage); // 페이지조회정보
 		calculate();
 		
-		
 		$(".delelement").remove(); // 엘리먼트 삭제
 		$(".pagination").remove();
 		
@@ -120,10 +119,11 @@ $(document).ready(function(){
 									"</div>" + 
 									"<div class='padding-10'>" + 
 										"<h4 class='text-left'>" + textTitle(data[i].place_name) + "</h4>" + 
-										"<p class='text-left'>" + textSize(data[i].place_content) + "</p>" +
+										"<h6 class='text-left'>" + data[i].place_type + "</h6>" + 
+										"<p class='text-left'>" + textSize(data[i].place_content) + "</p>" + 
 										"<ul class='text-left size-12 list-inline list-separator'>" + 
 						                    "<li><i class='fa fa-calendar-check-o'></i>" + dateParse(data[i].add_date) +
-						                    "<li>" + data[i].place_type + 
+						                    "<li><i class='fa fa-eye'></i>" + data[i].view + 
 						                "</ul>" +
 					                "</div>" +
 						        "</div>" +
@@ -160,6 +160,7 @@ $(document).ready(function(){
 			}
 		})
 		
+		$(".totalCount").html("검색정보 : " + totalCount + "개");
 		$(".datas").val("");
 		$(".datas").attr("placeholder", "원하는 카테고리를 선택후 찾고싶은 장소를 입력해보세요.");
 		

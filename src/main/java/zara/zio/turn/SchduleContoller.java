@@ -11,9 +11,11 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,10 +58,10 @@ public class SchduleContoller {
       String[] friend = (String[]) request.getParameterValues("friend") ;
 
       String[] date = scheduleDate.split(" - ");
-         
+      
        String date01 = date[0];
        String date02 = date[1];
-         
+       
        Date start_Date = Date.valueOf(date01) ;
        Date end_Date = Date.valueOf(date02) ;
       
@@ -520,6 +522,7 @@ public class SchduleContoller {
 		   System.out.printf("ememe : " +  mem.get(i).getUser_id());
 		   obj.put("user_id", mem.get(i).getUser_id());
 		   obj.put("user_profile", mem.get(i).getUser_profile());
+		   obj.put("group_apply", mem.get(i).getGroup_apply());
 		   
 		   array.add(obj);
 	   }
@@ -529,8 +532,74 @@ public class SchduleContoller {
 	   return main;
    }
    
-   
-   
+   @ResponseBody
+   @RequestMapping (value="friend_search_list", method=RequestMethod.POST)
+   public JSONObject friend_search_list(String friend_name, HttpSession session, HttpServletRequest request) throws Exception{
+	   
+	   String[] arrays = (String[]) request.getParameterValues("arrays"); 
+	   String user_id  = (String) session.getAttribute("mem");
+	 
+	   System.out.println("aa : " + friend_name + arrays );
+	   
 
+	   List<MemberVO> mem = service1.friend_search_list(user_id, friend_name);
+	   System.out.println(mem.toString());
+	   JSONArray array = new JSONArray();
+	   JSONObject main = new JSONObject();
+	   
+	   for(int i=0; i<mem.size() ; i++){
+		   
+
+			   JSONObject obj = new JSONObject();
+			   obj.put("user_id",mem.get(i).getUser_id());
+			   obj.put("user_profile",mem.get(i).getUser_profile());
+			   
+			   array.add(obj);
+		   
+	   }
+	   System.out.println("mem : " + mem.toString() + "mdm : " + mem.size());
+	   System.out.println("string : " + array.toString() +"string : " + array.size());
+	   main.put("array", array) ;
+	
+	   
+	   return main;
+   }
+   
+   
+   @ResponseBody
+   @RequestMapping (value="group_Application", method=RequestMethod.POST)
+   public void group_Application(String friend_name, String groupCode, HttpSession session) throws Exception{
+	  
+	   String user_id  = (String) session.getAttribute("mem");
+	   int group_Code = Integer.parseInt(groupCode);
+	   
+	   GroupApplicationVO groupA = new GroupApplicationVO();
+	   groupA.setGroup_Code(group_Code);
+	   groupA.setUser_id(friend_name);
+	   groupA.setInvite_user(user_id);
+
+	   service1.groupApplicationCreate(groupA) ;
+   }
+   
+   @ResponseBody
+   @RequestMapping (value="groupApplication_cancel", method=RequestMethod.POST)
+   public void  groupApplication_cancel(String friend_name, String groupCode, HttpSession session) throws Exception{
+	 
+	   int group_Code = Integer.parseInt(groupCode);
+	   
+	   GroupApplicationVO groupA = new GroupApplicationVO();
+	   groupA.setGroup_Code(group_Code);
+	   groupA.setUser_id(friend_name);
+	   
+	   System.out.println("user : " + friend_name);
+	 
+
+	   service1.groupApplication_cancel(groupA) ;
+   }
+   
+   
+  
+   
+   
    
 }

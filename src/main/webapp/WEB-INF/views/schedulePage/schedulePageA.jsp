@@ -12,7 +12,7 @@
 
          <!-- Logo -->
          <a class="logo pull-left" href="main">
-            <img src="./resources/img/homeLogo/logo.png" alt="" />
+            <img src="./resources/img/homeLogo/large_logo.png" alt="" />
          </a>
          
          <div class="navbar-collapse pull-right nav-main-collapse collapse">
@@ -274,8 +274,9 @@
                <div id="friend-search">
                		<div>
                			<input type="text" placeholder="같이 여행할 친구를 검색하세요">
-               			<button class="btn btn-default">검색</button>
+               			<button class="btn btn-default" id="friend-search-btn">검색</button>
                		</div>
+               		<div></div>
                </div>
             </div>      
          </div>
@@ -293,7 +294,7 @@
    <div id="placeDetail">
    		<div id="detail_view">
    			<div id="detail_main">
-   				<p>ddsdfsfsdf</p>
+   				<p></p>
    				<span><a href="javascript:placeDetailClose()">X</a></span>	
    			</div>
    			<div id="detail_body">
@@ -311,8 +312,22 @@
    		</div>
    		
    </div>
+   
 
-
+   <!-- ------memo 추가하기  -------------->
+   <div id="memoDetail">
+   		<div id="memo_view">
+   			<div id="memo_main">
+   				<p>ddsdfsfsdf</p>
+   				<span><a href="javascript:memoClose()">X</a></span>	
+   			</div>
+   			<div id="memo_body">
+   				<img src="">
+   				<div id="memo_content"></div>
+   			</div>
+   		</div>
+   		
+   </div>
    
 </div>
 

@@ -33,7 +33,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="./resources/libraryCss/page_level/layout-shop.css"/>">
 
 <!-- Design Color -->
-<link rel="stylesheet" type="text/css" href="<c:url value="./resources/libraryCss/designColor/blue.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="./resources/libraryCss/designColor/darkgreen.css"/>">
 
 <!-- JAVASCRIPT FILES -->
 <script type="text/javascript">var plugin_path = './resources/';</script>

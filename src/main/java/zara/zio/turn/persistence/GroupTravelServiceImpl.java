@@ -208,10 +208,38 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 		// TODO Auto-generated method stub
 		return dao.group_travel_alarm();
 	}
+	
 	public List<MemberVO> plan_friend_list(String user_id, int group_Code) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.plan_friend_list(user_id, group_Code);
 
 	}
+
+	@Override
+	public List<MemberVO> friend_search_list(String user_id, String friend_name) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.friend_search_list(user_id, friend_name);
+	}
+
+	@Override
+	public void groupApplication_cancel(GroupApplicationVO groupA) throws Exception {
+		// TODO Auto-generated method stub
+		dao.groupApplication_cancel(groupA);
+	}
+	
+	@Override
+	public void group_alarm_delete(GroupApplicationVO group_alarm_delete) throws Exception {
+		// TODO Auto-generated method stub
+		dao.group_alarm_delete(group_alarm_delete);
+	}
+
+	@Override
+	public void group_alarm_update(GroupApplicationVO group_alarm_update) throws Exception {
+		// TODO Auto-generated method stub
+		dao.group_alarm_update(group_alarm_update);
+	}
+	
+	
+	
 
 }

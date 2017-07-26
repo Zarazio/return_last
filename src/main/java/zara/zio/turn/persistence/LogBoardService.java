@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import zara.zio.turn.domain.ComunityVO;
+import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
 
@@ -12,9 +13,11 @@ public interface LogBoardService {
 	public void logBoardCreate (LogBoardVO vo, int cnt, int type) throws Exception;
 	public Map<String, Object> maxCode() throws Exception;
 	
-	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum) throws Exception;
-	public List<Map<String, Object>> logHashRead() throws Exception;
-	public List<Map<String, Object>> logImageFileRead() throws Exception;
+	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum, String my) throws Exception;
+	public int view(int no, int state) throws Exception;
+	public int LikeUpDown(LikesVO vo, int states) throws Exception;
+	public List<LogBoardVO> replyList(int no, String id) throws Exception;
+	public List<LogBoardVO> replyCommand(int type, int no, int replyno, String text, String id) throws Exception;
 	
 	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception;
 	public int comuTotalCount() throws Exception;

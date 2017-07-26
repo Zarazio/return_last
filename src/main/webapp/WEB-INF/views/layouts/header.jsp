@@ -3,31 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script src="<c:url value="./resources/js/modal/modalView.js"/>" ></script>
-<script>
-$(document).ready(function(){
-	
-	 playAlert = setInterval(function() {
-		var alarm = "";
-		var groupAlarm = document.getElementById("groupAlarm").value;
-		
- 		$.ajax({
-			url: "invite",
-			type: "GET",
-			data: {},
-			success: function(data){
-				for(var i =0; i<data.length; i++){
-					if(groupAlarm != null){
-						console.log("로그인 했다");
-					}
-					else {
-						console.log("로그인 안했다");
-					}
-				}
-			}
-		});
-	}, 5000);
-});
-</script>
 <!-- Modal menu Controll--> 
 <div id="myModal" class="modal fade" role="dialog">
   	<div class="modal-dialog">
@@ -159,18 +134,18 @@ $(document).ready(function(){
 <!-- TopBar menu -->
 <div id="topBar" class="fixmenu">
 	<div class="container">
-		<ul class="top-links list-inline pull-right"> <!-- .turn-hei-center -->
+		<ul class="pull-right headers-margin size-12"> <!-- .turn-hei-center -->
 			<c:if test="${info == null}">
-				<li class=""><a href="login">로그인 메뉴</a>
-				<li class=""><a href="register">회원가입 메뉴</a>
+				<li class="inline-block headers-set margin-right-10"><a href="login">로그인 메뉴</a>
+				<li class="inline-block headers-set"><a href="register">회원가입 메뉴</a>
 			</c:if>
 			<c:if test="${info == 'admin'}">
-				<li class="text-welcome"><a href="myinfo"><strong>${mem}</strong> 님.</a>
-				<li class="hidden-xs"><a href="logout">로그아웃</a>
+				<li class="text-welcome inline-block headers-set margin-right-10"><a href="myinfo"><strong>${mem}</strong> 님.</a>
+				<li class="hidden-xs inline-block headers-set"><a href="logout">로그아웃</a>
 			</c:if>
 			<c:if test="${info == 'user'}">
-				<li class="text-welcome"><a href="myinfo"><strong>${mem}</strong> 님.</a>
-				<li class="hidden-xs"><a href="logout">로그아웃</a>
+				<li class="text-welcome inline-block headers-set margin-right-10"><a href="myinfo"><strong>${mem}</strong> 님.</a>
+				<li class="hidden-xs inline-block headers-set"><a href="logout">로그아웃</a>
 			</c:if>
 		</ul>
 	</div>
@@ -183,47 +158,19 @@ $(document).ready(function(){
 			<ul class="pull-right nav nav-pills nav-second-main has-topBar">
 				<li class="quick-cart">
 					<a href="#">
-						<span class="badge badge-aqua btn-xs badge-corner">2</span>
+						<span id="CountA" class="badge badge-aqua btn-xs badge-corner"></span>
 						<i class="fa fa-bars"></i>
 					</a>
-					<div id="alarm" class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
+					<div class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
 						<h4>My Information</h4>
- 						<input id="groupAlarm" type="text" value="${mem}" style="display:none;"/>
-						<!-- 반복문 이벤트적용 -->
-
- 						<c:forEach items="${invite}" var="invite">
-							<div class="quick-cart-wrapper">
-								<a href="#">
-									<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-									<h6>
-										<span>${invite.invite_id}</span> good!!! a<br>안녕하세요~
-									</h6>
-								</a>
-							</div>
-						</c:forEach>
-
-						<!-- <div class="quick-cart-wrapper">
-							<a href="#">
-								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-								<h6>
-									<span>test  :  </span> good!!! a<br>안녕하세요~
-								</h6>
-							</a>
+						<input id="groupAlarm" type="hidden" value="${mem}" />
+						<div id="alarm">
 						</div>
-						<div class="quick-cart-wrapper">
-							<a href="#">
-								<img src="http://placehold.it/45x45" width="45" height="45" alt="">
-								<h6>
-									<span>test  :  </span> 여행의시작
-									<br>재밌는여행 
-								</h6>
-							</a>
-						</div> -->
 					</div>
 				</li>
 			</ul>
 			<a class="logo pull-left" href="main">
-				<img src="./resources/img/homeLogo/logo.png" />
+				<img src="./resources/img/homeLogo/large_logo.png" />
 			</a>
 			<div class="navbar-collapse pull-right nav-main-collapse collapse in">
 				<div class="nav-main">

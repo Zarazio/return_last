@@ -109,8 +109,11 @@ $(document).ready(function() {
 		group_code = $(this).attr("data-whatever"); 
 	});
 	
-	mapId = document.getElementById("plan_map") ;
-	map = new naver.maps.Map(mapId) ;
+	mapId = document.getElementById("plan_map");
+	if(mapId == null) {
+		return false;
+	}
+	map = new naver.maps.Map(mapId);
 	
 	var count = 0 ;
 	planPlace = [] ;
