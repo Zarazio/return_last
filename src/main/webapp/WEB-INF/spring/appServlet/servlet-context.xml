@@ -91,6 +91,12 @@
 		<beans:constructor-arg value="resources/upload/comunity">
 		</beans:constructor-arg>
 	</beans:bean>
+	
+	<!-- 스텝로그 kml 경로  -->
+	<beans:bean id="stepPath" class="java.lang.String">
+		<beans:constructor-arg value="resources/upload/step_log">
+		</beans:constructor-arg>
+	</beans:bean>
 
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	

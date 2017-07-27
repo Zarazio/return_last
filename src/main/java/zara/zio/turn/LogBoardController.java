@@ -60,6 +60,7 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		
 		List<LogBoardVO> list = service.logInfoRead(logType, startRecord, recordTimeline, my);
 		
+		
 		return list;
 		
 	}
@@ -212,6 +213,7 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		logger.info("LogName : " + file.getOriginalFilename()); // 파일명
 		
 		return new ResponseEntity<String>(UploadFileUtils.uploadFile(logsPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
+	
 	}
 	
 	// log-image 표시맵핑

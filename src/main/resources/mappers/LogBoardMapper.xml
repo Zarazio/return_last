@@ -33,12 +33,12 @@
 		order by board_date desc
 		limit #{startRecord}, #{timeLineNum}
 	</select>
-	<select id="hashRead" resultType="java.util.HashMap">
+	<select id="hashRead" resultType="FileAndHashVO">
 		select hash_tag_content, board_code
 		from hash_tag
 		order by hash_tag_code
 	</select>
-	<select id="imgfileRead" resultType="java.util.HashMap">
+	<select id="imgfileRead" resultType="FileAndHashVO">
 		select file_content, board_code
 		from attached_file
 		order by file_code
@@ -95,6 +95,7 @@
 		from board
 		where board_code = #{no}
 	</select>
+	
 	
 	<!-- 댓글맵퍼 -->
 	<select id="replyList" resultType="LogBoardVO">

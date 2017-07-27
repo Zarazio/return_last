@@ -1,5 +1,6 @@
 package zara.zio.turn.domain;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class LogBoardVO {
@@ -31,8 +32,11 @@ public class LogBoardVO {
 	private int states;
 	// 댓글아이디 == 세션아이디 상태 
 	private int reply_state;
-
 	
+	
+	public void setStates(int states) {
+		this.states = states;
+	}
 	public int getStates() {
 		return states;
 	}
@@ -42,9 +46,6 @@ public class LogBoardVO {
 	public void setReply_state(int reply_state) {
 		this.reply_state = reply_state;
 	}
-	
-	
-	
 	public String getUser_profile() {
 		return user_profile;
 	}
