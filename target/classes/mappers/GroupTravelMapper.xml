@@ -22,7 +22,7 @@
     
    <insert id="groupApplicationCreate">
       	insert into group_application (user_id, group_Code, group_apply, invite_user)
-      	values(#{user_id} , #{group_Code}, 0 , #{invite_user})
+      	values(#{user_id} , #{group_Code}, #{group_apply} , #{invite_user})
    </insert>
       
    <!-- Travel 단  -->
