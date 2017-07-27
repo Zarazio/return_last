@@ -151,17 +151,21 @@ $(document).ready(function(){
 								onVideo = "<div class='img-hover margin-bottom-30 divTarget' data-board='" + data[i].board_code + "' data-index='" + (clickData.length-1) + "'>" +
 												"<div class='timeline'>" +
 													"<div class='videoTag'>" +
-													"<img width='100%' height='250' src='displayLogs?fileName=/video.png' style='border-top-left-radius:3px; border-top-right-radius:3px;'>" + 
+													"<img width='100%' height='250' src=" + webappType(data[i].write_type, data[i].file_content[0]) + " style='border-top-left-radius:3px; border-top-right-radius:3px;'>" + 
 													"</div>" + 
 													"<div class='padding-10'>" + 
 														"<div>" + 
 												 			"<a><img class='thumbnail pull-left' src='displayProfile?fileName=" + data[i].user_profile + "' style='width:50px; height:50px;'></a>" + 
 												 			"<h4 class='padding-10'>" + data[i].user_id + "</h4>" + 
 														"</div>" + 
-														"<div class='resource' style='clear:both;'>" + 
-															"<h4 class='text-left'>" + data[i].board_title + "</h4>" + 
-															"<p class='text-left'> " + data[i].board_content + "</p>" + 
-															"<ul class='list-inline nomargin hashTagList'>";
+														"<div class='resource' style='clear:both;'>";
+								onVideo +=					"<h4 class='text-left'>" + data[i].board_title + "</h4>";
+															if(data[i].file_content[0].match("●")) {
+																
+															} else {
+																onVideo += "<p class='text-left'> " + data[i].board_content + "</p>";
+															}
+								onVideo +=							"<ul class='list-inline nomargin hashTagList'>";
 															for(var j=0; j<data[i].hash_tag_content.length; j++) {
 																onVideo += "<li class='hashStyle'><a>" + data[i].hash_tag_content[j] + "</a></li>";
 															} 
@@ -767,30 +771,60 @@ $(document).ready(function(){
 	
 });
 
-// 웹 앱 업로드타입 
+// 웹 앱 업로드타입 (타임라인 리스트)
 function webappType(dataA, dataB) {
 	if(dataA == '1') {
-		dataB = "http://211.211.213.218:8084/turn/resources/upload/logs" + dataB;
+		dataB = "http://211.211.213.218:8084/turn/resources/upload/logs" + dataB; // 모바일 이미지 출력 
 	} else if (dataB.match("http")){
 		dataB = dataB;
+		
+	} else if (dataB.match("●")){
+		
+		var arr = [];
+		var err = [];
+		arr = dataB.split("●");
+
+		var google = "http://maps.googleapis.com/maps/api/staticmap?size=300x300&scale=2&path=color:0x0000ff|weight:5|";
+		
+		for(var i=0; i<arr.length; i++) {
+			err = arr[i].split(",");
+			if(err[0] == "") {
+				google += "";
+			} else {
+				
+				google += err[1] + "," + err[0];
+				
+				if(i != (arr.length-2)) {
+					google += "|";
+				} else {
+					google += "&key=AIzaSyAF8iTF3JtdLLhprWyASWE8APl6RM6BGBQ";
+				}
+				
+			}
+		}
+		
+//		alert(google);
+		
+		dataB = google;
+		
 	} else {
-		dataB = "displayLogs?fileName=" + dataB;
+		dataB = "displayLogs?fileName=" + dataB; // 이미지 출력 
 	}
 	return dataB;
 }
 
-// 원본 업로드 타입
+// 웹 앱 원본 업로드 타입 (타임라인상세보기)
 function webappTypeB(dataA, dataB) { // 클릭해서 볼때
 	
 	var idx = dataB.indexOf("_") + 1;
 	var dataB = dataB.substr(idx);
 	
 	if(dataA == '1') {
-		dataB = "http://211.211.213.218:8084/turn/resources/upload/logs" + dataB;
+		dataB = "http://211.211.213.218:8084/turn/resources/upload/logs" + dataB; // 모바일 이미지 출력 
 	} else if (dataB.match("http")){
 		dataB = dataB;
 	} else {
-		dataB = "displayLogs?fileName=/" + dataB;
+		dataB = "displayLogs?fileName=/" + dataB; // 이미지 출력
 	}
 	return dataB;
 }

@@ -1,9 +1,14 @@
 package zara.zio.turn.persistence;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -11,15 +16,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import zara.zio.turn.dao.LogBoardDAO;
 import zara.zio.turn.domain.ComunityVO;
+import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
+import zara.zio.turn.domain.TravelGroupCountVO;
+import zara.zio.turn.util.KmlParsingUtils;
 
 @Service
 public class LogBoardServiceImpl implements LogBoardService {
 
 	@Inject 
 	private LogBoardDAO dao;
+	
+	@Resource(name="stepPath")
+	private String stepPath;
 	
 	@Transactional
 	@Override
@@ -66,13 +77,13 @@ public class LogBoardServiceImpl implements LogBoardService {
 		// TODO Auto-generated method stub	
 		
 		List<LogBoardVO> list = new ArrayList<LogBoardVO>();
-		
 		list = dao.logInfoRead(type, start, timeNum);
 		
-		List<Map<String,Object>> LogHash = dao.logHashRead(); // 해시태그
-		List<Map<String,Object>> LogImage = dao.logImageFileRead(); // 이미지 
+		List<FileAndHashVO> LogHash = dao.logHashRead(); // 해시태그
+		List<FileAndHashVO> LogImage = dao.logImageFileRead(); // 이미지 
 		List<LikesVO> likes = dao.likeCounts(); // 좋아요 갯수 리스트
 		List<LikesVO> myLike = dao.myLikes(my); // 나의좋아요 my
+		
 		
 		// 좋아요 갯수 추가
 		// 해당게시글의 내좋아요 엑티브 추가
@@ -84,16 +95,23 @@ public class LogBoardServiceImpl implements LogBoardService {
 			int listNum = list.get(i).getBoard_code();
 
 			for(int a=0; a<LogHash.size(); a++) {
-				int hashNum = (int)LogHash.get(a).get("board_code");
+				int hashNum = LogHash.get(a).getBoard_code();
 				if(listNum == hashNum) {
-					hash += (String)LogHash.get(a).get("hash_tag_content") + "◆";
+					hash += LogHash.get(a).getHash_tag_content() + "◆";
 				}
 			}
 			
 			for(int b=0; b<LogImage.size(); b++) {
-				int imageNum = (int)LogImage.get(b).get("board_code");
+				int imageNum = LogImage.get(b).getBoard_code();
+				String resultfile = LogImage.get(b).getFile_content();
 				if(listNum == imageNum) {
-					image += (String)LogImage.get(b).get("file_content") + "◆";
+					if(resultfile.contains(".kml")) {
+						
+						image += KmlParsingUtils.kmlParse(stepPath, resultfile) + "◆";
+						
+					} else {
+						image += resultfile + "◆";
+					}
 				}
 			}
 			
@@ -120,6 +138,7 @@ public class LogBoardServiceImpl implements LogBoardService {
 			list.get(i).setFile_content(itemB);
 			
 		}
+		
 		
 		return list;
 		
@@ -177,7 +196,6 @@ public class LogBoardServiceImpl implements LogBoardService {
 				list.get(i).setReply_state(1);
 			}
 		}
-		
 		
 		return list;
 	}

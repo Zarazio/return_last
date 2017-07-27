@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import zara.zio.turn.domain.ComunityVO;
+import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
+import zara.zio.turn.domain.TravelGroupCountVO;
 
 public interface LogBoardDAO {
 	
@@ -16,10 +18,11 @@ public interface LogBoardDAO {
 	public Map<String, Object> maxCode() throws Exception;
 	
 	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum) throws Exception;
-	public List<Map<String, Object>> logHashRead() throws Exception;
-	public List<Map<String, Object>> logImageFileRead() throws Exception;
+	public List<FileAndHashVO> logHashRead() throws Exception;
+	public List<FileAndHashVO> logImageFileRead() throws Exception;
 	public List<LikesVO> likeCounts() throws Exception;
 	public List<LikesVO> myLikes(String id) throws Exception;
+	
 	public void likeUp (LikesVO vo) throws Exception;
 	public void likeDown (LikesVO vo) throws Exception;
 	public LikesVO likeState (int no) throws Exception;

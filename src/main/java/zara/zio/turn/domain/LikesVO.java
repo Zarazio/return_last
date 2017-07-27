@@ -1,6 +1,6 @@
 package zara.zio.turn.domain;
 
-public class LikesVO {
+public class LikesVO { // Log 페이지 전용 사용하지말것
 	
 	private int board_code; // 번호
 	private String user_id; // 아이디

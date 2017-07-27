@@ -12,7 +12,7 @@
    </select>
    
    <insert id="group_insert">
-        insert into travel_group (travel_Title, start_Date, end_Date,local)
+        insert into travel_group (travel_Title, start_Date, end_Date, local)
       	values(#{travel_Title}, #{start_Date} , #{end_Date}, #{local})
    </insert>
    

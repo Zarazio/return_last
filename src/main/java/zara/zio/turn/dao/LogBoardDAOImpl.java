@@ -10,9 +10,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import zara.zio.turn.domain.ComunityVO;
+import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
+import zara.zio.turn.domain.TravelGroupCountVO;
 
 @Repository
 public class LogBoardDAOImpl implements LogBoardDAO {
@@ -69,13 +71,13 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	}
 	
 	@Override
-	public List<Map<String, Object>> logHashRead() throws Exception {
+	public List<FileAndHashVO> logHashRead() throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".hashRead");
 	}
 
 	@Override
-	public List<Map<String, Object>> logImageFileRead() throws Exception {
+	public List<FileAndHashVO> logImageFileRead() throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".imgfileRead");
 	}
@@ -91,6 +93,7 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".likeMy", id);
 	}
+	
 	
 	@Override
 	public void likeUp(LikesVO vo) throws Exception {
