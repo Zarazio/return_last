@@ -41,7 +41,7 @@ $(document).ready(function(){
    
    /*==================================socket=========================================*/
    
-   socket = new SockJS("/turn/chat.sockjs");
+   socket = new SockJS("/turn/echo.sockjs");
    socket.onopen = onOpen;
    socket.onmessage = onMessage2;
    socket.onclose = onClose;
