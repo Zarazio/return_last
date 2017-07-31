@@ -84,6 +84,7 @@ public class SchduleContoller {
        groupA.setGroup_apply(1);
        // 그룹신청
        service1.groupApplicationCreate(groupA) ;
+       service1.groupTravelBoard(groupCode,mem);
        
        //그룹을 같이 만들 친구가 있을 경우
        if(friend.length > 0){
@@ -598,7 +599,33 @@ public class SchduleContoller {
 	   service1.groupApplication_cancel(groupA) ;
    }
    
-   
+   @ResponseBody
+   @RequestMapping (value="memoSave", method=RequestMethod.POST)
+   public void  memoSave(String priority, String groupCode, String plan, String memo ) throws Exception{
+	 
+	   int group_Code = Integer.parseInt(groupCode);
+	   int travel_priority = Integer.parseInt(priority);
+	   Date travel_Date = Date.valueOf(plan);
+	   
+	   System.out.println(priority + group_Code + travel_Date + memo);
+	   
+	   service1.groupTravelMemo(group_Code, travel_priority, travel_Date, memo) ;
+   }
+
+   @ResponseBody
+   @RequestMapping (value="memoText", method=RequestMethod.POST , produces = "application/text; charset=utf8")
+   public String  memoSave(String priority, String groupCode, String plan) throws Exception{
+	 
+	   int group_Code = Integer.parseInt(groupCode);
+	   int travel_priority = Integer.parseInt(priority);
+	   Date travel_Date = Date.valueOf(plan);
+	   
+	   System.out.println(priority + group_Code + travel_Date );
+	   
+	   String memo = service1.groupTravelMemoText(group_Code, travel_priority, travel_Date) ;
+	   System.out.println(memo);
+	   return memo;
+   }
   
    
    

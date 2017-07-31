@@ -1,5 +1,6 @@
 package zara.zio.turn.persistence;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -245,6 +246,24 @@ public class GroupTravelServiceImpl implements GroupTravelService {
 	public List<LogBoardVO> travel_timeline(int group_Code, Timestamp start_Date, Timestamp end_Date) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.travel_timeline(group_Code, start_Date, end_Date);
+	}
+
+	@Override
+	public void groupTravelBoard(int group_Code, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		dao.groupTravelBoard(group_Code, user_id);
+	}
+
+	@Override
+	public void groupTravelMemo(int group_Code, int travel_priority, Date travel_Date, String memo) throws Exception {
+		// TODO Auto-generated method stub
+		dao.groupTravelMemo(group_Code, travel_priority, travel_Date, memo);
+	}
+
+	@Override
+	public String groupTravelMemoText(int group_Code, int travel_priority, Date travel_Date) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.groupTravelMemoText(group_Code, travel_priority, travel_Date);
 	}
 
 	
