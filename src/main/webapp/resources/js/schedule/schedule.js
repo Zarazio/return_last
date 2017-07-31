@@ -8,11 +8,11 @@ var materials = [];
 
 
 var planDayCheck ; // 첫째날인지 확인하는 용도
-
+var planDay;
 var placeCode; //place_code 받는 변수
 var priority = 0; // priority 변수 
 var priority01 = 0; // 바뀐 data-pri와 기존의 pri를 비교해서
-
+var groupCode;
 var data01 = new Array()  ; //placeList의 모든 배열
 var planList = new Array() ; // 사용자가 여행계획에 등록한 장소 배열 넣기
 var planB ;
@@ -34,8 +34,9 @@ $(document).ready(function(){
    var diff = day2 - day1; 
    var currDay = 24 * 60 * 60 * 1000; // 일수 (차) 구하는식 
    var cnt = parseInt(diff/currDay); // date (차) 결과값
-   var planDay = nal(0) ;// 계획 날짜 확인 용도
-   var groupCode = $("#groupCode").text(); //schdulePageA groupCode
+   
+   planDay = nal(0) ;// 계획 날짜 확인 용도
+   groupCode = $("#groupCode").text(); //schdulePageA groupCode
 
    elements = $(".addMenu"); // ul 엘리먼트값불러온다.
    
@@ -175,7 +176,7 @@ $(document).ready(function(){
                           +" data-name="+ data[i].place_name+ " style='width:100%; padding:5px; height:160px; background : #333333; '></div>")
                            .addClass("planList")
                            .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'><span>"+data[i].place_name+"</span>")
-                           .append("<div class='planPlaceMemo' onclick='memoWindow();'><img src='./resources/img/memo.png'></div>")
+                           .append("<div class='planPlaceMemo' onclick=memoWindow(this,'"+thumb(data[i].place_img)+"','"+data[i].travel_priority+"')><img src='./resources/img/memo.png'></div>")
                            .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><img src='./resources/img/waste.png'></div>") 
                            .css("border-bottom","1px solid #3a3c3f")
                         .appendTo(selectThis) ;
@@ -272,7 +273,7 @@ $(document).ready(function(){
             priority01 = ui.item;
             
           ui.item.attr("data-pri", priority);
-            ui.item.append("<div class='planPlaceDelete'><a href='#'>삭제</a></div>");
+            //ui.item.append("<div class='planPlaceDelete'><a href='#'>삭제</a></div>");
             ui.item.removeClass() ;
             ui.item.addClass("planList");
             
@@ -295,11 +296,7 @@ $(document).ready(function(){
          planListStore();
          esend(planDay);
          placeMarker() ;
-         
-        
-         
-         
-         
+
       },
       update : function(){
          // 위치가 바꼈을 때, 이벤트 발생
@@ -463,7 +460,8 @@ $(document).ready(function(){
                        .addClass("planList")
                        .addClass("priority")
                        .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "' style='width:150px ; height:150px'><span>"+data[i].place_name+"</span>")
-                       .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><a href='#'>삭제</a></div>") 
+                       .append("<div class='planPlaceMemo' onclick=memoWindow(this,'"+thumb(data[i].place_img)+"','"+data[i].travel_priority+"')><img src='./resources/img/memo.png'></div>")
+                       .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><img src='./resources/img/waste.png'></div>")
                        .css("border-bottom","1px solid #3a3c3f").appendTo(selectThis) ;
                     }
                     
@@ -1076,7 +1074,7 @@ $(document).ready(function(){
        
     })
     
-/*-----------------------------------장소 자세히 보기 -----------------------------*/
+/*---------------------------------- 메모  -----------------------------*/
     
     
 /*-----------------------------------지도-------------------------------------*/
@@ -1636,7 +1634,8 @@ function modifyScheduleList(data){
                      .addClass("planList")
                      .addClass("priority")
                      .append("<img src='displayFile?fileName="+ thumb(data[i].place_img) + "' style='width:150px ; height:150px'><span>"+data[i].place_name+"</span>")
-                     .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><a href='#'>삭제</a></div>") 
+                     .append("<div class='planPlaceMemo' onclick=memoWindow(this,'"+thumb(data[i].place_img)+"','"+data[i].travel_priority+"')><img src='./resources/img/memo.png'></div>")
+                     .append("<div class='planPlaceDelete' data-code='"+data[i].place_code+"'><img src='./resources/img/waste.png'></div>")
                      .css("border-bottom","1px solid #3a3c3f").appendTo(selectThis) ;
                   }
                   placeMarker();
@@ -1648,29 +1647,30 @@ function modifyScheduleList(data){
       });
 }
 
+var pri = null;
 
 //메모 창 띄우기
-function memoWindow(){
+function memoWindow(placename,img,priority){
+	
+	console.log(priority);
+	console.log($(placename).prev().text());
+	console.log(placename + img);
+	
+	var memoContent = $("#memo_body textarea").val(); 
+	
+	if(pri != null ){
+		memoSave(pri,memoContent);
+	}
 
-//	
-//	$.ajax({
-//		url : "placeDetail" ,
-//		type : "POST",
-//		data : {
-//			place : place_code 
-//		},
-//		success : function(data){
-//			console.log("name : " + data.place_name) ;
-//			var detail = $("#detail_view") ;
-//			detail.children().children().eq(0).text(data.place_name);
-//			
-//			$("#detail_body > img").attr("src","displayFile?fileName="+ thumb(data.place_img) +"");
-//			$("#detail_content").text(data.place_content);
-//			$("#detail_content_box div").children().eq(1).text(data.place_type) ;
-//			$("#detail_content_box div").children().eq(3).text(data.place_address) ;
-//			
-//		}
-//	})
+	pri = priority ;
+	
+	$("#memo_body textarea").val("");
+	memoText(pri);
+
+	var imgsrc = "displayFile?fileName=" + img ;
+	
+	$("#memo_body img").attr("src",imgsrc);
+	$("#memo_body > h3").text($(placename).prev().text()) ;
 	
 	$("#memoDetail").animate({ width : "345px"})
 	$("#memoDetail").css("display","block");
@@ -1679,8 +1679,43 @@ function memoWindow(){
 
 //메모 창 없애기
 function memoClose(){
+
+	memoSave(pri,$("#memo_body textarea").val());
+	
 	$("#memoDetail").animate({ width : "0px" });
 	$("#memoDetail div").css("display" , "none") ;
+}
+
+function memoSave(pri,memoContent){
+
+	$.ajax({
+		url : "memoSave",
+		type : "POST",
+		data : {
+			groupCode : groupCode,
+			priority : pri,
+			plan : planDay,
+			memo : memoContent
+		}
+		
+	})
+}
+function memoText(pri){
+	$.ajax({
+		url : "memoText",
+		type : "POST",
+		data : {
+			groupCode : groupCode,
+			priority : pri,
+			plan : planDay
+		},
+		success : function(data){
+			if(data.length > 0){
+				$("#memo_body textarea").val(data);
+			}
+		}
+		
+	})
 }
 
 /*=================================================================================================*/

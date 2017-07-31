@@ -217,5 +217,21 @@
    			or a.board_code = b.board_code
    			and board_date between #{start_Date} and #{end_Date}
    </select>
+   <!-- 여행계획을 만들고 board 테이블에 travel_Log 생성 -->
+   <insert id="groupTravelBoard">
+   		insert into board (user_id ,group_Code)
+      	values(#{user_id}, #{group_Code})
+   </insert>
    
+   <update id="groupTravelMemo">
+   		update travel_list set travel_Memo=#{memo} 
+     	where travel_Date = #{travel_Date} 
+     	and group_Code = #{group_Code} 
+     	and travel_Priority = #{travel_priority}
+   </update>
+   
+   <select id="groupTravelMemoText" resultType="String">
+   		select travel_Memo from travel_list 
+   		where group_Code = #{group_Code} and travel_Priority = #{travel_priority} and travel_Date = #{travel_Date}
+   </select>
 </mapper>

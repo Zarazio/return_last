@@ -85,5 +85,10 @@ public interface GroupTravelDAO {
 	//여행 친구 삭제
 	public void groupApplication_cancel(GroupApplicationVO groupA) throws Exception;
 	
-
+	//board에 travel_log 추가(여행일정만들기버튼을누르면)
+	public void groupTravelBoard(int group_Code, String user_id) throws Exception;
+	//memo 추가하기
+	public void groupTravelMemo(int group_Code, int travel_priority, Date travel_Date, String memo) throws Exception;
+	//memo 불러오기
+	public String groupTravelMemoText(int group_Code, int travel_priority, Date travel_Date) throws Exception;
 }

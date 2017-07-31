@@ -82,10 +82,12 @@
 .mxpnone { list-style-type:none; margin:0; padding:0; }
 
 .plan { width:260px; }
-.planPlaceMemo {position:absolute; right:40px; bottom:5px; width:30px; height:30px; cursor:pointer }
+.planPlaceMemo {position:absolute; right:50px; bottom:5px; width:35px; height:35px; background : #949494 ; border-radius : 50% ; text-align : center ; line-height : 35px ;cursor:pointer }
+.planPlaceMemo:hover {background : white }
 .planPlaceMemo > img { width : 30px ; height :30px}
-.planPlaceDelete { position:absolute; right:5px; bottom:5px; width:30px; height:30px; cursor:pointer }
+.planPlaceDelete { position:absolute; right:5px; bottom:5px; width:35px; height:35px; background : #949494 ; border-radius : 50% ; text-align : center ; line-height : 35px ;cursor:pointer }
 .planPlaceDelete > img { width : 30px ; height :30px}
+.planPlaceDelete:hover {background : white }
 .first-list { height:50px; }
 .first-list > label { line-height:48px; }
 .plan { width:260px; }
@@ -645,7 +647,7 @@
 	 height:853px;
 	 background:white;
 	 overflow-y:auto;
-	 z-index:9999;
+	 z-index:100;
 }
 
 #detail_main {
@@ -694,7 +696,7 @@
 	 height:853px;
 	 background:white;
 	 overflow-y:auto;
-	 z-index:9999;
+	 z-index:100;
 }
 
 #memo_main {
@@ -706,6 +708,7 @@
 
 #memo_main p {
  	margin:0;
+ 	margin-left : 10px;
  	display:inline-block;
  	font-size:33px;
  	font-weight:bold;
@@ -724,8 +727,13 @@
 
 #memo_body { width:100%;}
 #memo_body img { width:100%; height:300px; }
-#memo_content { margin:12px; padding:10px; width:310px; font-size:15px; color:black; }
+#memo_body h3{margin : 10px 10px 0 10px; }
+#memo_body textarea {
+	width : 100%;
+	height : 300px;
+	padding : 20px;
 
+}
 
 /*===============================마이페이지======================*/
 
