@@ -318,12 +318,13 @@
    <div id="memoDetail">
    		<div id="memo_view">
    			<div id="memo_main">
-   				<p>ddsdfsfsdf</p>
+   				<p>메모</p>
    				<span><a href="javascript:memoClose()">X</a></span>	
    			</div>
    			<div id="memo_body">
    				<img src="">
-   				<div id="memo_content"></div>
+   				<h3></h3>
+   				<textarea></textarea>
    			</div>
    		</div>
    		

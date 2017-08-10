@@ -1,5 +1,6 @@
 package zara.zio.turn.dao;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -262,6 +263,39 @@ public class GroupTravelDAOImpl implements GroupTravelDAO {
 		timeline.put("end_Date", end_Date);
 		
 		return sqlSession.selectList(NAMESPACE + ".travel_timeline", timeline);
+	}
+
+	@Override
+	public void groupTravelBoard(int group_Code, String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> board = new HashMap<String, Object>();
+		board.put("group_Code", group_Code);
+		board.put("user_id", user_id);
+		
+		sqlSession.insert(NAMESPACE + ".groupTravelBoard", board);
+	}
+
+	@Override
+	public void groupTravelMemo(int group_Code, int travel_priority, Date travel_Date, String memo) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> memoC = new HashMap<String, Object>();
+		memoC.put("group_Code",group_Code);
+		memoC.put("travel_priority",travel_priority);
+		memoC.put("travel_Date",travel_Date);
+		memoC.put("memo",memo);
+		
+		sqlSession.update(NAMESPACE + ".groupTravelMemo", memoC);
+	}
+
+	@Override
+	public String groupTravelMemoText(int group_Code, int travel_priority, Date travel_Date) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> memoC = new HashMap<String, Object>();
+		memoC.put("group_Code",group_Code);
+		memoC.put("travel_priority",travel_priority);
+		memoC.put("travel_Date",travel_Date);
+		
+		return sqlSession.selectOne(NAMESPACE + ".groupTravelMemoText", memoC);
 	}
 
 
