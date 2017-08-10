@@ -8,7 +8,7 @@ import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
-import zara.zio.turn.domain.TravelGroupCountVO;
+import zara.zio.turn.domain.StepLogVO;
 
 public interface LogBoardDAO {
 	
@@ -18,8 +18,8 @@ public interface LogBoardDAO {
 	public Map<String, Object> maxCode() throws Exception;
 	
 	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum) throws Exception;
-	public List<FileAndHashVO> logHashRead() throws Exception;
-	public List<FileAndHashVO> logImageFileRead() throws Exception;
+	public List<FileAndHashVO> logHashRead(int start, int timeNum) throws Exception;
+	public List<FileAndHashVO> logImageFileRead(int start, int timeNum) throws Exception;
 	public List<LikesVO> likeCounts() throws Exception;
 	public List<LikesVO> myLikes(String id) throws Exception;
 	
@@ -33,7 +33,9 @@ public interface LogBoardDAO {
 	public void replyWrite(LogBoardVO vo) throws Exception;
 	public void replyModify(LogBoardVO vo) throws Exception;
 	public void replyDelete(int replyno) throws Exception;
-
+	
+	public List<StepLogVO> stepLogs(int no) throws Exception;
+	public List<FileAndHashVO> stepLogs2(int no) throws Exception;
 	
 	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception;
 	public int comuTotalCount() throws Exception;

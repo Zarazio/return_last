@@ -261,11 +261,116 @@
 .infoboard img { width:100%; height:170px; }
 .infoboard img:hover { width:100%; height:170px; }
 
+.wishiconA { 
+	background: url(./wish/iconA.png) -1px center no-repeat;
+	padding: 0 0 0 12px;
+}
+.wishiconB { 
+	background: url(./wish/iconB.png) -1px center no-repeat;
+	padding: 0 0 0 12px;
+}
+
+
 /* 장소 상세보기 부분 */
 .sideFont { color: #2d84e0; font-family: initial; }
 .left-line { border-bottom:#e5e5e5 1px solid !important; }
 .contentLine-two { line-height: 1.5; margin-bottom: 0px !important;}
 .content-line { margin-bottom: 20px !important;}
+.tabStyle { 
+	background: white;
+    box-shadow: 0 1px 1px rgba(125,125,125,.2);
+    -webkit-box-shadow: 0 1px 1px rgba(125,125,125,.2);
+}
+
+.wishinfo { padding:6px; }
+.wishon {
+	cursor:pointer;
+	background: url(./wish/footA.png) -1px center no-repeat; 
+	font-size: 20px;
+    font-weight: 600;
+    padding: 0 0 0 20px;
+    line-height: 2.15;
+}
+.wishon:hover { 
+	background: url(./wish/footAhover.png) -1px center no-repeat; 
+	font-size: 20px;
+    font-weight: 600;
+    padding: 0 0 0 20px;
+    line-height: 2.15;
+    color:#a3beff;
+}
+
+.wishoff {
+	cursor:pointer;
+	background: url(./wish/footB.png) -1px center no-repeat; 
+	font-size: 20px;
+    font-weight: 600;
+    padding: 0 0 0 20px;
+    line-height: 2.15;
+}
+.wishoff:hover {
+	background: url(./wish/footBhover.png) -1px center no-repeat; 
+	font-size: 20px;
+    font-weight: 600;
+    padding: 0 0 0 20px;
+    line-height: 2.15;
+    color:#a3beff;
+}
+
+
+.zerobottom {
+	margin-bottom: 0px;
+}
+
+.reply-margin {
+	margin-bottom:15px !important;
+}
+
+.place-reply { 
+	word-break: break-word !important;
+}
+
+.star-set {
+	margin: 3px 3px 0px 0px;
+    color: #92cc6f;
+}
+
+.coment-star-set {
+	margin: 12px 0px 0px 3px;
+    color: #92cc6f;
+}
+
+.coment-star-set2 {
+	margin: 6px 0px 0px 3px;
+    color: #92cc6f;
+}
+
+.fastar {
+	cursor:pointer;
+}
+
+.fastar2 {
+	cursor:pointer;
+}
+
+.p-profile {
+	padding: 5px;
+    box-shadow: 0 1px 1px rgba(125,125,125,0.4);
+    -webkit-box-shadow: 0 1px 1px rgba(125, 125, 125, 0.4);	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -350,6 +455,7 @@
   margin: auto;
   padding: 0;
   width: 90%;
+  height:697px;
   max-width: 1200px;
   box-shadow: 0 1px 1px rgba(0, 0, 0,.2);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0,.2);
@@ -366,8 +472,8 @@
   background-color:rgba(0, 0, 0, 1);
 }
 
-.prev,
-.next {
+.prevs,
+.nexts {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -385,14 +491,14 @@
 }
 
 /* Position the "next button" to the right */
-.next {
+.nexts {
   right: 0;
   border-radius: 3px 0 0 3px;
 }
 
 /* On hover, add a black background color with a little bit see-through */
-.prev:hover,
-.next:hover {
+.prevs:hover,
+.nexts:hover {
   background-color: rgba(0, 0, 0, 1);
   color: #5da9ff;
 }
@@ -403,7 +509,23 @@
     margin:10px;
 }
 
+.lightA-step {
+	width:60%;
+    position:relative;
+    margin:10px 10px 5px 10px;
+}
+
 .light-2 {
+	width:60%;
+	padding:10px 0px 0px 10px;
+    margin:10px 10px 0px 0px;
+    background-color:#262626;
+    height:168px;
+    border:rgba(0, 0, 0, 1) 1px solid !important;
+}
+
+.light-3 {
+	width:38.6%;
 	padding:10px;
     margin:10px 0px 0px 0px;
     background-color:#262626;
@@ -485,6 +607,32 @@
 .loginAccess a:focus { color:#72e5f9; }
 .loginAccess a:hover { color:#72e5f9; text-decoration:underline; }
  
+.steps { color:#73656f; float:right; }
+.steps:focus { color:white; }
+.steps:hover { color:white; }
+
+
+/*********************** 구글맵 CSS ***********************/
+
+.gm-style-iw + div { 
+	width: 15px !important;
+    height: 15px !important;
+    right: 8px !important;
+    top: 8px !important;
+    border:1px solid gray;
+}
+.gm-style-iw {text-align:center; padding:14px 0px 0px 0px;}
+
+.mapset { font-size: 18px; font-weight: 600; color:#515151; }
+.mapset2 { font-size: 18px; font-weight: 600; }
+.mapset3 { font-size: 16px; font-weight: 600; color: #52ca36; }
+.mapul { margin-bottom:0px !important; }
+
+
+
+
+
+
 
 /* ========================= 라이프로그작성 유저전용 CSS ========================= */
 

@@ -14,9 +14,8 @@ public interface LogBoardService {
 	public Map<String, Object> maxCode() throws Exception;
 	
 	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum, String my) throws Exception;
-	public int view(int no, int state) throws Exception;
 	public int LikeUpDown(LikesVO vo, int states) throws Exception;
-	public List<LogBoardVO> replyList(int no, String id) throws Exception;
+	public Map<String, Object> commandTwo(int state, int no, int type, String id) throws Exception;
 	public List<LogBoardVO> replyCommand(int type, int no, int replyno, String text, String id) throws Exception;
 	
 	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception;

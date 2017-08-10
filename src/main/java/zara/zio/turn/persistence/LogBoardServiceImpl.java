@@ -5,14 +5,17 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import zara.zio.turn.dao.LogBoardDAO;
 import zara.zio.turn.domain.ComunityVO;
@@ -20,7 +23,8 @@ import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
-import zara.zio.turn.domain.TravelGroupCountVO;
+import zara.zio.turn.domain.StepLogVO;
+import zara.zio.turn.util.GsonParserUtils;
 import zara.zio.turn.util.KmlParsingUtils;
 
 @Service
@@ -74,16 +78,17 @@ public class LogBoardServiceImpl implements LogBoardService {
 	@Transactional
 	@Override
 	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum, String my) throws Exception {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
 		
 		List<LogBoardVO> list = new ArrayList<LogBoardVO>();
 		list = dao.logInfoRead(type, start, timeNum);
-		
-		List<FileAndHashVO> LogHash = dao.logHashRead(); // 해시태그
-		List<FileAndHashVO> LogImage = dao.logImageFileRead(); // 이미지 
+		List<FileAndHashVO> LogHash = dao.logHashRead(start, timeNum); // 해시태그
+		List<FileAndHashVO> LogImage = dao.logImageFileRead(start, timeNum); // 이미지 
 		List<LikesVO> likes = dao.likeCounts(); // 좋아요 갯수 리스트
 		List<LikesVO> myLike = dao.myLikes(my); // 나의좋아요 my
 		
+		Double lat, lng;
+		String AddressData; 
 		
 		// 좋아요 갯수 추가
 		// 해당게시글의 내좋아요 엑티브 추가
@@ -132,11 +137,18 @@ public class LogBoardServiceImpl implements LogBoardService {
 			}
 			
 			String [] itemA = hash.split("◆");
-			String [] itemB = image.split("◆");
-			
 			list.get(i).setHash_tag_content(itemA);
+
+			String [] itemB = image.split("◆");
 			list.get(i).setFile_content(itemB);
 			
+			if(list.get(i).getLog_latitude() != 0.000000) {
+				lat = list.get(i).getLog_latitude();
+				lng = list.get(i).getLog_longtitude();
+				AddressData = GsonParserUtils.parser(lng, lat);
+				list.get(i).setOnAddress(AddressData);
+			} 
+
 		}
 		
 		
@@ -168,27 +180,20 @@ public class LogBoardServiceImpl implements LogBoardService {
 	
 	@Transactional
 	@Override
-	public int view(int no, int state) throws Exception {
+	public Map<String, Object> commandTwo(int state, int no, int type, String id) throws Exception {
 		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>(); // 맵데이터
+		List<LogBoardVO> list = new ArrayList<LogBoardVO>();
+		list = dao.replyList(no);
+		List<StepLogVO> step = new ArrayList<StepLogVO>();
 		
 		int value = 0;
 		
 		if(state == 0) {
-			
 			dao.viewCount(no);
-			
 		} 
-		
 		value = dao.viewSearch(no);
 		
-		return value;
-	}
-	
-	@Override
-	public List<LogBoardVO> replyList(int no, String id) throws Exception {
-		// TODO Auto-generated method stub
-		List<LogBoardVO> list = new ArrayList<LogBoardVO>();
-		list = dao.replyList(no);
 		
 		for(int i=0; i<list.size(); i++) {
 			String replyid = list.get(i).getUser_id();
@@ -197,7 +202,61 @@ public class LogBoardServiceImpl implements LogBoardService {
 			}
 		}
 		
-		return list;
+		// 스텝로그일때 실행  
+		if(type == 3) {
+			
+			step = dao.stepLogs(no);
+			List<FileAndHashVO> list2 = dao.stepLogs2(no);
+			List<LikesVO> myLike = dao.myLikes(id);
+			
+			int lico = 0;
+			int lico2 = 0;
+			Double lat, lng;
+			String AddressData; 
+			
+			
+			for(int z=0; z<step.size(); z++) {
+				
+				String hash = "";
+				lico = step.get(z).getBoard_code();
+				
+				for(int j=0; j<list2.size(); j++) {
+					lico2 = list2.get(j).getBoard_code();
+					if(lico == lico2) {
+						hash += list2.get(z).getHash_tag_content() + "◆";
+					}
+				}
+				
+				for(int x=0; x<myLike.size(); x++) {
+					int mynum = myLike.get(x).getBoard_code();
+					if(lico == mynum) {
+						step.get(z).setMylike(1);
+					}
+				}
+				
+				if(hash != "") {
+					String [] itemA = hash.split("◆");
+					step.get(z).setHash_tag_content(itemA);
+				} 
+				
+				if(step.get(z).getLog_latitude() != 0.000000) {
+					lat = step.get(z).getLog_latitude();
+					lng = step.get(z).getLog_longtitude();
+					AddressData = GsonParserUtils.parser(lng, lat);
+					step.get(z).setOnAddress(AddressData);
+				} 
+				
+				
+			}
+			
+		}
+		
+		map.put("reply", list); // 댓글정보 
+		map.put("view", value); // 조회수 정보 
+		map.put("step", step); // 스텝로그 정보
+		
+		return map;
+		
 	}
 	
 	@Transactional
@@ -249,7 +308,6 @@ public class LogBoardServiceImpl implements LogBoardService {
 		
 		return list;
 	}
-	
 	
 	
 	@Override

@@ -1,5 +1,6 @@
 package zara.zio.turn.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
-import zara.zio.turn.domain.TravelGroupCountVO;
+import zara.zio.turn.domain.StepLogVO;
 
 @Repository
 public class LogBoardDAOImpl implements LogBoardDAO {
@@ -63,7 +64,7 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	@Override
 	public List<LogBoardVO> logInfoRead(int type, int start, int timeNum) throws Exception {
 		// TODO Auto-generated method stub
-		Map<String, Object> typeMap = new HashMap<String, Object>();
+		Map<String, Integer> typeMap = new HashMap<String, Integer>();
 		typeMap.put("type", type);
 		typeMap.put("startRecord", start);
 		typeMap.put("timeLineNum", timeNum);
@@ -71,15 +72,25 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	}
 	
 	@Override
-	public List<FileAndHashVO> logHashRead() throws Exception {
+	public List<FileAndHashVO> logHashRead(int start, int timeNum) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + ".hashRead");
+		
+		Map<String, Integer> typeMap = new HashMap<String, Integer>();
+		typeMap.put("startRecord", start);
+		typeMap.put("timeLineNum", timeNum);
+		
+		return sqlSession.selectList(NAMESPACE + ".hashRead", typeMap);
+		
 	}
 
 	@Override
-	public List<FileAndHashVO> logImageFileRead() throws Exception {
+	public List<FileAndHashVO> logImageFileRead(int start, int timeNum) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + ".imgfileRead");
+		Map<String, Integer> typeMap = new HashMap<String, Integer>();
+		typeMap.put("startRecord", start);
+		typeMap.put("timeLineNum", timeNum);
+		
+		return sqlSession.selectList(NAMESPACE + ".imgfileRead", typeMap);
 	}
 	
 	@Override
@@ -147,6 +158,19 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	public void replyDelete(int replyno) throws Exception {
 		// TODO Auto-generated method stub
 		sqlSession.delete(NAMESPACE + ".replyDelete", replyno);
+	}
+	
+	@Override
+	public List<StepLogVO> stepLogs(int no) throws Exception {
+		// TODO Auto-generated method stub
+		
+		return sqlSession.selectList(NAMESPACE + ".stepLogs", no);
+		
+	}
+	@Override
+	public List<FileAndHashVO> stepLogs2(int no) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".stepLogs2", no);
 	}
 	
 	
@@ -218,5 +242,6 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 		// TODO Auto-generated method stub
 		sqlSession.delete(NAMESPACE + ".boardhashAllDel", page);
 	}
+
 
 }

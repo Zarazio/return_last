@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -59,7 +60,6 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		String my = (String)session.getAttribute("mem");
 		
 		List<LogBoardVO> list = service.logInfoRead(logType, startRecord, recordTimeline, my);
-		
 		
 		return list;
 		
@@ -152,17 +152,6 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		return "redirect:logInfo";
 	}
 	
-	
-	@ResponseBody
-	@RequestMapping(value="viewCount", method = RequestMethod.GET)
-	public int viewCount(int no, int state) throws Exception {
-		
-		int view = service.view(no, state);
-		
-		return view;
-		
-	}
-	
 	@ResponseBody
 	@RequestMapping(value="likeConfirm", method = RequestMethod.GET)
 	public int likeConfirm(int states, int no, HttpSession session) throws Exception {
@@ -180,13 +169,15 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="replyAll", method = RequestMethod.GET)
-	public List<LogBoardVO> replyAll(int no, HttpSession session) throws Exception {
+	@RequestMapping(value="commendTwo", method = RequestMethod.GET)
+	public Map<String, Object> commendTwo(int state, int no, int type, HttpSession session) throws Exception {
+		
+//		System.out.println(type);
 		
 		String users = (String) session.getAttribute("mem");
-		List<LogBoardVO> list = service.replyList(no, users);
+		Map<String, Object> map = service.commandTwo(state, no, type, users);
 		
-		return list;
+		return map;
 		
 	}
 	
@@ -201,10 +192,29 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		return list;
 	}
 	
-	
-	
-	
-	
+//	@RequestMapping(value="logTest", method = RequestMethod.GET)
+//	public String logTest() {
+//		
+//		RestTemplate rest = new RestTemplate();
+//		String uri = "https://openapi.naver.com/v1/map/reversegeocode?encoding=utf-8&coordType=latlng&query=128.3033056,36.2378193";
+//		HttpHeaders headers = new HttpHeaders();
+//		
+//		headers.set("Host", "openapi.naver.com");
+//		headers.set("User-Agent", "curl/7.43.0");
+//		headers.set("Accept", "*/*");
+//		headers.set("Content-Type", "application/json");
+//		headers.set("X-Naver-Client-Id", "Ao5To6qq05xL8fmhSOTK");
+//		headers.set("X-Naver-Client-Secret", "u7l9GNVOBl");
+//		
+//		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+////		ParameterizedTypeReference<ArrayList<String>> typeRef = new ParameterizedTypeReference<ArrayList<String>>() {};
+//		
+//		ResponseEntity<String> result = rest.exchange(uri, HttpMethod.GET, entity, String.class);
+//		String json = result.getBody();
+//		System.out.println(json);
+//		
+//		return "test_page/logTest";
+//	}
 	
 	// log-image 업로드  
 	@RequestMapping(value="/logs", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")

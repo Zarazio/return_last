@@ -2,11 +2,21 @@ package zara.zio.turn.domain;
 
 public class PlaceInfoListVO {
 	
+	private String users; // 유저상태
 	private String local_value;
 	private String thema_value;
 	private String search_value;
 	private int startRecord; // 페이징 정보 
 	private int recordPage; // 페이징 정보
+	
+	
+	public String getUsers() {
+		return users;
+	}
+	public void setUsers(String users) {
+		this.users = users;
+	}
+	
 	
 	public int getStartRecord() {
 		return startRecord;

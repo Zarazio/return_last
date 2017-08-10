@@ -27,9 +27,9 @@
  
  
  	<!-- JsonView configuration -->
-   <beans:bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    <beans:bean id="beanNameResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
       <beans:property name="order" value="0" />
-   </beans:bean> 
+    </beans:bean> 
  
 	<!-- Tiles configuration // 서블릿 타일즈 설정 (pom.xml 라이브러리 필요) -->
     <beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">

@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<script src="./resources/js/place/placeRead.js"/></script>
+
 <!-- 
 	PAGE HEADER 
 	
@@ -38,20 +40,19 @@
 <section class="alternate">
 	<div class="container">
 		<div class="row">
-
 			<!-- LEFT -->
 			<div class="col-md-9 col-sm-9">
 
 				<!-- POST ITEM -->
 				<div class="nomargin sky-form boxed">
 					<header class="size-18" style="background:rgba(199, 199, 199, 0.1) !important;">
-						<b>${place.place_name}</b>
+						<b>${map.place.place_name}</b>
 						<div class="pull-right">
 							<i class="fa fa-eye"></i>&nbsp; 
-							<span class="font-lato">${place.view}</span>&nbsp;&nbsp; 
+							<span class="font-lato">${map.place.view}</span>&nbsp;&nbsp; 
 							<i class="fa fa-clock-o"></i>&nbsp; 
 							<span class="font-lato">
-								<fmt:formatDate pattern="yyyy-MM-dd" value="${place.add_date}" />
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${map.place.add_date}" />
 							</span>
 						</div>
 					</header>
@@ -64,9 +65,9 @@
 							<!-- OWL SLIDER -->
 							<div id="tab_a" class="tab-pane active">
 								<c:choose>
-			      					<c:when test="${fn:length(list) == 1}">
+			      					<c:when test="${fn:length(map.list) == 1}">
 						            	<div class="owl-carousel buttons-autohide controlls-over" style="border:1px solid rgb(221, 221, 221); height:400px; margin-bottom:0px;" data-plugin-options='{"items": 1, "autoHeight": false, "navigation": true, "pagination": true, "transitionStyle":"fadeUp", "progressBar":"false"}'>
-											<c:forEach items="${list}" var="pimg">
+											<c:forEach items="${map.list}" var="pimg">
 												<div>
 													<img class="img-responsive" src="displayFile?fileName=${pimg.place_img}" alt="" style="height:400px;">
 												</div>
@@ -75,7 +76,7 @@
 						           	</c:when>
 						           	<c:otherwise>
 						            	<div class="owl-carousel buttons-autohide controlls-over" style="border:1px solid rgb(221, 221, 221); height:400px; margin-bottom:0px;" data-plugin-options='{"items": 1, "autoPlay": 3000, "autoHeight": false, "navigation": true, "pagination": true, "transitionStyle":"fadeUp", "progressBar":"false"}'>
-											<c:forEach items="${list}" var="pimg">
+											<c:forEach items="${map.list}" var="pimg">
 												<div>
 													<img class="img-responsive" src="displayFile?fileName=${pimg.place_img}" alt="" style="height:400px;">
 												</div>
@@ -89,7 +90,7 @@
 							<!-- MAP -->
 							<div id="tab_b" class="tab-pane">
 								<div id="google_map" style="width:100%; height:400px; border:#ddd 2px solid;"></div>
-								<div id="latLng" style="display:none;" data-lat="${place.place_lat}" data-lng="${place.place_lng}"></div>
+								<div id="latLng" style="display:none;" data-lat="${map.place.place_lat}" data-lng="${map.place.place_lng}"></div>
 							</div>
 							<!-- /MAP -->
 							
@@ -150,54 +151,97 @@
 						
 						<!-- 이미지 , 지도  -->
 						<div class="row margin-top-10 margin-bottom-20">
-							<div class="col-md-6 col-sm-6">
-								<ul id="myTab" class="nav nav-tabs nav-bottom-border nav-justified">
+							<div class="col-md-5 col-sm-5">
+								<ul id="myTab" class="nav nav-tabs nav-bottom-border nav-justified tabStyle">
 									<li class="active">
 										<a id="targetMapA">이미지</a>
 									</li>
 									<li>
 										<a id="targetMapB">지도</a>
 									</li>
-									<li>
-										<a class="btn btn-reveal btn-default" style="width:120px; height:43px; border-bottom: 3px solid #89b4c7 !important;">
-											<i class="fa fa-plus"></i>
-											<span>북마크</span>
-										</a>
-									</li>	
 								</ul>
 							</div>
+							<div class="col-md-2 col-sm-2 tabStyle text-center wishEvent">
+								<c:choose>
+									<c:when test='${map.wish.myWish == 1}'>
+										<div class="wishoff" data-place='${map.place.place_code}'>${map.wish.wishCount}</div>
+									</c:when>
+									<c:otherwise>
+										<div class="wishon" data-place='${map.place.place_code}'>${map.wish.wishCount}</div>
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</div>
-						
 						<!-- <ul class="blog-post-info left-line"></ul> -->
 						
 						<div>
 							<div class="size-15" style="font-weight:600;">
-								<p class="contentLine-two">${place.place_content}</p>
+								<p class="contentLine-two">${map.place.place_content}</p>
 							</div>
 						</div>
 						
 					 	<ul class="blog-post-info left-line content-line"></ul>
 						
-						<!-- Form -->
-						<form action="#" method="post">
+						<div class="form-group reply-group" data-session="${mem}">
 						
-						<div class="form-group">
-							<div class="">
-								<label class="size-20">COMMENT</label>
-								<textarea required="required" maxlength="5000" rows="5" class="form-control" name="comment" id="comment"></textarea>
-							</div>
+								<label class="size-20 reply-margin replyIndex">댓글 ${fn:length(map.replylist)} 개</label>
+								
+								<c:forEach items="${map.replylist}" var="reply">
+									
+									<div class="comment-item pull-left reply-margin">
+
+										<span class="user-avatar">
+											<img class="pull-left p-profile" src="displayProfile?fileName=${reply.user_profile}" width="64" height="64" alt="">
+										</span>
+	
+										<div class="media-body">
+											<div class='pull-right size-20 star-set'>
+												<c:forEach var="i" begin="1"  end="5">
+													<c:choose>
+														<c:when test='${reply.place_score >= i}'>
+															<i class='fa fa-star'></i>
+														</c:when>
+														<c:otherwise>
+															<i class='fa fa-star-o'></i>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
+											</div>
+											<h4 class="zerobottom bold inline-block">${reply.user_id}</h4>
+											<c:if test="${mem == reply.user_id}">
+											<div class='inline-block'>
+												<button class='btn btn-aqua btn-xs modify-buttom' style='margin-left:16px;' data-reply-code="${reply.board_code}" data-board="${reply.place_reply_code}">수정</button>
+												<button class='btn btn-brown btn-xs remove-buttom' style='margin-left: 1px;' data-reply-code="${reply.board_code}" data-board="${reply.place_reply_code}">삭제</button>
+											</div>
+											</c:if>
+											<div></div>
+											<b><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.board_date}" /></b>
+											<div class="place-reply">${reply.board_content}</div>
+										</div>
+									
+									</div>
+								
+								</c:forEach>
+				
 						</div>
 					
-						<div class="">
-							<button class="btn btn-3d btn-lg btn-reveal btn-black  pull-right">
+						<div class='reply-item-box'>
+							<textarea required="required" maxlength="5000" rows="4" class="form-control reply-margin reply-write" id="comment"></textarea>
+							<div class="pull-left">
+								<div class='size-20 coment-star-set'>
+									<b>평가  : </b>
+									<i class='fa fa-star fastar' data-scroe="0"></i>
+									<i class='fa fa-star-o fastar' data-scroe="1"></i>
+									<i class='fa fa-star-o fastar' data-scroe="2"></i>
+									<i class='fa fa-star-o fastar' data-scroe="3"></i>
+									<i class='fa fa-star-o fastar' data-scroe="4"></i>
+								</div>
+							</div>
+							<button class="btn btn-3d btn-lg btn-reveal btn-black pull-right write-buttom" data-place="${map.place.place_code}">
 								<i class="fa fa-check"></i>
-								<span>SUBMIT MESSAGE</span>
+								<span>댓글 쓰기</span>
 							</button>
 						</div>
-					
-
-						</form>
-						<!-- /Form -->
 						
 					</fieldset>
 				
@@ -216,20 +260,20 @@
 				<div class="side-nav margin-bottom-60">
 					<div class="nomargin sky-form boxed">
 						<header class="size-18 margin-bottom-20" style="background:rgba(199, 199, 199, 0.1) !important;">
-							<img src="displayProfile?fileName=${map.user_profile}" style="width:45px; height:45px; border:1px solid rgb(221, 221, 221);">
-							<b class="margin-left-10">${map.user_id}</b>
+							<img src="displayProfile?fileName=${map.place.user_profile}" style="width:45px; height:45px; border:1px solid rgb(221, 221, 221);">
+							<b class="margin-left-10">${map.place.user_id}</b>
 						</header>
 						<fieldset class="nomargin">
 							
 							<div style="font-weight:600;">
 								<div><b class="sideFont">주소</b></div>
-								<div>${place.place_address}<br><br></div>
+								<div>${map.place.place_address}<br><br></div>
 								<div><b class="sideFont">위도</b></div>
-								<div>${place.place_lat}<br><br></div>
+								<div>${map.place.place_lat}<br><br></div>
 								<div><b class="sideFont">경도</b></div>
-								<div>${place.place_lng}<br><br></div>
+								<div>${map.place.place_lng}<br><br></div>
 								<div><b class="sideFont">카테고리</b></div>
-								<div>${place.place_type}<br><br></div>
+								<div>${map.place.place_type}<br><br></div>
 							</div>
 							
 							<!-- /side navigation -->
@@ -260,42 +304,26 @@
 
 						<!-- POPULAR -->
 						<div id="tab_1" class="tab-pane active">
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Maecenas metus nulla</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Curabitur pellentesque neque eget diam</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Nam et lacus neque. Ut enim massa, sodales</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
+							<c:forEach items="${map.popular}" var="popular">
+								<div class="row tab-post"><!-- post -->
+									<div class="col-md-3 col-sm-3 col-xs-3">
+										<img src="displayFile?fileName=${fn:replace(popular.place_img,'/','/s_')}" width="50" alt="" />
+									</div>
+									<div class="col-md-9 col-sm-9 col-xs-9">
+										<a href="./placeRead?post=${popular.place_code}" class="tab-post-link">
+											<c:choose>
+						      					<c:when test="${fn:length(popular.place_content) > 25}">
+									            	<c:out value="${fn:substring(fn:replace(popular.place_content, '<br>', ''),0,25)}"/>...
+									           	</c:when>
+									           	<c:otherwise>
+									            	<c:out value="${popular.place_content}"/>
+									           	</c:otherwise> 
+									        </c:choose>
+										</a>
+										<small><fmt:formatDate pattern="yyyy-MM-dd" value="${popular.add_date}" /></small>
+									</div>
+								</div><!-- /post -->
+							</c:forEach>
 
 						</div>
 						<!-- /POPULAR -->
@@ -303,42 +331,28 @@
 
 						<!-- RECENT -->
 						<div id="tab_2" class="tab-pane">
+							<c:forEach items="${map.recent}" var="recent">
+							
+								<div class="row tab-post"><!-- post -->
+									<div class="col-md-3 col-sm-3 col-xs-3">
+										<img src="displayFile?fileName=${fn:replace(recent.place_img,'/','/s_')}" width="50" alt="" />
+									</div>
+									<div class="col-md-9 col-sm-9 col-xs-9">
+										<a href="./placeRead?post=${recent.place_code}" class="tab-post-link">
+											<c:choose>
+						      					<c:when test="${fn:length(recent.place_content) > 25}">
+									            	<c:out value="${fn:substring(fn:replace(recent.place_content, '<br>', ''),0,25)}"/>...
+									           	</c:when>
+									           	<c:otherwise>
+									            	<c:out value="${recent.place_content}"/>
+									           	</c:otherwise> 
+									        </c:choose>
+										</a>
+										<small><fmt:formatDate pattern="yyyy-MM-dd" value="${recent.add_date}" /></small>
+									</div>
+								</div><!-- /post -->
+							</c:forEach>
 
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Curabitur pellentesque neque eget diam</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="blog-sidebar-left.html" class="tab-post-link">Maecenas metus nulla</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Quisque ut nulla at nunc</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
 						</div>
 						<!-- /RECENT -->
 
@@ -349,6 +363,7 @@
 
 
 				<!-- TAGS -->
+				<!--
 				<h3 class="hidden-xs size-16 margin-bottom-20">TAGS</h3>
 				<div class="hidden-xs margin-bottom-60">
 
@@ -377,6 +392,7 @@
 						<span class="num">3</span>
 					</a>
 				</div>
+				-->
 
 			</div>
 

@@ -41,8 +41,142 @@
 <section class="alternate">
 	<div class="container">
 		<div class="row">
+		
+						<!-- LEFT -->
+			<div class="col-md-3 col-sm-3">
+
+				<!-- side navigation -->
+				<div class="side-nav margin-bottom-40">
+
+					<div class="side-nav-head">
+						<button class="fa fa-bars"></button>
+						<h4>CATEGORIES</h4>
+					</div>
+					<ul class="list-group list-group-bordered list-group-noicon uppercase">
+						<li class="list-group-item"><a href="comuList"><span class="size-11 text-muted pull-right">(12)</span>커뮤니티</a></li>
+						<li class="list-group-item"><a href="qnaList"><span class="size-11 text-muted pull-right">(8)</span>고객문의</a></li>
+					</ul>
+					<!-- /side navigation -->
+
+				
+				</div>
+
+
+				<!-- JUSTIFIED TAB -->
+				<div class="tabs nomargin-top hidden-xs">
+
+					<!-- tabs -->
+					<ul class="nav nav-tabs nav-bottom-border nav-justified">
+						<li class="active">
+							<a href="#tab_1" data-toggle="tab">
+								Popular
+							</a>
+						</li>
+						<li>
+							<a href="#tab_2" data-toggle="tab">
+								Recent
+							</a>
+						</li>
+					</ul>
+
+					<!-- tabs content -->
+					<div class="tab-content margin-top-10 margin-bottom-10">
+
+						<!-- POPULAR -->
+						<div id="tab_1" class="tab-pane active">
+
+							<div class="row tab-post"><!-- post -->
+								<div class="col-md-3 col-sm-3 col-xs-3">
+									<a href="#">
+										<img src="http://placehold.it/300x300" width="50" alt="" />
+									</a>
+								</div>
+								<div class="col-md-9 col-sm-9 col-xs-9">
+									<a href="#" class="tab-post-link">Maecenas metus nulla</a>
+									<small>June 29 2014</small>
+								</div>
+							</div><!-- /post -->
+
+							<div class="row tab-post"><!-- post -->
+								<div class="col-md-3 col-sm-3 col-xs-3">
+									<a href="#">
+										<img src="http://placehold.it/300x300" width="50" alt="" />
+									</a>
+								</div>
+								<div class="col-md-9 col-sm-9 col-xs-9">
+									<a href="#" class="tab-post-link">Curabitur pellentesque neque eget diam</a>
+									<small>June 29 2014</small>
+								</div>
+							</div><!-- /post -->
+
+							<div class="row tab-post"><!-- post -->
+								<div class="col-md-3 col-sm-3 col-xs-3">
+									<a href="#">
+										<img src="http://placehold.it/300x300" width="50" alt="" />
+									</a>
+								</div>
+								<div class="col-md-9 col-sm-9 col-xs-9">
+									<a href="#" class="tab-post-link">Nam et lacus neque. Ut enim massa, sodales</a>
+									<small>June 29 2014</small>
+								</div>
+							</div><!-- /post -->
+
+						</div>
+						<!-- /POPULAR -->
+
+
+						<!-- RECENT -->
+						<div id="tab_2" class="tab-pane">
+
+							<div class="row tab-post"><!-- post -->
+								<div class="col-md-3 col-sm-3 col-xs-3">
+									<a href="#">
+										<img src="http://placehold.it/300x300" width="50" alt="" />
+									</a>
+								</div>
+								<div class="col-md-9 col-sm-9 col-xs-9">
+									<a href="#" class="tab-post-link">Curabitur pellentesque neque eget diam</a>
+									<small>June 29 2014</small>
+								</div>
+							</div><!-- /post -->
+
+							<div class="row tab-post"><!-- post -->
+								<div class="col-md-3 col-sm-3 col-xs-3">
+									<a href="#">
+										<img src="http://placehold.it/300x300" width="50" alt="" />
+									</a>
+								</div>
+								<div class="col-md-9 col-sm-9 col-xs-9">
+									<a href="#" class="tab-post-link">Maecenas metus nulla</a>
+									<small>June 29 2014</small>
+								</div>
+							</div><!-- /post -->
+
+							<div class="row tab-post"><!-- post -->
+								<div class="col-md-3 col-sm-3 col-xs-3">
+									<a href="#">
+										<img src="http://placehold.it/300x300" width="50" alt="" />
+									</a>
+								</div>
+								<div class="col-md-9 col-sm-9 col-xs-9">
+									<a href="#" class="tab-post-link">Quisque ut nulla at nunc</a>
+									<small>June 29 2014</small>
+								</div>
+							</div><!-- /post -->
+						</div>
+						<!-- /RECENT -->
+
+					</div>
+
+				</div>
+				<!-- JUSTIFIED TAB -->
+
+			</div>
+		
+		
+		
 			<!-- LEFT -->
-			<div class="col-md-12 col-sm-12">
+			<div class="col-md-9 col-sm-9">
 				<div class="numberPost" data-src="${vo.board_code}">
 
 					<div class="pull-left">

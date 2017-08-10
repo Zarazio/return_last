@@ -69,12 +69,6 @@ public class PlaceDAOImpl implements PlaceDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(NAMESPACE + ".read_img", no);
 	}
-	
-	@Override
-	public Map<Object, String> creatorimg(int no) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne(NAMESPACE + ".creator_img", no);
-	}
 
 	@Override
 	public void placeAll_delete(int no) throws Exception {

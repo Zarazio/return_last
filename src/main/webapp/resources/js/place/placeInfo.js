@@ -98,7 +98,7 @@ $(document).ready(function(){
 		$(".pagination").remove();
 		
 		$.ajax({
-			type : 'POST',
+			type : 'GET',
 			url : 'placeInfoList',
 			data : { 
 				startRecord : startRecord, 
@@ -123,11 +123,17 @@ $(document).ready(function(){
 										"<p class='text-left'>" + textSize(data[i].place_content) + "</p>" + 
 										"<ul class='text-left size-12 list-inline list-separator'>" + 
 						                    "<li><i class='fa fa-calendar-check-o'></i>" + dateParse(data[i].add_date) +
-						                    "<li><i class='fa fa-eye'></i>" + data[i].view + 
-						                "</ul>" +
+						                    "<li><i class='fa fa-eye'></i>" + data[i].view;
+											if(data[i].wish != null) {
+												elemen += "<li><i class='wishiconB'></i>" + data[i].wishcount;
+											}
+											else {
+												elemen += "<li><i class='wishiconA'></i>" + data[i].wishcount;
+											}
+					elemen +=	    	"</ul>" +
 					                "</div>" +
 						        "</div>" +
-						      "</div>"
+						      "</div>";
 					$(".placeInfos").append(elemen);
 					
 				}
@@ -214,7 +220,7 @@ $(document).ready(function(){
 	function pagenation() { 
 		
 		$.ajax({
-			type : 'POST',
+			type : 'GET',
 			url : 'listPaging',
 			async:false,
 			data : {

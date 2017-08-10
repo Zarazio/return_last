@@ -4,7 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="TravelGroupCountVO" type="zara.zio.turn.domain.TravelGroupCountVO" />
+		<typeAlias alias="ReplyInfoVO" type="zara.zio.turn.domain.ReplyInfoVO" />
+		<typeAlias alias="StepLogVO" type="zara.zio.turn.domain.StepLogVO" />
 		<typeAlias alias="FileAndHashVO" type="zara.zio.turn.domain.FileAndHashVO" />
 		<typeAlias alias="LikesVO" type="zara.zio.turn.domain.LikesVO" />
 		<typeAlias alias="ComunityVO" type="zara.zio.turn.domain.ComunityVO" />

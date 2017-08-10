@@ -33,15 +33,25 @@
 		order by board_date desc
 		limit #{startRecord}, #{timeLineNum}
 	</select>
-	<select id="hashRead" resultType="FileAndHashVO">
-		select hash_tag_content, board_code
-		from hash_tag
-		order by hash_tag_code
+	<select id="hashRead" resultType="FileAndHashVO" parameterType="hashmap">
+		select a.hash_tag_content hash_tag_content, a.board_code board_code
+		from hash_tag a
+		right join (SELECT board_code, count(board_code) AS cnt
+		   			FROM hash_tag
+		   			group by board_code
+           			order by board_code desc
+           			limit #{startRecord}, #{timeLineNum}) b
+		on a.board_code = b.board_code
 	</select>
-	<select id="imgfileRead" resultType="FileAndHashVO">
-		select file_content, board_code
-		from attached_file
-		order by file_code
+	<select id="imgfileRead" resultType="FileAndHashVO" parameterType="hashmap">
+		select a.file_content file_content, a.board_code board_code
+		from attached_file a
+		right join (SELECT board_code, count(board_code) AS cnt
+					FROM attached_file
+					group by board_code
+					order by board_code desc
+					limit #{startRecord}, #{timeLineNum}) b
+		on a.board_code = b.board_code
 	</select>
 	
 	<sql id="logtype">
@@ -118,6 +128,43 @@
 		delete from board 
 		where board_code = #{replyno}
 	</delete>
+	
+	<!-- 스탭로그 정보 가져오기, 해쉬태그정보 -->
+	<select id="stepLogs" resultType="StepLogVO">	
+		select a.board_code board_code, a.board_title board_title, a.board_content board_content, a.board_date board_date, a.log_longtitude log_longtitude, a.log_latitude log_latitude, 
+		a.step_log_code step_log_code, a.user_id user_id, a.viewCount viewCount, a.write_type write_type, b.file_content fileimg, ifnull(c.cnt, 0) likecount, d.user_profile user_profile
+		from board a
+		left join attached_file b
+		on a.board_code = b.board_code
+		left join (select board_code, count(board_code) AS cnt
+									 from board_like
+									 group by board_code) c
+		on a.board_code = c.board_code
+        left join user_info d
+        on a.user_id = d.user_id
+        where step_log_code = #{no}
+		and board_type_code = 1
+		<!-- select a.*, ifnull(b.cnt, 0) likecount
+		from (select a.board_code board_code, a.board_title board_title, a.board_date board_date, a.log_longtitude log_longtitude, a.log_latitude log_latitude, 
+		a.step_log_code step_log_code, a.user_id user_id, a.viewCount viewCount, b.file_content fileimg
+				from board a
+				left join attached_file b
+				on a.board_code = b.board_code
+				where step_log_code = #{no}
+				and board_type_code = 1) a
+		        left join (select board_code, count(board_code) AS cnt
+											 from board_like
+											 group by board_code) b
+		on a.board_code = b.board_code -->
+	</select>
+	<select id="stepLogs2" resultType="FileAndHashVO">
+		select a.hash_tag_content hash_tag_content, a.board_code board_code
+		from hash_tag a, board b
+		where a.board_code = b.board_code
+		and b.step_log_code = #{no}
+		and b.board_type_code = 1
+	</select>
+	
 	
 	<!-- 커뮤니티 읽는 맵퍼  -->
 	<select id="comunityList" resultType="ComunityVO">

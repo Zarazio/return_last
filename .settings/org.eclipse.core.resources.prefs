@@ -27,6 +27,7 @@ encoding//src/main/java/zara/zio/turn/persistence/MemberService.java=UTF-8
 encoding//src/main/java/zara/zio/turn/persistence/MemberServiceImpl.java=UTF-8
 encoding//src/main/java/zara/zio/turn/persistence/PlaceService.java=UTF-8
 encoding//src/main/java/zara/zio/turn/persistence/PlaceServiceImpl.java=UTF-8
+encoding//src/main/java/zara/zio/turn/socket/ChatWebSocketHandler.java=UTF-8
 encoding//src/main/java/zara/zio/turn/socket/EchoHandler.java=UTF-8
 encoding//src/main/java/zara/zio/turn/util/MediaUtils.java=UTF-8
 encoding//src/main/java/zara/zio/turn/util/UploadFileUtils.java=UTF-8

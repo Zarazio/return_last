@@ -38,7 +38,7 @@
 </section>
 <!-- /PAGE HEADER -->
 
-<section>
+<section class="alternate">
 	<div class="container">
 		<form id="formComunity">
 			<div class="row">

@@ -26,9 +26,10 @@
 		from place_tbl
 	</select>
 	<select id="read" resultType="PlaceVO"> <!-- mybatis-config.xml에서 "web.spr.bbs.bean.BoardVO"를 "BoardVO"로 생략 -->
-		select * 
-		from place_tbl 
-		where place_code = #{no}
+		select a.*, b.user_profile
+		from place_tbl a, user_info b
+		where a.user_id = b.user_id 
+		and place_code = #{no}
 	</select>
 	<select id="read_img" resultType="PlaceVO">
 		select * 
@@ -54,14 +55,24 @@
 	
 	<!-- 장소정보 조회  -->
 	<select id="place_info_list" resultType="PlaceVO" parameterType="PlaceInfoListVO">
-		select a.place_code AS place_code, a.place_name AS place_name, a.place_content AS place_content, 
-		a.place_address AS place_address, a.place_lat AS place_lat, a.place_lng AS place_lng, 
-		a.place_type AS place_type, a.add_date AS add_date, a.user_id AS user_id, a.view AS view, b.place_img AS place_img
-		from place_tbl a, pimg_tbl b
-		where a.place_code = b.place_code
-		and b.img_code = 0 and place_on = 1
+		select a.place_code place_code, a.place_name place_name, a.place_content place_content, 
+		a.place_address place_address, a.place_lat place_lat, a.place_lng place_lng, 
+		a.place_type place_type, a.add_date add_date, a.user_id user_id, a.view view,
+		b.place_img place_img, c.wishcount wishcount, c.wish wish
+		from place_tbl a
+		left join pimg_tbl b
+		on a.place_code = b.place_code
+		left join (select a.place_code, count(a.place_code) wishcount, b.user_id wish
+									   from wish_check a
+									   left join (select place_code, user_id
+							           			  from wish_check 
+							           			  where user_id = #{users}) b
+									   on a.place_code = b.place_code
+									   group by place_code) c
+		on a.place_code = c.place_code
+		where b.img_code = 0 and place_on = 1
 		<include refid="search"></include>
-		order by add_date desc
+		order by place_code desc
 		limit #{startRecord}, #{recordPage}
 	</select>
 	

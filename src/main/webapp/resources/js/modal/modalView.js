@@ -55,7 +55,7 @@ $(document).ready(function(){
 				}
 			}
 		});
-	}, 3000);
+	}, 60000);
 	
 	// 알람 수락버튼 누를 시 
 	$("#alarm").on("click", ".sure", function(){
@@ -133,6 +133,7 @@ $(document).ready(function(){
 			$('#submitData')[0].submit();
 		}
 	});
+	
 });
 
 

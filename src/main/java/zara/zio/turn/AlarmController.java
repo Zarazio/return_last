@@ -37,7 +37,7 @@ public class AlarmController {
 
 		List<GroupApplicationVO> invite = service.group_travel_alarm();
 
-		System.out.println("받은 알림 갯수:" + alarmCnt);
+//		System.out.println("받은 알림 갯수:" + alarmCnt);
 		
 		return invite;
 	}

@@ -1,6 +1,5 @@
 package zara.zio.turn.domain;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class LogBoardVO {
@@ -15,6 +14,9 @@ public class LogBoardVO {
 	private String user_id; // 유저정보 
 	private int step_log_code; // 스텝로그정보
 	
+	private Double log_longtitude; // 경도
+	private Double log_latitude; // 위도 
+
 	private String user_profile; // 유저프로필이미지;	
 	private int write_type; // 작성타입 웹 or 모바일 
 	private int reply_code; // 게시글 댓글타겟코드
@@ -32,6 +34,15 @@ public class LogBoardVO {
 	private int states;
 	// 댓글아이디 == 세션아이디 상태 
 	private int reply_state;
+	// 역지오코딩 데이터
+	private String onAddress;
+	
+	public String getOnAddress() {
+		return onAddress;
+	}
+	public void setOnAddress(String onAddress) {
+		this.onAddress = onAddress;
+	}
 	
 	
 	public void setStates(int states) {
@@ -87,6 +98,20 @@ public class LogBoardVO {
 	}
 	public void setMy_like(int my_like) {
 		this.my_like = my_like;
+	}
+	
+	
+	public Double getLog_longtitude() {
+		return log_longtitude;
+	}
+	public void setLog_longtitude(Double log_longtitude) {
+		this.log_longtitude = log_longtitude;
+	}
+	public Double getLog_latitude() {
+		return log_latitude;
+	}
+	public void setLog_latitude(Double log_latitude) {
+		this.log_latitude = log_latitude;
 	}
 	
 	

@@ -59,12 +59,6 @@ public class PlaceServiceImpl implements PlaceService {
 		// TODO Auto-generated method stub
 		return dao.readimg(no);
 	}
-	
-	@Override
-	public Map<Object, String> creatorimg(int no) throws Exception {
-		// TODO Auto-generated method stub
-		return dao.creatorimg(no);
-	}
 
 	@Override
 	public void placeAll_delete(int no) throws Exception {

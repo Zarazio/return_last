@@ -20,9 +20,14 @@ public class PlaceVO {
 	private String place_img; // 파일경로
 	private String file_name; // 파일이름
 	
-	// 유저정보 , 조회수
+	// 유저정보 , 유저프로필이미지, 조회수
 	private String user_id;
+	private String user_profile;
 	private int view;
+	
+	// 위시카운트 , 내위시정보
+	private int wishcount;
+	private String wish;
 	
 	public String getUser_id() {
 		return user_id;
@@ -30,12 +35,32 @@ public class PlaceVO {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+	public String getUser_profile() {
+		return user_profile;
+	}
+	public void setUser_profile(String user_profile) {
+		this.user_profile = user_profile;
+	}
 	public int getView() {
 		return view;
 	}
 	public void setView(int view) {
 		this.view = view;
 	}
+	public int getWishcount() {
+		return wishcount;
+	}
+	public void setWishcount(int wishcount) {
+		this.wishcount = wishcount;
+	}
+	public String getWish() {
+		return wish;
+	}
+	public void setWish(String wish) {
+		this.wish = wish;
+	}
+	
+	
 	public int getImg_code() {
 		return img_code;
 	}

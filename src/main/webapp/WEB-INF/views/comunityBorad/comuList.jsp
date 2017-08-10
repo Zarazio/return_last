@@ -48,7 +48,7 @@
 				<!-- INLINE SEARCH -->
 				<div class="inline-search clearfix margin-bottom-40">
 					<form action="" method="get" class="widget_search">
-						<input type="search" placeholder="Start Searching..." id="s" name="s" class="serch-input">
+						<input type="search" placeholder="제목 + 내용 검색" id="s" name="s" class="serch-input">
 						<button type="submit">
 							<i class="fa fa-search"></i>
 						</button>
@@ -283,7 +283,7 @@
 					</table>
 				</div>
 				<!-- /POST ITEM -->
-				<div class="row margin-left-10">
+				<div class="row margin-left-3">
 					<a href="comuWrite" class="btn btn-blue">글쓰기</a>
 				</div>	
 				
