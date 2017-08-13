@@ -3,7 +3,7 @@ package zara.zio.turn.domain;
 public class Pagination {
 	private int page = 1; // 페이지 
 	private int recordPage = 20; 
-	
+
 	public final static int DISPLAY_PAGE_NUM = 10;
 	private int startPage; // 시작페이지
 	private int endPage; // 종료페이지

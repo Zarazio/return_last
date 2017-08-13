@@ -13,10 +13,11 @@ $(document).ready(function(){
 	var lifeObj; // 스텝로그 라이프정보 데이터
 	var infowindows = []; // 구글맵 infowindows 데이터
 	
-	var mapCookieData;
-	var mapLocation; 
+	var mapCookieData; // 맵저장데이터 
+	var mapLocation;  // 맵저장데이터2
 	
-
+	var clickDealy
+	
 	clickData = new Array();
 	var promise = Timeline();
 	promise.done(function() {
@@ -27,27 +28,34 @@ $(document).ready(function(){
 	// 해당엘리먼트 핸들링
 	$(".bars").on("click",function(){
 		
-		if($(this).hasClass("currentive")) {
-			return false;
-		} else {
+		var barsData = $(this);
+		
+		setTimeout(function() {
 			
-			$("#imgToggle").attr("style", "visibility:hidden");
+			if(barsData.hasClass("currentive")) {
+				return false;
+			} else {
 			
-			$(".bars").removeClass('currentive');
-			$(this).addClass("currentive");
-			$(window).scrollTop(0); // 스크롤을 초기화해준다.
-			currentPage = 1; // 현재페이지로 초기화
-			value = 1500 // 다시초기화해준다.
+				$(".divTarget").remove();
+				$("#allCell").css("opacity","0");
+				$("#imgToggle").attr("style", "visibility:hidden");
+				
+				$(".bars").removeClass('currentive');
+				barsData.addClass("currentive");
+				$(window).scrollTop(0); // 스크롤을 초기화해준다.
+				currentPage = 1; // 현재페이지로 초기화
+				value = 1500 // 다시초기화해준다.
+				
+				clickData = new Array();
+	
+				promise = Timeline();
+				promise.done(function() {
+					animations();
+			    });
+				
+			}
 			
-			$(".divTarget").remove();
-			clickData = new Array();
-
-			promise = Timeline();
-			promise.done(function() {
-				animations();
-		    });
-			
-		}
+		}, 50);
 		
 	});
 	
@@ -101,17 +109,17 @@ $(document).ready(function(){
 								// 이미지 on
 								onImage = "<div class='img-hover margin-bottom-30 divTarget' data-board='" + data[i].board_code + "' data-index='" + (clickData.length-1) + "' data-type='1'>" +
 												"<div class='timeline'>" +
+													"<div class='padding-10'>" + 
+														"<img class='thumbnail pull-left' src='displayProfile?fileName=" + data[i].user_profile + "' style='width:50px; height:50px;'>" + 
+														"<div class='time-id'>" + data[i].user_id + "</div>" + 
+														"<div class='time-title'>" + data[i].board_title + "</div>" + 
+									 				"</div>" + 
 													"<div class='images'>" +
 							 							"<img class='img-responsive' src='" + webappType(data[i].write_type, data[i].file_content[0]) + "' alt=''>" +
 													"</div>" + 
 													"<div class='padding-10'>" + 
-														"<div>" + 
-												 			"<a><img class='thumbnail pull-left' src='displayProfile?fileName=" + data[i].user_profile + "' style='width:50px; height:50px;'></a>" + 
-												 			"<h4 class='padding-10'>" + data[i].user_id + "</h4>" + 
-														"</div>" + 
 														"<div class='resource' style='clear:both;'>" + 
-															"<h4 class='text-left'>" + data[i].board_title + "</h4>" + 
-															"<p class='text-left'> " + data[i].board_content + "</p>" + 
+															"<p> " + data[i].board_content + "</p>" + 
 															"<ul class='list-inline nomargin hashTagList'>";
 															for(var j=0; j<data[i].hash_tag_content.length; j++) {
 																onImage += "<li class='hashStyle'><a>" + data[i].hash_tag_content[j] + "</a></li>";
@@ -155,27 +163,31 @@ $(document).ready(function(){
 								// 비디오 on
 								onVideo = "<div class='img-hover margin-bottom-30 divTarget' data-board='" + data[i].board_code + "' data-index='" + (clickData.length-1) + "' data-type='3'>" +
 												"<div class='timeline'>" +
-													"<div class='videoTag'>" +
-													"<img width='100%' height='250' src=" + webappType(data[i].write_type, data[i].file_content[0]) + " style='border-top-left-radius:3px; border-top-right-radius:3px;'>" + 
-													"</div>" + 
 													"<div class='padding-10'>" + 
-														"<div>" + 
-												 			"<a><img class='thumbnail pull-left' src='displayProfile?fileName=" + data[i].user_profile + "' style='width:50px; height:50px;'></a>" + 
-												 			"<h4 class='padding-10'>" + data[i].user_id + "</h4>" + 
-														"</div>" + 
+														"<img class='thumbnail pull-left' src='displayProfile?fileName=" + data[i].user_profile + "' style='width:50px; height:50px;'>" + 
+														"<div class='time-id'>" + data[i].user_id + "</div>" + 
+														"<div class='time-title'>" + data[i].board_title + "</div>" + 
+													"</div>" + 
+													"<div class='videoTag'>";
+													if(data[i].file_content[0].match("●")) { // 맵일시 
+														onVideo += "<img width='100%' height='250' src=" + webappType(data[i].write_type, data[i].file_content[0]) + ">";
+													} else { // 동영상일시 
+														onVideo += "<iframe frameborder='0' src=" + data[i].file_content[0] +" width='100%' height='250' class='note-video-clip'></iframe>";
+													}
+								onVideo += 			"</div>" + 
+													"<div class='padding-10'>" + 
 														"<div class='resource' style='clear:both;'>";
-								onVideo +=					"<h4 class='text-left'>" + data[i].board_title + "</h4>";
 															if(data[i].file_content[0].match("●")) {
 																
 															} else {
-																onVideo += "<p class='text-left'> " + data[i].board_content + "</p>";
+																onVideo += "<p class='text-left'> " + data[i].board_content + "</p>" + 
+																"<ul class='list-inline nomargin hashTagList'>";
+																for(var j=0; j<data[i].hash_tag_content.length; j++) {
+																	onVideo += "<li class='hashStyle'><a>" + data[i].hash_tag_content[j] + "</a></li>";
+																} 
+																onVideo += "</ul>";
 															}
-								onVideo +=							"<ul class='list-inline nomargin hashTagList'>";
-															for(var j=0; j<data[i].hash_tag_content.length; j++) {
-																onVideo += "<li class='hashStyle'><a>" + data[i].hash_tag_content[j] + "</a></li>";
-															} 
-								onVideo +=					"</ul>" + 
-															"<ul class='text-left size-14 list-inline list-separator ultop targeting'>" + 
+								onVideo +=					"<ul class='text-left size-14 list-inline list-separator ultop targeting'>" + 
 										      	              	"<li>" + 
 																	"<i class='fa fa-calendar-check-o'></i><b>" + dateParse(data[i].board_date) + "</b>" + 
 																"</li>" + 
@@ -217,12 +229,12 @@ $(document).ready(function(){
 											"<div class='timeline'>" +
 												"<div class='padding-10'>" + 
 													"<div>" + 
-											 			"<a><img class='thumbnail pull-left' src='displayProfile?fileName=" + data[i].user_profile + "' style='width:50px; height:50px;'></a>" + 
-											 			"<h4 class='padding-10'>" + data[i].user_id + "</h4>" + 
+											 			"<img class='thumbnail pull-left' src='displayProfile?fileName=" + data[i].user_profile + "' style='width:50px; height:50px;'>" + 
+											 			"<div class='time-id'>" + data[i].user_id + "</div>" + 
+											 			"<div class='time-title'>" + data[i].board_title + "</div>" + 
 													"</div>" + 
-													"<div class='resource' style='clear:both;'>" + 
-														"<h4 class='text-left'>" + data[i].board_title + "</h4>" + 
-														"<p class='text-left'> " + data[i].board_content + "</p>" + 
+													"<div class='resource' style='clear:both; border-top: 1px solid #e6e6e6;'>" + 
+														"<p class='text-left margin-top-3'>" + data[i].board_content + "</p>" + 
 														"<ul class='list-inline nomargin hashTagList'>";
 														for(var j=0; j<data[i].hash_tag_content.length; j++) {
 															onNote += "<li class='hashStyle'><a>" + data[i].hash_tag_content[j] + "</a></li>";
@@ -279,7 +291,6 @@ $(document).ready(function(){
 		return deferred.promise(); // 모든결과가 완료되었을시 2 리턴
 	}
 	
-	
 	/** ============================ 타임라인 LightBox ============================ **/
 	
 	function openInfo(board_code, index, obj, type) {
@@ -328,7 +339,7 @@ $(document).ready(function(){
 
 						var lightbox = "<div class='lightAlls'>";
 						
-						if(objmap.step.length != 0) {
+						if(objmap.step.length != 0 || clickData[index].file_content[0].match("●")) { // 맵일시
 							
 							lightbox += "<div class='lightA-step inline-block'>" + 
 											"<div class='light-1'>" +
@@ -337,32 +348,42 @@ $(document).ready(function(){
 			      								"</div>" + 
 			      							"</div>" + 
 						    			"</div>";
-						} else {
+						} else { // 맵이 아닐시
 							
 							lightbox += "<div class='lightA inline-block'>" + 
 											"<div class='light-1'>";
 												
 												for(var j=0; j<clickData[index].file_content.length; j++) {
+													if(j == 1) {
+														lightbox +=	"<a class='prevs'>&#10094;</a><a class='nexts'>&#10095;</a>";
+													}
 													if(clickData[index].file_content[j] == "") { // 이미지가 없을시 
 														lightbox +=	 "<div style='width:100%; height:500px; background-color:#262626; border:1px solid black;'>" +
 								      										"<h2 style='text-align:center; padding:230px 0px 0px 0px; color:white;'>이미지가 없습니다.<h2>" + 
 								      								 "</div>";
 													} else if(!(clickData[index].file_content[j] == "") && clickData[index].file_content.length == 1) {	
 														// 라이트박스의 이미지가 한장일시 
-														lightbox +=	 "<div class='mySlides'>" +
-												      					"<img src='" + webappTypeB(clickData[index].write_type, clickData[index].file_content[j]) + "' style='width:100%; height:500px;'>" +
-												      				 "</div>";
+														lightbox +=	 "<div class='mySlides'>";
+												      					if(clickData[index].file_content[j].match("youtube")) {
+												      						lightbox +=	"<iframe frameborder='0' src=" + clickData[index].file_content[j] +" width='100%' height='495' class='note-video-clip'></iframe>";
+												      					} else {
+												      						lightbox +=	"<img src='" + webappTypeB(clickData[index].write_type, clickData[index].file_content[j]) + "' style='width:100%; height:500px;'>";
+												      					}
+												      	lightbox +=	"</div>";
 													} else {
 														// 라이트 박스의 이미지가 여러장일시
-														lightbox +=	"<a class='prevs'>&#10094;</a>" +
-								    								"<a class='nexts'>&#10095;</a>" + 
-																	"<div class='mySlides'>" +
-												      					"<div class='numbertext'>" + (j+1) + " / " + clickData[index].file_content.length + "</div>" + 
-												      					"<img src='" + webappTypeB(clickData[index].write_type, clickData[index].file_content[j]) + "' style='width:100%; height:500px;'>" +
-												      				"</div>";
+														lightbox +=	"<div class='mySlides'>";
+																	if(clickData[index].file_content[j].match("youtube")) {
+																		lightbox +=	"<div class='numbertext'>" + (j+1) + " / " + clickData[index].file_content.length + "</div>" + 
+																		"<iframe frameborder='0' src=" + clickData[index].file_content[j] +" width='100%' height='495' class='note-video-clip'></iframe>";
+																	} else {
+																		lightbox +=	"<div class='numbertext'>" + (j+1) + " / " + clickData[index].file_content.length + "</div>" + 
+												      					"<img src='" + webappTypeB(clickData[index].write_type, clickData[index].file_content[j]) + "' style='width:100%; height:500px;'>";
+																	}
+														lightbox +=	"</div>";
 													}
 												}
-											
+												
 							lightbox +=		"</div>" + 
 									    	"<div class='light-2 text-overset inline-block'>" +
 									    		"<ul class='list-inline nomargin hashTagList'>";
@@ -391,14 +412,18 @@ $(document).ready(function(){
 								    		"</header>" +
 								    		"<fieldset class='nomargin light-content text-overset'>";
 								    			if(objmap.step.length != 0) {
-								    				for(var x=0; x<objmap.step.length; x++) {
+								    				for(var x=0; x<objmap.step.length; x++) { // 지도이면서 폴리라인 마커포함 
 								    					lightbox +=	"<div class='mapset3'>" + 
 								    									"<div class='inline-block' style='margin: 0px 10px 5px 0px;'><button class='btn btn-primary btn-xs btnMarker" + x + "'>Marker</button></div>" + 
 								    									"<div class='inline-block'>" + objmap.step[x].board_title + " / " + dateParse(objmap.step[x].board_date) + "</div>" +  
 								    								"<div>";
 								    				}
 								    			} else {
-								    				lightbox +=	"<div>" + clickData[index].board_content +"</div>";
+								    				if(clickData[index].board_type_code == 3) { // 지도이면서 폴리라인만 포함
+								    					lightbox +=	"<div></div>";
+								    				} else { // 지도가 아닐시
+								    					lightbox +=	"<div>" + clickData[index].board_content +"</div>";
+								    				}
 								    			}
 						lightbox +=			"</fieldset>" +
 								    		"<fieldset class='nomargin light-user size-16'>" +
@@ -494,6 +519,10 @@ $(document).ready(function(){
 				if(objmap.step.length != 0) {
 					mapCookieData = clickData[index].file_content[0];
 					initialize(objmap.step, mapCookieData);
+				}
+				
+				if(clickData[index].file_content[0].match("●") && objmap.step.length == 0) {
+					initializeE(clickData[index].file_content[0]);
 				}
 				
 			}, error:function(){
@@ -844,16 +873,16 @@ $(document).ready(function(){
 					lightbox += "<div class='lightA inline-block'>" + 
 									"<div class='light-1'>";
 										
-											if(lifeObj[index].file_content == null) { // 이미지가 없을시 
-												lightbox +=	 "<div style='width:100%; height:500px; background-color:#262626; border:1px solid black;'>" +
-						      										"<h2 style='text-align:center; padding:230px 0px 0px 0px; color:white;'>이미지가 없습니다.<h2>" + 
-						      								 "</div>";
-											} else if(lifeObj[index].file_content.length == 1) {	
-												// 라이트박스의 이미지가 한장일시 
-												lightbox +=	 "<div class='mySlides'>" +
-										      					"<img src='" + webappTypeB(lifeObj[index].write_type, lifeObj[index].file_content[0]) + "' style='width:100%; height:500px;'>" +
-										      				 "</div>";
-											} 
+									if(lifeObj[index].file_content == null) { // 이미지가 없을시 
+										lightbox +=	 "<div style='width:100%; height:500px; background-color:#262626; border:1px solid black;'>" +
+				      										"<h2 style='text-align:center; padding:230px 0px 0px 0px; color:white;'>이미지가 없습니다.<h2>" + 
+				      								 "</div>";
+									} else if(lifeObj[index].file_content.length == 1) {	
+										// 라이트박스의 이미지가 한장일시 
+										lightbox +=	 "<div class='mySlides'>" +
+								      					"<img src='" + webappTypeB(lifeObj[index].write_type, lifeObj[index].file_content[0]) + "' style='width:100%; height:500px;'>" +
+								      				 "</div>";
+									} 
 									
 					lightbox +=		"</div>" + 
 							    	"<div class='light-2 text-overset inline-block'>" +
@@ -1040,9 +1069,48 @@ $(document).ready(function(){
 	
 	});
 	
-	function initdelete() {
+	// 구글맵 폴리라인만 // 
+	function initializeE(st) {
 		
-	} 
+		var one = [];
+		var two = [];
+		var flightPlanCoordinates = [];
+		var latlng;
+		
+		var lines = st.substring(0, (st.length-1));
+		one = lines.split("|");
+		
+		for(var j=0; j<1; j++) { // kml 경로 polyline 넣기  
+			two = one[j].split(",");
+			latlng = new google.maps.LatLng(two[0], two[1]); 
+		}
+		
+	    var mapOptions = { //구글 맵 옵션 설정
+	    		zoom : 18, //기본 확대율
+	    		center : latlng, // 지도 중앙 위치
+	    		scrollwheel : true, //마우스 휠로 확대 축소 사용 여부
+	    		mapTypeControl : true, //맵 타입 컨트롤 사용 여부
+	    		mapTypeId: 'roadmap'
+	    };
+	    
+	    map = new google.maps.Map(document.getElementById('maps'), mapOptions); //구글 맵을 사용할 타겟
+	    
+		for(var j=0; j<one.length; j++) { // kml 경로 polyline 넣기  
+			two = one[j].split(",");
+			flightPlanCoordinates.push(new google.maps.LatLng(two[0], two[1]));
+		}
+		  
+		var flightPath = new google.maps.Polyline({
+			  path: flightPlanCoordinates,
+			  strokeColor: "#FF0000",
+			  strokeOpacity: 1.0,
+			  strokeWeight: 3
+		});
+
+		flightPath.setMap(map); 
+		
+	}
+	
 	
 	// 구글맵 정보 // 
 	function initialize(obj, st) {
@@ -1060,7 +1128,7 @@ $(document).ready(function(){
 		  var latqlng = new google.maps.LatLng(lat, lng); 
 		  
 		  var mapOptions = { //구글 맵 옵션 설정
-		      zoom : 16, //기본 확대율
+		      zoom : 18, //기본 확대율
 		      center : latqlng, // 지도 중앙 위치
 		      scrollwheel : true, //마우스 휠로 확대 축소 사용 여부
 		      mapTypeControl : true, //맵 타입 컨트롤 사용 여부
@@ -1185,6 +1253,42 @@ $(document).ready(function(){
 		  $(slides[slideIndex-1]).css("display","block");
 	}
 	
+	/***** slide hover *****/
+	
+	$(".lightBox-content").on("mouseenter",".mySlides", function(){
+		$(".numbertext").show();
+		$(".prevs").show();
+		$(".nexts").show();
+	});
+	$(".lightBox-content").on("mouseenter",".prevs", function(){
+		$(".numbertext").show();
+		$(".prevs").show();
+		$(".nexts").show();
+	});
+	$(".lightBox-content").on("mouseenter",".nexts", function(){
+		$(".numbertext").show();
+		$(".prevs").show();
+		$(".nexts").show();
+	});
+	
+	
+	$(".lightBox-content").on("mouseleave",".mySlides", function(){
+		$(".numbertext").hide();
+		$(".prevs").hide();
+		$(".nexts").hide();
+	});
+	$(".lightBox-content").on("mouseleave",".prevs", function(){
+		$(".numbertext").hide();
+		$(".prevs").hide();
+		$(".nexts").hide();
+	});
+	$(".lightBox-content").on("mouseleave",".nexts", function(){
+		$(".numbertext").hide();
+		$(".prevs").hide();
+		$(".nexts").hide();
+	});
+	
+	
 	/** ============================ 타임라인 LightBox ============================ **/
 	
 	
@@ -1262,22 +1366,26 @@ function checkImageType(fileName) {
 function dateParse(data) {
 	var sysdate = new Date(data);
 	var year = sysdate.getFullYear();
+	
+	var yearData = year + "";
+	yearData = yearData.substr(2, 2);
+	
 	var month = sysdate.getMonth()+1;
 	var day = sysdate.getDate();
-	return year + "-" 
-			+ (month < 10 ? "0" + month : month) + "-"
+	return yearData + "." 
+			+ (month < 10 ? "0" + month : month) + "."
 			+ (day < 10 ? "0" + day : day);
 }
 
 function animations() {
-
+	
 	$("#allCell").animate({
 		opacity: 1
-	}, 2000);
+	}, 1000);
 	
 	setTimeout(function() {
 		$("#imgToggle").attr("style", "visibility:visible");
-	}, 2000);
+	}, 1000);
 	
 }
 
@@ -1292,12 +1400,14 @@ function openLightBox() {
 }
 
 function closeLightBox() {
+	$(".lightBox-content").empty();
 	$(".lightBox").fadeOut();
 	$(".lightBox").css("display","none");
 	$(".menu-vertical").parent().removeAttr("style");
 }
 
 function closeBackground() {
+	$(".lightBox-content").empty();
 	$(".lightBox").fadeOut();
 	$(".lightBox").css("display","none");
 	$(".menu-vertical").parent().removeAttr("style");

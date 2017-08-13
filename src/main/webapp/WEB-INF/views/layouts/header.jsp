@@ -176,11 +176,11 @@
 				<div class="nav-main">
 					<ul id="topMain" class="nav nav-pills nav-main has-topBar">
 						<c:if test="${info == null}">
-							<li><a href="logInfo">Log</a> <!-- 페이지 이동 -->
+							<li><a href="logInfo">로그</a> <!-- 페이지 이동 -->
 							<li><a href="login">일정만들기</a>
 							<li><a href="placeInfo">장소</a>
-							<li><a href="layersUp">LayersUp</a>
-							<li><a href="comuList">커뮤니티</a>
+							<li><a href="layersUp">레이어</a>
+							<li><a href="comuList?page=1&keyword=">커뮤니티</a>
 						</c:if>
 						<c:if test="${info == 'admin'}">
 							<li><a href="memberList">회원정보 관리</a>
@@ -188,11 +188,11 @@
 							<li><a href="#">고객지원</a>
 						</c:if>
 						<c:if test="${info == 'user'}">
-							<li><a href="logInfo">Log</a></li>
+							<li><a href="logInfo">로그</a></li>
 							<li><a id="modals" data-toggle="modal" data-target="#myModal">일정만들기</a></li>
 							<li><a href="placeInfo">장소</a></li>
-							<li><a href="layersUp">LayersUp</a></li>
-							<li><a href="comuList">커뮤니티</a></li>
+							<li><a href="layersUp">레이어</a></li>
+							<li><a href="comuList?page=1&keyword=">커뮤니티</a></li>
 						</c:if>
 					</ul>
 				</div>

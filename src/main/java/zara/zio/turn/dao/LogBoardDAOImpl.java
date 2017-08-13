@@ -15,6 +15,7 @@ import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
+import zara.zio.turn.domain.ReplyInfoVO;
 import zara.zio.turn.domain.StepLogVO;
 
 @Repository
@@ -181,9 +182,9 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	}
 	
 	@Override
-	public int comuTotalCount() throws Exception {
+	public int comuTotalCount(PaginationE pagenation) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne(NAMESPACE + ".comuTotalCount");
+		return sqlSession.selectOne(NAMESPACE + ".comuTotalCount", pagenation);
 	}
 
 	@Override
@@ -195,10 +196,28 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 	@Override
 	public List<Map<String, Object>> comunityFileRead(int page) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList(NAMESPACE + ".comunityfileRead",page);
+		return sqlSession.selectList(NAMESPACE + ".comunityfileRead", page);
 	}
-
 	
+
+	@Override
+	public void comunityView(int no) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".comunityView", no);
+	}
+	
+	
+	@Override
+	public int comunityAllCount() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".comunityAllCount");
+	}
+	
+	@Override
+	public List<ComunityVO> comunityRecent() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE + ".comunityRecent");
+	}
 	
 	@Override
 	public void comunityFileDel(int target) throws Exception {
@@ -243,5 +262,48 @@ public class LogBoardDAOImpl implements LogBoardDAO {
 		sqlSession.delete(NAMESPACE + ".boardhashAllDel", page);
 	}
 
+	
+	
+	@Override
+	public void replyComuWrite(ReplyInfoVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(NAMESPACE + ".replyComuWrite", vo);
+	}
+
+	@Override
+	public void replyComuModify(ReplyInfoVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update(NAMESPACE + ".replyComuModify", vo);
+	}
+
+	@Override
+	public void replyComuDelete(int no) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE + ".replyComuDelete", no);
+	}
+	
+	@Override
+	public void replyComuLike(ReplyInfoVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.insert(NAMESPACE + ".replyComuLike", vo);
+	}
+
+	@Override
+	public List<ReplyInfoVO> replyComuList(int replyno, String user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("replyno", replyno);
+		map.put("user", user);
+		return sqlSession.selectList(NAMESPACE + ".replyComuList", map);
+	}
+
+	@Override
+	public List<ReplyInfoVO> replyComuRank(int replyno, String user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("replyno", replyno);
+		map.put("user", user);
+		return sqlSession.selectList(NAMESPACE + ".replyComuRank", map);
+	}
 
 }

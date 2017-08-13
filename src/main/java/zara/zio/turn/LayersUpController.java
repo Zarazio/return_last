@@ -68,8 +68,6 @@ public class LayersUpController {
 			int height = image.getHeight() ;
 			BufferedImageOp op = createImageOp();
 
-		
-			
 			
 			BufferedImage bufferedImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR) ;
 				

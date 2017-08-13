@@ -86,16 +86,18 @@ public class SchduleContoller {
        service1.groupApplicationCreate(groupA) ;
        service1.groupTravelBoard(groupCode,mem);
        
-       //그룹을 같이 만들 친구가 있을 경우
-       if(friend.length > 0){
-         for(int i=0; i<friend.length; i++){
-            groupA.setUser_id(friend[i]);
-            groupA.setGroup_apply(0);
-            System.out.println("friend : " + friend[i]);
-            service1.groupApplicationCreate(groupA) ;
-            
-         }
-      }
+		if (friend != null) {
+			// 그룹을 같이 만들 친구가 있을 경우
+			if (friend.length > 0) {
+				for (int i = 0; i < friend.length; i++) {
+					groupA.setUser_id(friend[i]);
+					groupA.setGroup_apply(0);
+					System.out.println("friend : " + friend[i]);
+					service1.groupApplicationCreate(groupA);
+
+				}
+			}
+		}
        
        
       

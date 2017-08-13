@@ -65,8 +65,8 @@
 						<h4>CATEGORIES</h4>
 					</div>
 					<ul class="list-group list-group-bordered list-group-noicon uppercase">
-						<li class="list-group-item"><a href="comuList"><span class="size-11 text-muted pull-right">(12)</span>커뮤니티</a></li>
-						<li class="list-group-item"><a href="qnaList"><span class="size-11 text-muted pull-right">(8)</span>고객문의</a></li>
+						<li class="list-group-item"><a href="comuList?page=1&keyword="><span class="size-11 text-muted pull-right">0</span>커뮤니티</a></li>
+						<li class="list-group-item"><a href="qnaList"><span class="size-11 text-muted pull-right">0</span>고객문의</a></li>
 					</ul>
 					<!-- /side navigation -->
 				

@@ -167,19 +167,39 @@
 	
 	
 	<!-- 커뮤니티 읽는 맵퍼  -->
-	<select id="comunityList" resultType="ComunityVO">
-		select board_code, board_title, board_date, viewCount, user_id 
-		from board
-		where board_type_code = 4
+	<select id="comunityList" resultType="ComunityVO" parameterType="zara.zio.turn.domain.PaginationE">
+		select a.board_code board_code, a.board_title board_title, a.board_date board_date, 
+		a.viewCount viewCount, a.user_id user_id, b.reply_count reply_count
+		from board a
+		left join (select reply_code, count(reply_code) reply_count
+				   from board
+				   where board_type_code = 6
+		           group by reply_code) b
+		on a.board_code = b.reply_code   
+		<include refid="key"></include>
 		order by board_code desc
 		limit #{startRecord}, #{recordPage}
 	</select>
 	
-	<select id="comuTotalCount" resultType="Integer">
+	<select id="comuTotalCount" resultType="Integer" parameterType="zara.zio.turn.domain.PaginationE">
 		select count(*)
 		from board
-		where board_type_code = 4
+		<include refid="key"></include>
 	</select>
+	
+	<sql id="key">
+		<choose>
+			<when test="keyword == ''">
+				where board_type_code = 4
+			</when>
+			<otherwise>
+				where board_title like CONCAT('%', #{keyword}, '%')
+				and board_type_code = 4
+				or board_content like CONCAT('%', #{keyword}, '%')
+				and board_type_code = 4
+			</otherwise>
+		</choose>
+	</sql>
 	
 	<select id="comunityRead" resultType="ComunityVO">
 		select a.board_code board_code, a.board_title board_title, a.board_content board_content, 
@@ -197,6 +217,29 @@
 		order by file_code
 	</select>
 	
+	<update id="comunityView">
+		update board set viewCount = viewCount + 1
+		where board_code = #{no}
+	</update>
+	
+	<select id="comunityAllCount" resultType="int">
+		select count(board_code) count
+		from board
+		where board_type_code = 4
+	</select>
+	
+	<select id="comunityRecent" resultType="ComunityVO">
+		select a.board_code board_code, a.board_title board_title, 
+		a.board_date board_date, a.user_id user_id, b.user_profile user_profile
+		from board a
+		left join user_info b
+		on a.user_id = b.user_id
+		where board_type_code = 4
+		order by board_date desc
+		limit 0, 6
+	</select>
+
+	
 	<delete id="comunityfileDel">
 		delete from attached_file where file_code = #{target}
 	</delete>
@@ -210,7 +253,6 @@
 		where board_code = #{page}
 	</update>
 	
-	
 	<!-- log, comu, travel 모든삭제 -->
 	<delete id="boardAllDel">
 		delete from board where board_code = #{page}
@@ -223,5 +265,70 @@
 	<delete id="boardhashAllDel">
 		delete from hash_tag where board_code = #{page}
 	</delete>
+	
+	<!-- 커뮤니티 댓글 커맨드 -->
+	<insert id="replyComuWrite">
+		insert into board(board_code, board_content, board_type_code, user_id, reply_code) 
+		values (#{board_code}, #{board_content}, 6, #{user_id}, #{reply_code})
+	</insert>
+	
+	<update id="replyComuModify">
+		update board set board_content=#{board_content}
+		where board_code = #{board_code}
+	</update>
+	
+	<delete id="replyComuDelete">
+		delete from board
+		where board_code = #{no}
+	</delete>
+	
+	<select id="replyComuList" resultType="ReplyInfoVO" parameterType="hashmap">		
+		select a.board_code board_code, a.board_content board_content, a.board_date board_date, a.board_type_code board_type_code, 
+		a.reply_code reply_code, a.user_id user_id, b.user_profile user_profile, c.count count, c.user_id confirm_id
+		from board a
+		left join user_info b
+		on a.user_id = b.user_id
+		left join (select x.board_code board_code, count(x.board_code) count, y.user_id user_id
+				   from reply_like_best x
+				   left join (select board_code, user_id
+							  from reply_like_best
+							  where user_id = #{user}) y
+				   on x.board_code = y.board_code
+		           where reply_code = #{replyno}
+				   group by board_code) c
+		on a.board_code = c.board_code
+		where board_type_code = 6
+		and reply_code = #{replyno}
+		order by board_date
+	</select>
+	
+	<select id="replyComuRank" resultType="ReplyInfoVO" parameterType="hashmap">
+		select a.board_code board_code, a.board_content board_content, a.board_date board_date, a.board_type_code board_type_code, 
+		a.reply_code reply_code, a.user_id user_id, b.user_profile user_profile, c.count count, c.user_id confirm_id
+		from board a
+		left join user_info b
+		on a.user_id = b.user_id
+		left join (select x.board_code board_code, count(x.board_code) count, y.user_id user_id
+				   from reply_like_best x
+				   left join (select board_code, user_id
+							  from reply_like_best
+							  where user_id = #{user}) y
+				   on x.board_code = y.board_code
+				   where reply_code = #{replyno}
+				   group by board_code) c
+		on a.board_code = c.board_code
+		where board_type_code = 6
+		and reply_code = #{replyno}
+		order by count desc
+		limit 0,3
+	</select>
+	
+	<insert id="replyComuLike">
+		insert into reply_like_best(board_code, user_id, reply_code)
+		values (#{board_code}, #{user_id}, #{reply_code})
+	</insert>
+	
+	
+	
 	
 </mapper>

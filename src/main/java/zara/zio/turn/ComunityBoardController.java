@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zara.zio.turn.domain.ComunityVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
+import zara.zio.turn.domain.ReplyInfoVO;
 import zara.zio.turn.persistence.LogBoardService;
 import zara.zio.turn.util.MediaUtils;
 import zara.zio.turn.util.UploadFileUtils;
@@ -50,16 +51,15 @@ public class ComunityBoardController {
 	
 	@RequestMapping(value="/comuList", method = RequestMethod.GET)
 	public String comuList(Model model, PaginationE pagenation, 
-			@RequestParam(value="page", defaultValue="1") String page) throws Exception {
+		@RequestParam(value="page", defaultValue="1") String page, @RequestParam(value="keyword", defaultValue="") String keyword) throws Exception {
 		
 		pagenation.setPage(Integer.parseInt(page));
+		Map<String, Object> map = service.comunityInfoList(pagenation);
 		
-		List<ComunityVO> list = service.comunityInfoList(pagenation);
-		
-		model.addAttribute("list", list);
+		model.addAttribute("map", map);
 		model.addAttribute("pagenationE", pagenation);
 		
-		int totalCount = service.comuTotalCount();
+		int totalCount = service.comuTotalCount(pagenation);
 		
 		System.out.println("totalCount [totalCount=" + totalCount + "]");
 		
@@ -84,7 +84,7 @@ public class ComunityBoardController {
 	}
 	
 	@RequestMapping(value="/comuWrite", method = RequestMethod.POST)
-	public String comuWrite(String [] cache_content, LogBoardVO vo, HttpSession session) throws Exception {
+	public String comuWrite(String [] cache_content, LogBoardVO vo, RedirectAttributes rttr, HttpSession session) throws Exception {
 		
 		String userName = (String)session.getAttribute("mem");
 		
@@ -130,19 +130,24 @@ public class ComunityBoardController {
 		}
 		
 		vo.setBoard_code(max);
-        service.logBoardCreate(vo, max, type); // 파일정보	
+        service.logBoardCreate(vo, max); // 파일정보	
+        
+        rttr.addAttribute("page", 1);
+        rttr.addAttribute("keyword", "");
         
 		return "redirect:comuList";
 		
 	}
 	
 	@RequestMapping(value="/comuRead", method = RequestMethod.GET)
-	public String comuRead(Model model, @RequestParam(value="page") int page, 
-			@RequestParam(value="post", defaultValue="0") int post) throws Exception {
+	public String comuRead(Model model, @RequestParam(value="page") int page, @RequestParam(value="post", defaultValue="0") int post, 
+		@RequestParam(value="keyword", defaultValue="") String keyword, HttpSession session) throws Exception {
 		
-		ComunityVO vo = service.comunityInfoRead(post);
-		model.addAttribute("vo", vo);
+		String user = (String)session.getAttribute("mem");
+		Map<String, Object> map = service.comunityInfoRead(post, user);
+		model.addAttribute("map", map);
 		model.addAttribute("page",page);
+		model.addAttribute("keyword",keyword);
 		
 		return "comunityBorad/comuRead";
 	}
@@ -150,15 +155,15 @@ public class ComunityBoardController {
 	@RequestMapping(value="/comuSet", method = RequestMethod.GET)
 	public String comuSet(@RequestParam(value="post", defaultValue="0") int post, Model model) throws Exception {
 		
-		ComunityVO vo = service.comunityInfoRead(post);
+		ComunityVO vo = service.comunityInfoRead2(post);
 		model.addAttribute("vo", vo);
 		
 		return "comunityBorad/comuSet";
 	}
 
 	@RequestMapping(value = "/comuSet", method = RequestMethod.POST)
-	public String comuSet(@RequestParam(value="page") int page, @RequestParam(value="post", defaultValue = "0") int post, LogBoardVO vo,
-			RedirectAttributes rttr, HttpSession session) throws Exception {
+	public String comuSet(@RequestParam(value="page") int page, @RequestParam(value="post", defaultValue = "0") int post, 
+		@RequestParam(value="keyword", defaultValue="") String keyword, LogBoardVO vo, RedirectAttributes rttr, HttpSession session) throws Exception {
 		
 		String userName = (String) session.getAttribute("mem");
 		vo.setShare_type(1); // 커뮤니티전체공개
@@ -297,12 +302,13 @@ public class ComunityBoardController {
 		service.comunityUpdate(vo, post);
 		rttr.addAttribute("page", page);
 		rttr.addAttribute("post", post);
+		rttr.addAttribute("keyword", keyword);
 
 		return "redirect:comuRead";
 	}
 	
 	@RequestMapping(value="/comuDel", method = RequestMethod.GET)
-	public String comuDel(@RequestParam(value="post") int post) throws Exception {
+	public String comuDel(@RequestParam(value="post") int post, RedirectAttributes rttr) throws Exception {
 		
 		List<Map<String, Object>> list = service.comunityFileRead(post);
 		for(int i=0; i<list.size(); i++) {
@@ -310,6 +316,9 @@ public class ComunityBoardController {
 			deleteComunity(arr); // 이미지 타겟경로 삭제
 		}
 		service.boardAllDel(post);
+		
+		rttr.addAttribute("page", 1);
+        rttr.addAttribute("keyword", "");
 		
 		return "redirect:comuList";
 	}
@@ -405,6 +414,18 @@ public class ComunityBoardController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="comuReplyCommand", method = RequestMethod.POST)
+	public Map<String, Object> comuReplyCommand(int code, int replyno, int type, String text, HttpSession session) throws Exception {
+		
+		String user = (String)session.getAttribute("mem");
+		Map<String, Object> map = service.comuReplyCommand(code, replyno, type, text, user);
+		
+		return map;
+		
+	}
+	
+
 	// qna 리스트
 	@RequestMapping(value="/qnaList", method = RequestMethod.GET)
 	public String QnAList() {

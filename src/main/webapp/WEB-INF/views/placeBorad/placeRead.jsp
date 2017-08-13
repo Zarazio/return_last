@@ -257,7 +257,7 @@
 			<div class="col-md-3 col-sm-3">
 
 				<!-- side navigation -->
-				<div class="side-nav margin-bottom-60">
+				<div class="side-nav margin-bottom-50">
 					<div class="nomargin sky-form boxed">
 						<header class="size-18 margin-bottom-20" style="background:rgba(199, 199, 199, 0.1) !important;">
 							<img src="displayProfile?fileName=${map.place.user_profile}" style="width:45px; height:45px; border:1px solid rgb(221, 221, 221);">
@@ -289,12 +289,12 @@
 					<ul class="nav nav-tabs nav-bottom-border nav-justified">
 						<li class="active">
 							<a href="#tab_1" data-toggle="tab">
-								Popular
+								인기 장소정보
 							</a>
 						</li>
 						<li>
 							<a href="#tab_2" data-toggle="tab">
-								Recent
+								최신 장소정보
 							</a>
 						</li>
 					</ul>
@@ -307,7 +307,7 @@
 							<c:forEach items="${map.popular}" var="popular">
 								<div class="row tab-post"><!-- post -->
 									<div class="col-md-3 col-sm-3 col-xs-3">
-										<img src="displayFile?fileName=${fn:replace(popular.place_img,'/','/s_')}" width="50" alt="" />
+										<img src="displayFile?fileName=${fn:replace(popular.place_img,'/','/s_')}" width="60" alt="" />
 									</div>
 									<div class="col-md-9 col-sm-9 col-xs-9">
 										<a href="./placeRead?post=${popular.place_code}" class="tab-post-link">
@@ -335,7 +335,7 @@
 							
 								<div class="row tab-post"><!-- post -->
 									<div class="col-md-3 col-sm-3 col-xs-3">
-										<img src="displayFile?fileName=${fn:replace(recent.place_img,'/','/s_')}" width="50" alt="" />
+										<img src="displayFile?fileName=${fn:replace(recent.place_img,'/','/s_')}" width="60"  alt="" />
 									</div>
 									<div class="col-md-9 col-sm-9 col-xs-9">
 										<a href="./placeRead?post=${recent.place_code}" class="tab-post-link">
@@ -351,6 +351,7 @@
 										<small><fmt:formatDate pattern="yyyy-MM-dd" value="${recent.add_date}" /></small>
 									</div>
 								</div><!-- /post -->
+								
 							</c:forEach>
 
 						</div>

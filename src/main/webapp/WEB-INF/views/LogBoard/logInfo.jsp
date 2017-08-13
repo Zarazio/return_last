@@ -24,12 +24,12 @@
 <section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
-		<h1>Log</h1>
+		<h1>로그</h1>
 
 		<!-- breadcrumbs -->
 		<ol class="breadcrumb">
 			<li><a href="main">메인</a></li>
-			<li class="active">Log</li>
+			<li class="active">로그</li>
 		</ol><!-- /breadcrumbs -->
 
 	</div>

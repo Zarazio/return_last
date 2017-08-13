@@ -28,12 +28,12 @@
 <section class="page-header page-header-xs shadow-before-1">
 	<div class="container">
 
-		<h1>LayersUp</h1>
+		<h1>레이어</h1>
 
 		<!-- breadcrumbs -->
 		<ol class="breadcrumb">
-			<li><a href="">LayersUp</a></li>
-			<li class="active">Book</li>
+			<li><a href="">레이어</a></li>
+			<li class="active">GIF</li>
 		</ol><!-- /breadcrumbs -->
 
 	</div>

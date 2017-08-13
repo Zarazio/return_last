@@ -8,6 +8,12 @@ $(document).ready(function(){
 		var thisDiv = $(this);
 		var place = $(this).attr("data-place");
 		
+		if(id == "") {
+			alert("로그인후 이용해주십시오");
+			return false;
+		}
+		
+		
 		$.ajax({
 			type : 'GET',
 			url : 'wishlike',
@@ -139,9 +145,9 @@ $(document).ready(function(){
 			$(this).text("수정취소");
 			target.empty();
 			target.append(element);
+			
 		} else {
 			
-			var target = $(this).parent().next().next().next();
 			var text = target.children().children("textarea").val();
 			$(this).text("수정");
 			target.empty();

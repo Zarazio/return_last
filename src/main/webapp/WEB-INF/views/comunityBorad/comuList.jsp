@@ -46,9 +46,10 @@
 			<div class="col-md-3 col-sm-3">
 
 				<!-- INLINE SEARCH -->
-				<div class="inline-search clearfix margin-bottom-40">
-					<form action="" method="get" class="widget_search">
-						<input type="search" placeholder="제목 + 내용 검색" id="s" name="s" class="serch-input">
+				<div class="inline-search clearfix margin-bottom-30">
+					<form action="comuList" method="get" class="widget_search">
+						<input type="hidden" name="page" value="1" >
+						<input type="search" placeholder="제목 + 내용 검색" name="keyword" class="serch-input">
 						<button type="submit">
 							<i class="fa fa-search"></i>
 						</button>
@@ -59,133 +60,62 @@
 				<hr />
 
 				<!-- side navigation -->
-				<div class="side-nav margin-bottom-40 margin-top-40">
+				<div class="side-nav margin-bottom-30 margin-top-30">
 
 					<div class="side-nav-head">
 						<button class="fa fa-bars"></button>
 						<h4>CATEGORIES</h4>
 					</div>
 					<ul class="list-group list-group-bordered list-group-noicon uppercase">
-						<li class="list-group-item"><a href="comuList"><span class="size-11 text-muted pull-right">(12)</span>커뮤니티</a></li>
-						<li class="list-group-item"><a href="qnaList"><span class="size-11 text-muted pull-right">(8)</span>고객문의</a></li>
+						<li class="list-group-item"><a href="comuList?page=1&keyword="><span class="size-12 text-muted pull-right">${map.all}</span>커뮤니티</a></li>
+						<li class="list-group-item"><a href="qnaList"><span class="size-12 text-muted pull-right">0</span>고객문의</a></li>
 					</ul>
 					<!-- /side navigation -->
-
 				
 				</div>
 
 
 				<!-- JUSTIFIED TAB -->
-				<div class="tabs nomargin-top hidden-xs">
-
-					<!-- tabs -->
-					<ul class="nav nav-tabs nav-bottom-border nav-justified">
-						<li class="active">
-							<a href="#tab_1" data-toggle="tab">
-								Popular
-							</a>
-						</li>
-						<li>
-							<a href="#tab_2" data-toggle="tab">
-								Recent
-							</a>
-						</li>
-					</ul>
-
-					<!-- tabs content -->
-					<div class="tab-content margin-top-10 margin-bottom-10">
-
-						<!-- POPULAR -->
-						<div id="tab_1" class="tab-pane active">
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Maecenas metus nulla</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Curabitur pellentesque neque eget diam</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Nam et lacus neque. Ut enim massa, sodales</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-						</div>
-						<!-- /POPULAR -->
-
+				<div class="tabs nomargin-top hidden-xs margin-bottom-60">
 
 						<!-- RECENT -->
-						<div id="tab_2" class="tab-pane">
+						<div class="sideRecent">
+							
+							<div class="text-center margin-bottom-20">
+								<h4 class="recent-page">최근 게시글</h4>
+							</div>
+							
+							<c:forEach items="${map.recent}" var="recent">
+							
+								<div class="row tab-post"><!-- post -->
+									<div class="col-md-3 col-sm-3 col-xs-3">
+										<img src="displayProfile?fileName=${recent.user_profile}" width="40" height="40" alt="" />
+									</div>
+									<div class="col-md-9 col-sm-9 col-xs-9">
+										<a href="comuRead?page=1&post=${recent.board_code}&keyword=" class="tab-post-link">
+											<c:choose>
+						      					<c:when test="${fn:length(recent.board_title) > 25}">
+									            	<c:out value="${fn:substring(fn:replace(recent.board_title, '<br>', ''),0,25)}"/>...
+									           	</c:when>
+									           	<c:otherwise>
+									            	<c:out value="${recent.board_title}"/>
+									           	</c:otherwise> 
+									        </c:choose>
+										</a>
+										<small><fmt:formatDate pattern="yyyy-MM-dd" value="${recent.board_date}" /></small>
+									</div>
+								</div><!-- /post -->
+								
+							</c:forEach>
 
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Curabitur pellentesque neque eget diam</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Maecenas metus nulla</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
-
-							<div class="row tab-post"><!-- post -->
-								<div class="col-md-3 col-sm-3 col-xs-3">
-									<a href="#">
-										<img src="http://placehold.it/300x300" width="50" alt="" />
-									</a>
-								</div>
-								<div class="col-md-9 col-sm-9 col-xs-9">
-									<a href="#" class="tab-post-link">Quisque ut nulla at nunc</a>
-									<small>June 29 2014</small>
-								</div>
-							</div><!-- /post -->
 						</div>
 						<!-- /RECENT -->
-
-					</div>
 
 				</div>
 				<!-- JUSTIFIED TAB -->
 
 
-				<!-- TAGS -->
+				<!-- TAGS 
 				<h3 class="hidden-xs size-16 margin-bottom-20">TAGS</h3>
 				<div class="hidden-xs margin-bottom-60 padding-8">
 
@@ -214,7 +144,7 @@
 						<span class="num">3</span>
 					</a>
 				</div>
-
+				-->
 				<!-- 
 				<hr />
 				-->
@@ -263,13 +193,16 @@
 							<th class="text-center" width="10%">조회수</th>
 							<th class="text-center" width="14%">날짜</th>
 						</tr>
-						<c:forEach items="${list}" var="comu">
+						<c:forEach items="${map.list}" var="comu">
 						<tr>
 							<td class="text-center">${comu.board_code}</td>
 							<td class="text-center">
 								<b>
 									<a href="${comu.board_code}" class="comu_info">
-										${comu.board_title}
+										${comu.board_title} 
+										<c:if test="${comu.reply_count != 0}">
+											<span class="ListColor">&nbsp;[${comu.reply_count}]</span>
+										</c:if>
 									</a>
 								</b>
 							</td>
@@ -281,6 +214,9 @@
 						</tr>
 						</c:forEach>	
 					</table>
+					<c:if test="${fn:length(map.list) == 0}">
+						<div class="text-center"><h2 class="padding-100">검색결과가 존재하지않습니다.</h2></div>
+					</c:if>
 				</div>
 				<!-- /POST ITEM -->
 				<div class="row margin-left-3">

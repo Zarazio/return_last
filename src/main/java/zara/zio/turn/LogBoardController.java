@@ -84,10 +84,15 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		String userId = (String)session.getAttribute("mem"); // 작성자아이디 정보
 		vo.setUser_id(userId); // 작성자아이디 	
 		vo.setBoard_type_code(1); // 로그작성 log 1번
-
+		
+		if(vo.getBoard_title().equals("")) {
+			vo.setBoard_title("제목없음");
+		}
+		
 		
 		// 문자열 앱 파싱 =====================================
 		String basic = vo.getBoard_content();		
+		
 	    int idx, idx1, tokencount = 0; // 토큰의 수
 	    StringTokenizer s = new StringTokenizer(basic,"<>");
 	    tokencount =  s.countTokens(); // 토큰사이즈 변수에 적용
@@ -106,33 +111,29 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 			
         vo.setBoard_content(basic);
         System.out.println(basic);
-        // 문자열 앱 파싱 =====================================
-		
-        int type = 1;
+        // 문자열 앱 파싱 ====================================
         
         if(vo.getFile_content() == null) {
         	System.out.println("널캐치");
         } else {
 	        if(vo.getFile_content()[0].contains(".youtube")) {
-	        	type = 2;
-	        } else if(vo.getFile_content()[0].contains(".kml")) {
-	        	type = 3;
-	        } 
-	        
-	        // 캐싱데이터 예외처리
- 			String [] one = vo.getFile_content();
- 			
- 			for(int i=0; i<cache_content.length; i++) {
- 				int count = 0;
- 				for(int j=0; j<one.length; j++) {
- 					if(!(cache_content[i].equals(one[j]))) {
- 						count++;
- 					}
- 					if(one.length == count) {
- 						deleteLogs(cache_content[i]);
- 					}
- 				}
- 			}
+	        	
+	        } else {
+		        // 캐싱데이터 예외처리
+	 			String [] one = vo.getFile_content();
+	 			
+	 			for(int i=0; i<cache_content.length; i++) {
+	 				int count = 0;
+	 				for(int j=0; j<one.length; j++) {
+	 					if(!(cache_content[i].equals(one[j]))) {
+	 						count++;
+	 					}
+	 					if(one.length == count) {
+	 						deleteLogs(cache_content[i]);
+	 					}
+	 				}
+	 			}
+	        }
 	        
         }
         
@@ -147,7 +148,7 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		}
        
 		vo.setBoard_code(max);
-		service.logBoardCreate(vo, max, type); // 파일정보
+		service.logBoardCreate(vo, max); // 파일정보
 
 		return "redirect:logInfo";
 	}
@@ -308,11 +309,5 @@ public class LogBoardController { // 로그 & 타임라인 컨트롤러
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		
 	}
-	
-	
-	
-	
-	
-	
 	
 }

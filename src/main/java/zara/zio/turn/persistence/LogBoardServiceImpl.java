@@ -1,9 +1,6 @@
 package zara.zio.turn.persistence;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import zara.zio.turn.dao.LogBoardDAO;
 import zara.zio.turn.domain.ComunityVO;
@@ -23,6 +18,7 @@ import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
+import zara.zio.turn.domain.ReplyInfoVO;
 import zara.zio.turn.domain.StepLogVO;
 import zara.zio.turn.util.GsonParserUtils;
 import zara.zio.turn.util.KmlParsingUtils;
@@ -38,7 +34,7 @@ public class LogBoardServiceImpl implements LogBoardService {
 	
 	@Transactional
 	@Override
-	public void logBoardCreate(LogBoardVO vo, int cnt, int type) throws Exception {
+	public void logBoardCreate(LogBoardVO vo, int cnt) throws Exception {
 		// TODO Auto-generated method stub
 		
 		dao.logInfoCreate(vo);
@@ -58,6 +54,10 @@ public class LogBoardServiceImpl implements LogBoardService {
 		
 		if(test1) {
 			for(int i=0; i<imagefile.length; i++) {
+				int type = 1;
+				if(imagefile[i].contains(".youtube")) {
+					type = 4;
+				}
 				dao.logImageFileCreate(imagefile[i], cnt, type);
 			}
 		} 
@@ -309,21 +309,51 @@ public class LogBoardServiceImpl implements LogBoardService {
 		return list;
 	}
 	
-	
+	@Transactional
 	@Override
-	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception {
+	public Map<String, Object> comunityInfoList(PaginationE pagenation) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.comunityInfoList(pagenation);
+		Map<String, Object> map = new HashMap<>();
+		
+		List<ComunityVO> list = dao.comunityInfoList(pagenation);
+		int all = dao.comunityAllCount();
+		List<ComunityVO> recent = dao.comunityRecent();
+		map.put("list", list);
+		map.put("all", all);
+		map.put("recent", recent);
+		
+		return map;
 	}
 	
 	@Override
-	public int comuTotalCount() throws Exception {
+	public int comuTotalCount(PaginationE pagenation) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.comuTotalCount();
+		return dao.comuTotalCount(pagenation);
 	}
 
+	@Transactional
 	@Override
-	public ComunityVO comunityInfoRead(int page) throws Exception {
+	public Map<String, Object> comunityInfoRead(int page, String user) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		dao.comunityView(page);
+		ComunityVO vo = dao.comunityInfoRead(page); 
+		List<ReplyInfoVO> replylist = dao.replyComuList(page, user);
+		List<ReplyInfoVO> rank = dao.replyComuRank(page, user);
+		int all = dao.comunityAllCount();
+		List<ComunityVO> recent = dao.comunityRecent();
+		
+		map.put("vo", vo);
+		map.put("replylist", replylist);
+		map.put("rank", rank);
+		map.put("all", all);
+		map.put("recent", recent);
+		
+		return map;
+	}
+	
+	@Override
+	public ComunityVO comunityInfoRead2(int page) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.comunityInfoRead(page);
 	}
@@ -359,6 +389,46 @@ public class LogBoardServiceImpl implements LogBoardService {
 		dao.boardAllDel(page);
 		dao.boardfileAllDel(page);
 		dao.boardhashAllDel(page);
+	}
+	
+	@Transactional
+	@Override
+	public Map<String, Object> comuReplyCommand(int code, int replyno, int type, String text, String user) throws Exception {
+		// TODO Auto-generated method stub
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		if(type == 1) { // 리플쓰기 
+			ReplyInfoVO vo = new ReplyInfoVO();
+			vo.setBoard_content(text);
+			vo.setUser_id(user);
+			vo.setReply_code(code); // 해당게시글과 연결
+			dao.replyComuWrite(vo);
+		}
+		if(type == 2) { // 리플수정
+			ReplyInfoVO vo = new ReplyInfoVO();
+			vo.setBoard_code(replyno);
+			vo.setBoard_content(text);
+			dao.replyComuModify(vo);
+		}
+		if(type == 3) { // 리플삭제
+			dao.replyComuDelete(replyno);
+		}
+		if(type == 4) { // 리플좋아요
+			System.out.println(type);
+			ReplyInfoVO vo = new ReplyInfoVO();
+			vo.setBoard_code(replyno);
+			vo.setReply_code(code);
+			vo.setUser_id(user);
+			dao.replyComuLike(vo);
+		}
+		
+		List<ReplyInfoVO> replylist = dao.replyComuList(code, user);
+		List<ReplyInfoVO> rank = dao.replyComuRank(code, user);
+		map.put("replylist", replylist);
+		map.put("rank", rank);
+		
+		return map;
 	}
 
 }

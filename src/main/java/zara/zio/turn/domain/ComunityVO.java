@@ -6,12 +6,12 @@ public class ComunityVO {
 	
 	private int board_code; // 번호 
 	private String board_title; // 제목 
-	private String board_content; // 제목 
+	private String board_content; // 내용
 	private Timestamp board_date; // 날짜 
 	private int viewCount; // 조회수 
 	private String user_id; // 유저정보 
 	private String user_profile; // 유저 프로필이미지
-
+	private int reply_count; 
 	
 	public int getBoard_code() {
 		return board_code;
@@ -54,6 +54,12 @@ public class ComunityVO {
 	}
 	public void setUser_profile(String user_profile) {
 		this.user_profile = user_profile;
+	}
+	public int getReply_count() {
+		return reply_count;
+	}
+	public void setReply_count(int reply_count) {
+		this.reply_count = reply_count;
 	}
 
 	public String toString(){

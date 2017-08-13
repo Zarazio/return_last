@@ -3,6 +3,14 @@ package zara.zio.turn.domain;
 public class PaginationE {
 	private int page = 1; // 페이지 
 	private int recordPage = 15; 
+	private String keyword; 
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 	
 	public final static int DISPLAY_PAGE_NUM = 10;
 	private int startPage; // 시작페이지

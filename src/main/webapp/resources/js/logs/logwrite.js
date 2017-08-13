@@ -85,6 +85,7 @@ $(document).ready(function(){
 			
 			var input = "<input type='hidden' name='file_content' value='" + iframe + "'>";
 			$(".addImage").append(input);
+			
 		});
 		
 		if(confirm("등록하시겠습니까?")) {

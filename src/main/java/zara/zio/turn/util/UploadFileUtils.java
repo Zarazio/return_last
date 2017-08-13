@@ -40,11 +40,14 @@ public class UploadFileUtils {
 		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
 		String uploadedFileName = null;
 		
+		
 		 // 이미지 파일은 썸네일 사용
 		if(MediaUtils.getMediaType(formatName) != null) {
 			// 썸네일생성 
+			
 			uploadedFileName = makeThumbnail(uploadPath, saveName);
-		} else {
+			
+		} else { // jpg png gif 클라이언트에서 걸러져서 사실상 안씀
 			// 나머지 아이콘생성 
 			uploadedFileName = makeIcon(uploadPath, saveName);
 		}
@@ -55,18 +58,18 @@ public class UploadFileUtils {
 	// 썸네일 생성 
 	private static String makeThumbnail(String uploadPath, String fileName) throws Exception{
 		// 이미지를 읽어들이기 위한 버퍼
-		BufferedImage sourceImg = 
-				ImageIO.read(new File(uploadPath, fileName));
+		BufferedImage sourceImg = ImageIO.read(new File(uploadPath, fileName));
 		// 100 픽셀단위 썸네일 생성
-		BufferedImage destImg = 
-				Scalr.resize(sourceImg, 600, null, null);
-//				Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
+		
+		BufferedImage destImg = Scalr.resize(sourceImg, 600, null, null);
+//		Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
+		
 		// 썸네일의 이름생성 "s_"를 붙임
-		String thumbnailName = 
-				uploadPath+ File.separator + "s_" + fileName;
+		String thumbnailName = uploadPath + File.separator + "s_" + fileName;
+		
 		File newFile = new File(thumbnailName);
-		String formatName = 
-				fileName.substring(fileName.lastIndexOf(".")+1);
+		
+		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 		// 썸네일 생성
 		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
 		
@@ -82,6 +85,8 @@ public class UploadFileUtils {
 		// 아이콘 이름을 리턴
         // File.separatorChar : 디렉토리 구분자
         // 윈도우 \ , 유닉스(리눅스) /  
+		
+		System.out.println("icon");
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 	

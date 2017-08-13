@@ -8,6 +8,7 @@ import zara.zio.turn.domain.FileAndHashVO;
 import zara.zio.turn.domain.LikesVO;
 import zara.zio.turn.domain.LogBoardVO;
 import zara.zio.turn.domain.PaginationE;
+import zara.zio.turn.domain.ReplyInfoVO;
 import zara.zio.turn.domain.StepLogVO;
 
 public interface LogBoardDAO {
@@ -38,9 +39,12 @@ public interface LogBoardDAO {
 	public List<FileAndHashVO> stepLogs2(int no) throws Exception;
 	
 	public List<ComunityVO> comunityInfoList(PaginationE pagenation) throws Exception;
-	public int comuTotalCount() throws Exception;
+	public int comuTotalCount(PaginationE pagenation) throws Exception;
 	public ComunityVO comunityInfoRead(int page) throws Exception;
 	public List<Map<String, Object>> comunityFileRead(int page) throws Exception;
+	public void comunityView(int no) throws Exception;
+	public int comunityAllCount() throws Exception;
+	public List<ComunityVO> comunityRecent() throws Exception;
 	
 	public void comunityFileDel (int target) throws Exception;
 	public void comunityFileAdd (String file_name, int type, int page) throws Exception;
@@ -49,4 +53,12 @@ public interface LogBoardDAO {
 	public void boardAllDel (int page) throws Exception;
 	public void boardfileAllDel (int page) throws Exception;
 	public void boardhashAllDel (int page) throws Exception;
+	
+	public void replyComuWrite(ReplyInfoVO vo) throws Exception;
+	public void replyComuModify(ReplyInfoVO vo) throws Exception;
+	public void replyComuDelete(int no) throws Exception;
+	public void replyComuLike(ReplyInfoVO vo) throws Exception;
+	public List<ReplyInfoVO> replyComuList(int replyno, String user) throws Exception;
+	public List<ReplyInfoVO> replyComuRank(int replyno, String user) throws Exception;
+	
 }
