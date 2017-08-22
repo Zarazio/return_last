@@ -52,7 +52,7 @@ public class SchduleContoller {
    }
    
    @RequestMapping (value="scheduleSet", method=RequestMethod.POST) // 스케쥴 페이지 이동 
-   public String schduleSet(GroupVO group , GroupApplicationVO groupA, String scheduleDate, String local, RedirectAttributes rttr,HttpSession session,HttpServletRequest request) throws Exception {
+   public String schduleSet(GroupVO group, String travel_Title, GroupApplicationVO groupA, String scheduleDate, String local, RedirectAttributes rttr,HttpSession session,HttpServletRequest request) throws Exception {
 
       //그룹에 초대한 친구들 id 가져옴
       String[] friend = (String[]) request.getParameterValues("friend") ;
@@ -98,12 +98,11 @@ public class SchduleContoller {
 				}
 			}
 		}
-       
-       
-      
-      rttr.addAttribute("scheduleDate", scheduleDate);
-      rttr.addAttribute("local", local);
-      rttr.addAttribute("groupCode", groupCode);
+		
+	rttr.addAttribute("title", travel_Title);
+	rttr.addAttribute("scheduleDate", scheduleDate);
+	rttr.addAttribute("local", local);
+	rttr.addAttribute("groupCode", groupCode);
       
       
       return "redirect:scheduleSet";
@@ -112,10 +111,11 @@ public class SchduleContoller {
    
    
    @RequestMapping (value="scheduleSet", method=RequestMethod.GET) // 스케쥴 페이지 이동 
-   public String schduleSetG(String scheduleDate, String local, int groupCode, Model model, HttpSession session) {
+   public String schduleSetG(String title, String scheduleDate, String local, int groupCode, Model model, HttpSession session) {
 
 	  String mem = (String) session.getAttribute("mem") ;
       
+	  model.addAttribute("travelTitle", title);
       model.addAttribute("scheduleDate", scheduleDate);
       model.addAttribute("local", local);
       model.addAttribute("groupCode", groupCode);

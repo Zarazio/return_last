@@ -38,12 +38,36 @@
                </ul>
             </nav>
          </div>
-
+          <div id="FullTitle" style="position:absolute; top:30px; left:250px;">
+          	<div id="Title" style="color:white; font-size:2.0em; font-weight:bold;">${travelTitle}
+          		<input id="vlaueTitle" type="text" style="display:none" value="${travelTitle}" />
+          		<input id="modPlanTitle" class="btn" type="button" style="background-color:black; color:white; font-size:0.5em;" value="변경" />
+         	 </div>
+          </div>
       </div>
    </header>
    <!-- /Top Nav -->
 </div>
-
+<!-- 제목 변경을 위한 스크립트 잠시 주석 -->
+<!-- <script>
+$("#modPlanTitle").click(function(){
+	var title = $("#vlaueTitle").val();
+	$("#Title").empty();
+	var plus = '<input id="vlaueTitle" type="text" style="color:black;" value="' + title + '"/>'+
+			'<input id="okPlanTitle" class="btn" type="button" style="background-color:black; color:white; font-size:0.5em;" value="확인" />';
+	
+	$("#Title").append(plus);
+});
+$("#okPlanTitle").on("click", function(){
+ 	alert("????");
+ 	var title = $("#vlaueTitle").val();
+ 	$("#Title").empty();
+ 	var plus = title +
+ 			'<input id="modPlanTitle" class="btn" type="button" style="background-color:black; color:white; font-size:0.5em;" value="변경" />';
+ 	
+ 	$("#Title").append(plus);
+ });
+ </script> -->
 <div class="wrapper">
    <div id="mainMenu" class="sidebar-vertical sidebar-dark turn-scroll-auto turn-a">
       <div class="sidebar-nav">

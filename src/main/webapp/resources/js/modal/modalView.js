@@ -7,6 +7,7 @@ $(document).ready(function(){
  	var groupCode = "";
 	var user_id = "";
 	var count = 0;
+	var ClassNam = "";
 	
 	// 3초마다 알림 불러오기
 	playAlert = setInterval(function() {
@@ -37,30 +38,26 @@ $(document).ready(function(){
 						
 						if(groupAlarm == data[i].user_id && data[i].invite_user != groupAlarm){
 							alarm =
-								"<div class='alarm' name='alarm' class='quick-cart-wrapper'>" + 
-								"<img src='http://placehold.it/45x45' width='45' height='45' alt=''>" +
-								"<h6>" + 
-								"<span>" + data[i].invite_user + "님</span>께서 <br>그룹여행에  초대하셨습니다." +
-								"</h6>" +
-								"<input type='hidden' class='Del_group_Code' name='group_Code' value='" + data[i].group_Code +"'/>" +
-								"<input type='hidden' class='Del_user_id' name='user_id' value='" + data[i].user_id +"'/>" +
-								"<input class='sure' type='submit' value='수락' />" +
-								"<input class='nope' type='submit' value='거절' />" +
+								"<div class='alarm' name='alarm' class='quick-cart-wrapper' style='margin:10px 0px 0px 0px;'>" + 
+								"<img src='http://placehold.it/45x45' width='70' height='70' alt=''>" +
+								"<span style='position:absolute; margin: 0px 0px 0px 3px;'><b>" + data[i].invite_user + "님</b>께서 <br>여행에  초대하셨습니다.</span>" +
+								"<input class='Del_user_id' name='user_id' value='" + data[i].user_id +"' style='display:none'/>" +
+								"<input style='margin:40px 0px 0px 100px;' class='btn btn-green btn-3d btn-xs accept sure' type='submit' value='수락' name='" + data[i].group_Code + "'/>" +
+								"<input style='margin:40px 0px 0px 0px;' class='btn btn-teal btn-3d btn-xs cancel nope' type='submit' value='거절' name='" + data[i].group_Code + "'/>" +
 								"</div>";
 							
 							$("#alarm").append(alarm);
-							console.log("생성했다");
 						}
 					}
 				}
 			}
 		});
-	}, 60000);
+	}, 3000);
 	
 	// 알람 수락버튼 누를 시 
 	$("#alarm").on("click", ".sure", function(){
 		alert("수락한다.");
-		groupCode = $('.Del_group_Code').attr('value');
+		groupCode = $(this).attr('name');
 		user_id = $('.Del_user_id').attr('value');
 		$.ajax({
 			url: "groupTravel",
@@ -68,7 +65,7 @@ $(document).ready(function(){
 			data: {group: groupCode, user: user_id},
 			success: function(data){
 				alert(data.group_Code);
-				window.location = "scheduleSet?groupCode=" + data.group_Code +"&&scheduleDate="+data.start_Date+"+-+"+data.end_Date+"&&local="+data.local;
+				window.location = "scheduleSet?title="+ data.travel_Title +"&&groupCode=" + data.group_Code +"&&scheduleDate="+data.start_Date+"+-+"+data.end_Date+"&&local="+data.local;
 			}
 		});
 	});
@@ -77,14 +74,16 @@ $(document).ready(function(){
 	$("#alarm").on("click",".nope", function(){
 		alert("거절한다.");
 		
-		groupCode = $('.Del_group_Code').attr('value');
+		groupCode = $(this).attr('name');
 		user_id = $('.Del_user_id').attr('value');
+		
+		alert(groupCode);
+		
 		$.ajax({
 			url: "group_alarm_delete",
 			type: "POST",
 			data: {group: groupCode, user: user_id},
 			success: function(data){
-				alert("갔다왔다!");
 			}
 		});
 	});

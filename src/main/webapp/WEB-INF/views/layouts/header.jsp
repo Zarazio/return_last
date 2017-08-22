@@ -161,10 +161,10 @@
 						<span id="CountA" class="badge badge-aqua btn-xs badge-corner"></span>
 						<i class="fa fa-bars"></i>
 					</a>
-					<div class="quick-cart-box padding-10" style="display:none;"> <!-- none, block evnet -->
-						<h4>My Information</h4>
+					<div class="quick-cart-box padding-10" style="overflow:auto; overflow-x:hidden;"> <!-- none, block evnet -->
+ 						<h4>Alarm</h4>
 						<input id="groupAlarm" type="hidden" value="${mem}" />
-						<div id="alarm">
+						<div id="alarm" style="height:400px; overflow:auto; overflow-x:hidden;">
 						</div>
 					</div>
 				</li>
