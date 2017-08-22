@@ -210,12 +210,14 @@
    
    <!-- 여행계획 상세에서 타임라인 -->
    <select id="travel_timeline" resultType="LogBoardVO">
-   		select * from board a, attached_file b 
+   		select a.board_code, board_title, board_content, board_date, board_type_code, user_id, file_code, file_content
+   		from board a
+   		left join attached_file b on a.board_code = b.board_code
    		where board_type_code = 1 and user_id IN (
    			select user_id from group_application
    			where group_Code = #{group_Code})
-   			or a.board_code = b.board_code
    			and board_date between #{start_Date} and #{end_Date}
+   		
    </select>
    
 </mapper>

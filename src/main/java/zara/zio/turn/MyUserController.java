@@ -519,6 +519,7 @@ public class MyUserController {
     	  
     	  List<LogBoardVO> list = service1.travel_timeline(group_Code, start_Date, end_Date);
     	  
+    	  System.out.println(list);
     	  return list;
       }
       

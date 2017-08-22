@@ -72,5 +72,4 @@ public class AlarmController {
 
 		service.group_alarm_delete(alarm);
 	}
-
 }

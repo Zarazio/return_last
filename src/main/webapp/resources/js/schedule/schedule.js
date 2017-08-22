@@ -141,6 +141,7 @@ $(document).ready(function(){
 	                     	+" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
 	                     	+"<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'>" 
 	                     	+"<span>"+data[i].place_name+"</span>"
+	                     	+ "<span style='margin:120px 0px 0px 0px;font-size:0.7em;'>" + data[i].place_type + "</span>"
                      	+"</div>";
    
                }
@@ -189,11 +190,9 @@ $(document).ready(function(){
             }
 
        });
-      /// ------------------------------------------------------ ///       
+      /// ------------------------------------------------------ ///
       
    }
-   
-   
    
    // 날짜와 요일을 순차적으로 구하는 함수 //
    function nal(i) {
@@ -939,7 +938,8 @@ $(document).ready(function(){
                     for(var i=0 ; i<data.length ; i++){
                        elem += "<div class='place placeCode' data-code='" + data[i].place_code +"' data-lat="+ data[i].place_lat 
                            +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
-                           + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span></div>";
+                           + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span>"
+                           + "<span style='margin:120px 0px 0px 0px;font-size:0.7em;'>"+ data[i].place_type + "</span>" + "</div>";
                        
                        data01[i] = new Array(5) ;
                        
@@ -1002,7 +1002,9 @@ $(document).ready(function(){
                    for(var i=0 ; i<data.length ; i++){
                       elem += "<div class='place placeCode' data-code='" + data[i].place_code +"' data-lat="+ data[i].place_lat 
                           +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
-                          + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span></div>";
+                          + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span>"
+                          + "<span style='margin:120px 0px 0px 0px;font-size:0.7em;'>"+ data[i].place_type + "</span>"
+                          + "</div>";
                       
                       data01[i] = new Array(5) ;
                       
@@ -1051,7 +1053,9 @@ $(document).ready(function(){
                 for(var i=0 ; i<data.length ; i++){
                    elem += "<div class='place placeCode' data-code='" + data[i].place_code +"' data-lat="+ data[i].place_lat 
                        +" data-lng="+ data[i].place_lng +" data-name="+ data[i].place_name + ">"
-                       + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span></div>";
+                       + "<img src='displayFile?fileName="+ thumb(data[i].place_img) + "'/><span>"+data[i].place_name+"</span>"
+                       + "<span style='margin:120px 0px 0px 0px;font-size:0.7em;'>"+ data[i].place_type + "</span>"
+                       + "</div>";
                    
                    data01[i] = new Array(5) ;
                    
@@ -1684,6 +1688,4 @@ function memoClose(){
 }
 
 /*=================================================================================================*/
-
-
 

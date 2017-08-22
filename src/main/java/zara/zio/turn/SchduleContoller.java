@@ -52,8 +52,8 @@ public class SchduleContoller {
    }
    
    @RequestMapping (value="scheduleSet", method=RequestMethod.POST) // 스케쥴 페이지 이동 
-   public String schduleSet(GroupVO group , GroupApplicationVO groupA, String scheduleDate, String local, RedirectAttributes rttr,HttpSession session,HttpServletRequest request) throws Exception {
-
+   public String schduleSet(GroupVO group , GroupApplicationVO groupA, String travel_Title, String scheduleDate, String local, RedirectAttributes rttr,HttpSession session,HttpServletRequest request) throws Exception {
+	   
       //그룹에 초대한 친구들 id 가져옴
       String[] friend = (String[]) request.getParameterValues("friend") ;
 
@@ -82,6 +82,7 @@ public class SchduleContoller {
        groupA.setInvite_user(mem);
        groupA.setGroup_Code(groupCode);
        groupA.setGroup_apply(1);
+
        // 그룹신청
        service1.groupApplicationCreate(groupA) ;
        
@@ -91,12 +92,12 @@ public class SchduleContoller {
             groupA.setUser_id(friend[i]);
             groupA.setGroup_apply(0);
             service1.groupApplicationCreate(groupA) ;
-            
          }
       }
-       
-       
       
+      System.out.println("여긴 값 나와?" + travel_Title);
+       
+      rttr.addAttribute("title", travel_Title);
       rttr.addAttribute("scheduleDate", scheduleDate);
       rttr.addAttribute("local", local);
       rttr.addAttribute("groupCode", groupCode);
@@ -108,14 +109,17 @@ public class SchduleContoller {
    
    
    @RequestMapping (value="scheduleSet", method=RequestMethod.GET) // 스케쥴 페이지 이동 
-   public String schduleSetG(String scheduleDate, String local, int groupCode, Model model, HttpSession session) {
+   public String schduleSetG(String title, String scheduleDate, String local, int groupCode, Model model, HttpSession session) {
 
 	  String mem = (String) session.getAttribute("mem") ;
       
+	  System.out.println("여기 왔네?" +title);
+	  
+	  model.addAttribute("travelTitle", title);
       model.addAttribute("scheduleDate", scheduleDate);
       model.addAttribute("local", local);
       model.addAttribute("groupCode", groupCode);
-      model.addAttribute("mem",mem);
+      model.addAttribute("mem", mem);
 
       return "schedulePage/schedulePageA";
       
@@ -559,7 +563,7 @@ public class SchduleContoller {
 	   }
 	   System.out.println("mem : " + mem.toString() + "mdm : " + mem.size());
 	   System.out.println("string : " + array.toString() +"string : " + array.size());
-	   main.put("array", array) ;
+	   main.put("array", array);
 	
 	   
 	   return main;

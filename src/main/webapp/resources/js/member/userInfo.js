@@ -327,7 +327,7 @@ function travel_modify(){
 			group : group_code 
 		},
 		success : function(data){
-			window.location = "scheduleSet?groupCode=" + data.group_Code +"&&scheduleDate="+data.start_Date+"+-+"+data.end_Date+"&&local="+data.local;
+			window.location = "scheduleSet?title="+ data.travel_Title +"&&groupCode=" + data.group_Code +"&&scheduleDate="+data.start_Date+"+-+"+data.end_Date+"&&local="+data.local;
 		}
 	})
 }
@@ -483,7 +483,7 @@ function travel_timeline(){
 			
 			var content = data[i].board_content;
 			var image = data[i].file_content;
-			console.log(image);
+			console.log(data[i]);
 			
 			var board_content = content.replace(/[<][^>]*[>]/gi, "");
 			
@@ -498,13 +498,13 @@ function travel_timeline(){
 			"<ul class='slides'>" +
 			"<li>" +
 			"<a href='#'>" +
-			'<img class="img-fluid" src="demo_files/images/720x400/1-min.jpg" width="600" height="399" alt="">' +
+			'<img class="img-fluid" src="' +  + '" width="600" height="399" alt="">' +
 			"</a>" +
 			"</li>" +
 			'</ul>'+
 			'</div>'+*/
 			'<div style="background-color:white;padding:20px 0px 0px 0px;">' +
-			'<h2><a href="blog-single-default.html">' + data[i].board_title + '</a></h2>'+
+			'<h2><a href="">' + data[i].board_title + '</a></h2>'+
 			'<ul class="blog-post-info list-inline">' + 
 			'<li>'+
 			'<a href="#">'+
@@ -518,15 +518,6 @@ function travel_timeline(){
 			'<span class="font-lato">28 Comments</span>'+
 			'</a>'+
 			'</li>'+
-/*			'<li>'+
-			'<i class="fa fa-folder-open-o"></i>'+
-			'<a class="category" href="#">'+
-			'<span class="font-lato">Design</span>'+
-			'</a>'+
-			'<a class="category" href="#">'+
-			'<span class="font-lato">Photography</span>'+
-			'</a>'+
-			'</li>'+*/
 			'<li>'+
 			'<a href="#">'+
 			'<i class="fa fa-user"></i>'+
